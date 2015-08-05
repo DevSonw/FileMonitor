@@ -1,0 +1,171 @@
+
+#define TEST
+#import "Macro.h"
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import "NSUtil.h"
+#endif
+
+#import "HookUtil.h"
+
+#define ____________________________________________________________________________________________________NSUserDefaults
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress);
+#define _LogNSUserDefaults(funcName,data) LogNSUserDefaults(funcName,data, __builtin_return_address(0))
+
+
+#define ____________________________________________________________________________________________________sqlite3
+//
+#if __cplusplus
+extern "C"
+#endif
+void Logsqlite3(NSString * funcName,NSString *data, void *returnAddress);
+#define _Logsqlite3(funcName,data) Logsqlite3(funcName,data, __builtin_return_address(0))
+
+
+#define Function_keychain________________________________________________
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogKeychainFunc(NSString *funcName,id data, void *returnAddress);
+#define _LogKeychainFunc(funcName,data) LogKeychainFunc(funcName,data, __builtin_return_address(0))
+
+
+
+#define ____________________________________________________________________________________________________NSDictionary
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSDictionaryWrite(NSString *funcName,id data,NSString *path, void *returnAddress);
+#define _LogNSDictionaryWrite(funcName,dic,path) LogNSDictionaryWrite(funcName,dic,path, __builtin_return_address(0))
+
+
+#define ____________________________________________________________________________________________________NSData
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSDataWrite(NSString *funcName,id data,NSString *path, void *returnAddress);
+#define _LogNSDataWrite(funcName,data,path) LogNSDataWrite(funcName,data,path, __builtin_return_address(0))
+
+
+#define ____________________________________________________________________________________________________NSString
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAddress);
+#define _LogNSStringWrite(funcName,data,path) LogNSStringWrite(funcName,data,path, __builtin_return_address(0))
+
+
+
+#define ____________________________________________________________________________________________________Thecommon
+//
+#if __cplusplus
+extern "C"
+#endif
+void LoginitWithContentsOffileorurl(NSString *funcName,id data,id pathorurl, void *returnAddress);
+#define _LoginitWithContentsOffileorurl(funcName,data,pathorurl) LoginitWithContentsOffileorurl(funcName,data,pathorurl, __builtin_return_address(0))
+
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogComparedata(NSString *funcName,id data,id data2, void *returnAddress);
+#define _LogComparedata(funcName,data,data2) LogComparedata(funcName,data,data2, __builtin_return_address(0))
+
+
+#define ____________________________________________________________________________________________________NSFileManagerDelegate
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSFileManagerDelegate(NSString *funcName,id src,id dest, void *returnAddress);
+#define _LogNSFileManagerDelegate(funcName,src,dest) LogNSFileManagerDelegate(funcName,src,dest, __builtin_return_address(0))
+
+
+
+
+
+
+#define ____________________________________________________________________________________________________NSFileManager
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSFileManagerWrite(NSString *funcName,id data,NSString *path, void *returnAddress);
+#define _LogNSFileManagerWrite(funcName,data,path) LogNSFileManagerWrite(funcName,data,path, __builtin_return_address(0))
+
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSFileManagerChange_Attributes(NSString *funcName,NSString *path,NSDictionary  *attributes, void *returnAddress);
+#define _LogNSFileManagerChange_Attributes(funcName,path,attributes) LogNSFileManagerChange_Attributes(funcName,path,attributes, __builtin_return_address(0))
+
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSFileManagerCreateSymblic(NSString *funcName,id souce,id  dest, void *returnAddress);
+#define _LogNSFileManagerCreateSymblic(funcName,source,dest) LogNSFileManagerCreateSymblic(funcName,source,dest, __builtin_return_address(0))
+
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSFileManagerRemoveItemAtPath(NSString *funcName,id pathorurl, void *returnAddress);
+#define _LogNSFileManagerRemoveItemAtPath(funcName,pathorurl) LogNSFileManagerRemoveItemAtPath(funcName,pathorurl, __builtin_return_address(0))
+
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSFileManagerRelaceItemAtURL(NSString *funcName,id pathorurl, void *returnAddress);
+#define _LogNSFileManagerRelaceItemAtURL(funcName,pathorurl) LogNSFileManagerRelaceItemAtURL(funcName,pathorurl, __builtin_return_address(0))
+
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSFileManagerreplaceItemAtURL_withItemAtURL_backupItemName_options_resultingItemURL_error_(NSString *funcName,id source, void *dest, void *returnAddress);
+#define _LogNSFileManagerreplaceItemAtURL_withItemAtURL_backupItemName_options_resultingItemURL_error_(funcName,source,dest) LogNSFileManagerreplaceItemAtURL_withItemAtURL_backupItemName_options_resultingItemURL_error_(funcName,source,dest, __builtin_return_address(0))
+
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSFileManagerCopyItem(NSString *funcName,id souce,id  dest, void *returnAddress);
+#define _LogNSFileManagerCopyItem(funcName,source,dest) LogNSFileManagerCopyItem(funcName,source,dest, __builtin_return_address(0))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

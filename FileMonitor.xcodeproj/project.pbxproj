@@ -1,0 +1,588 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BA991AE81B6B1DEF005BB5FE /* Main.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734E1B60874F00B7D122 /* Main.mm */; };
+		BA991AE91B6B1DEF005BB5FE /* HookUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773571B60A02100B7D122 /* HookUtil.m */; };
+		BA991AEA1B6B1DEF005BB5FE /* NSData_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734A1B60874F00B7D122 /* NSData_Hook.m */; };
+		BA991AEB1B6B1DEF005BB5FE /* NSDictionary_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734B1B60874F00B7D122 /* NSDictionary_Hook.m */; };
+		BA991AEC1B6B1DEF005BB5FE /* NSString_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734C1B60874F00B7D122 /* NSString_Hook.m */; };
+		BA991AED1B6B1DEF005BB5FE /* MyAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773501B60874F00B7D122 /* MyAdditions.m */; };
+		BA991AEE1B6B1DEF005BB5FE /* Keychain_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773511B60874F00B7D122 /* Keychain_HOOK.m */; };
+		BA991AEF1B6B1DEF005BB5FE /* sqlite3_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773521B60874F00B7D122 /* sqlite3_HOOK.m */; };
+		BA991AF01B6B1DEF005BB5FE /* NSFileManager_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0F42C21B6217E200D769C7 /* NSFileManager_HOOK.m */; };
+		BA991AF21B6B1DEF005BB5FE /* FileMonitor-Prefix.pch in Sources */ = {isa = PBXBuildFile; fileRef = BAE7733C1B6083E400B7D122 /* FileMonitor-Prefix.pch */; };
+		BA991AF31B6B1DEF005BB5FE /* NSUserDefaults_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773531B60874F00B7D122 /* NSUserDefaults_HOOK.m */; };
+		BA991AF41B6B1DEF005BB5FE /* NSFileManagerDelegate_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD1861B65CC76009B3601 /* NSFileManagerDelegate_HOOK.m */; };
+		BA991AF61B6B1DEF005BB5FE /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAF84031B68A2550003AE96 /* libsqlite3.dylib */; };
+		BA991AF71B6B1DEF005BB5FE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736F1B60A1CE00B7D122 /* MobileCoreServices.framework */; };
+		BA991AF81B6B1DEF005BB5FE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736D1B60A1C900B7D122 /* SystemConfiguration.framework */; };
+		BA991AF91B6B1DEF005BB5FE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736B1B60A1BB00B7D122 /* Security.framework */; };
+		BA991AFA1B6B1DEF005BB5FE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE773691B60A1AB00B7D122 /* libz.dylib */; };
+		BA991AFB1B6B1DEF005BB5FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE773311B6083E400B7D122 /* Foundation.framework */; };
+		BA991AFC1B6B1DEF005BB5FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE773331B6083E400B7D122 /* UIKit.framework */; };
+		BA991AFE1B6B1DEF005BB5FE /* MyAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE7734F1B60874F00B7D122 /* MyAdditions.h */; };
+		BA991AFF1B6B1DEF005BB5FE /* HookUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773561B60A02100B7D122 /* HookUtil.h */; };
+		BA991B001B6B1DEF005BB5FE /* Macro.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773581B60A02100B7D122 /* Macro.h */; };
+		BA991B011B6B1DEF005BB5FE /* NSUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773591B60A02100B7D122 /* NSUtil.h */; };
+		BA991B091B6B9C4B005BB5FE /* Main.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734E1B60874F00B7D122 /* Main.mm */; };
+		BA991B0A1B6B9C4B005BB5FE /* HookUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773571B60A02100B7D122 /* HookUtil.m */; };
+		BA991B0B1B6B9C4B005BB5FE /* NSData_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734A1B60874F00B7D122 /* NSData_Hook.m */; };
+		BA991B0C1B6B9C4B005BB5FE /* NSDictionary_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734B1B60874F00B7D122 /* NSDictionary_Hook.m */; };
+		BA991B0D1B6B9C4B005BB5FE /* NSString_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734C1B60874F00B7D122 /* NSString_Hook.m */; };
+		BA991B0E1B6B9C4B005BB5FE /* MyAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773501B60874F00B7D122 /* MyAdditions.m */; };
+		BA991B0F1B6B9C4B005BB5FE /* Keychain_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773511B60874F00B7D122 /* Keychain_HOOK.m */; };
+		BA991B101B6B9C4B005BB5FE /* sqlite3_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773521B60874F00B7D122 /* sqlite3_HOOK.m */; };
+		BA991B111B6B9C4B005BB5FE /* NSFileManager_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA0F42C21B6217E200D769C7 /* NSFileManager_HOOK.m */; };
+		BA991B121B6B9C4B005BB5FE /* FileMonitor-Prefix.pch in Sources */ = {isa = PBXBuildFile; fileRef = BAE7733C1B6083E400B7D122 /* FileMonitor-Prefix.pch */; };
+		BA991B131B6B9C4B005BB5FE /* NSUserDefaults_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773531B60874F00B7D122 /* NSUserDefaults_HOOK.m */; };
+		BA991B141B6B9C4B005BB5FE /* NSFileManagerDelegate_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD1861B65CC76009B3601 /* NSFileManagerDelegate_HOOK.m */; };
+		BA991B161B6B9C4B005BB5FE /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAF84031B68A2550003AE96 /* libsqlite3.dylib */; };
+		BA991B171B6B9C4B005BB5FE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736F1B60A1CE00B7D122 /* MobileCoreServices.framework */; };
+		BA991B181B6B9C4B005BB5FE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736D1B60A1C900B7D122 /* SystemConfiguration.framework */; };
+		BA991B191B6B9C4B005BB5FE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736B1B60A1BB00B7D122 /* Security.framework */; };
+		BA991B1A1B6B9C4B005BB5FE /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE773691B60A1AB00B7D122 /* libz.dylib */; };
+		BA991B1B1B6B9C4B005BB5FE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE773311B6083E400B7D122 /* Foundation.framework */; };
+		BA991B1C1B6B9C4B005BB5FE /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE773331B6083E400B7D122 /* UIKit.framework */; };
+		BA991B1E1B6B9C4B005BB5FE /* MyAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE7734F1B60874F00B7D122 /* MyAdditions.h */; };
+		BA991B1F1B6B9C4B005BB5FE /* HookUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773561B60A02100B7D122 /* HookUtil.h */; };
+		BA991B201B6B9C4B005BB5FE /* Macro.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773581B60A02100B7D122 /* Macro.h */; };
+		BA991B211B6B9C4B005BB5FE /* NSUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773591B60A02100B7D122 /* NSUtil.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		BA0F42C21B6217E200D769C7 /* NSFileManager_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManager_HOOK.m; sourceTree = "<group>"; };
+		BA2CD1861B65CC76009B3601 /* NSFileManagerDelegate_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManagerDelegate_HOOK.m; sourceTree = "<group>"; };
+		BA991B061B6B1DEF005BB5FE /* libFileMonitor8.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libFileMonitor8.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		BA991B261B6B9C4B005BB5FE /* libFileMonitor7.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libFileMonitor7.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAAF84031B68A2550003AE96 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		BAE773311B6083E400B7D122 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BAE773331B6083E400B7D122 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		BAE773381B6083E400B7D122 /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
+		BAE773391B6083E400B7D122 /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
+		BAE7733B1B6083E400B7D122 /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
+		BAE7733C1B6083E400B7D122 /* FileMonitor-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "FileMonitor-Prefix.pch"; path = "../FileMonitor/FileMonitor-Prefix.pch"; sourceTree = "<group>"; };
+		BAE773431B6083E400B7D122 /* 0xdeadfa11 */ = {isa = PBXFileReference; lastKnownFileType = text; name = 0xdeadfa11; path = Package/usr/lib/0xdeadfa11; sourceTree = "<group>"; };
+		BAE7734A1B60874F00B7D122 /* NSData_Hook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSData_Hook.m; sourceTree = "<group>"; };
+		BAE7734B1B60874F00B7D122 /* NSDictionary_Hook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSDictionary_Hook.m; sourceTree = "<group>"; };
+		BAE7734C1B60874F00B7D122 /* NSString_Hook.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSString_Hook.m; sourceTree = "<group>"; };
+		BAE7734E1B60874F00B7D122 /* Main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Main.mm; sourceTree = "<group>"; };
+		BAE7734F1B60874F00B7D122 /* MyAdditions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyAdditions.h; sourceTree = "<group>"; };
+		BAE773501B60874F00B7D122 /* MyAdditions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyAdditions.m; sourceTree = "<group>"; };
+		BAE773511B60874F00B7D122 /* Keychain_HOOK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Keychain_HOOK.m; sourceTree = "<group>"; };
+		BAE773521B60874F00B7D122 /* sqlite3_HOOK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sqlite3_HOOK.m; sourceTree = "<group>"; };
+		BAE773531B60874F00B7D122 /* NSUserDefaults_HOOK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NSUserDefaults_HOOK.m; sourceTree = "<group>"; };
+		BAE773561B60A02100B7D122 /* HookUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HookUtil.h; sourceTree = "<group>"; };
+		BAE773571B60A02100B7D122 /* HookUtil.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = HookUtil.m; path = ../Utilities/HookUtil.m; sourceTree = "<group>"; };
+		BAE773581B60A02100B7D122 /* Macro.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
+		BAE773591B60A02100B7D122 /* NSUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NSUtil.h; sourceTree = "<group>"; };
+		BAE773691B60A1AB00B7D122 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		BAE7736B1B60A1BB00B7D122 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		BAE7736D1B60A1C900B7D122 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		BAE7736F1B60A1CE00B7D122 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BA991AF51B6B1DEF005BB5FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA991AF61B6B1DEF005BB5FE /* libsqlite3.dylib in Frameworks */,
+				BA991AF71B6B1DEF005BB5FE /* MobileCoreServices.framework in Frameworks */,
+				BA991AF81B6B1DEF005BB5FE /* SystemConfiguration.framework in Frameworks */,
+				BA991AF91B6B1DEF005BB5FE /* Security.framework in Frameworks */,
+				BA991AFA1B6B1DEF005BB5FE /* libz.dylib in Frameworks */,
+				BA991AFB1B6B1DEF005BB5FE /* Foundation.framework in Frameworks */,
+				BA991AFC1B6B1DEF005BB5FE /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA991B151B6B9C4B005BB5FE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA991B161B6B9C4B005BB5FE /* libsqlite3.dylib in Frameworks */,
+				BA991B171B6B9C4B005BB5FE /* MobileCoreServices.framework in Frameworks */,
+				BA991B181B6B9C4B005BB5FE /* SystemConfiguration.framework in Frameworks */,
+				BA991B191B6B9C4B005BB5FE /* Security.framework in Frameworks */,
+				BA991B1A1B6B9C4B005BB5FE /* libz.dylib in Frameworks */,
+				BA991B1B1B6B9C4B005BB5FE /* Foundation.framework in Frameworks */,
+				BA991B1C1B6B9C4B005BB5FE /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BAE773241B6083E400B7D122 = {
+			isa = PBXGroup;
+			children = (
+				BAE773551B60A02100B7D122 /* Utilities */,
+				BAE773491B60874F00B7D122 /* Sources */,
+				BAE773351B6083E400B7D122 /* FileMonitor */,
+				BAE773301B6083E400B7D122 /* Frameworks */,
+				BAE7732F1B6083E400B7D122 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		BAE7732F1B6083E400B7D122 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BA991B061B6B1DEF005BB5FE /* libFileMonitor8.dylib */,
+				BA991B261B6B9C4B005BB5FE /* libFileMonitor7.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BAE773301B6083E400B7D122 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BAAF84031B68A2550003AE96 /* libsqlite3.dylib */,
+				BAE7736F1B60A1CE00B7D122 /* MobileCoreServices.framework */,
+				BAE7736D1B60A1C900B7D122 /* SystemConfiguration.framework */,
+				BAE7736B1B60A1BB00B7D122 /* Security.framework */,
+				BAE773691B60A1AB00B7D122 /* libz.dylib */,
+				BAE773311B6083E400B7D122 /* Foundation.framework */,
+				BAE773331B6083E400B7D122 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BAE773351B6083E400B7D122 /* FileMonitor */ = {
+			isa = PBXGroup;
+			children = (
+				BAE773361B6083E400B7D122 /* Package */,
+				BAE7733A1B6083E400B7D122 /* Supporting Files */,
+			);
+			path = FileMonitor;
+			sourceTree = "<group>";
+		};
+		BAE773361B6083E400B7D122 /* Package */ = {
+			isa = PBXGroup;
+			children = (
+				BAE773371B6083E400B7D122 /* DEBIAN */,
+				BAE773411B6083E400B7D122 /* usr */,
+			);
+			name = Package;
+			sourceTree = "<group>";
+		};
+		BAE773371B6083E400B7D122 /* DEBIAN */ = {
+			isa = PBXGroup;
+			children = (
+				BAE773381B6083E400B7D122 /* control.txt */,
+				BAE773391B6083E400B7D122 /* control */,
+			);
+			name = DEBIAN;
+			sourceTree = "<group>";
+		};
+		BAE7733A1B6083E400B7D122 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				BAE7733B1B6083E400B7D122 /* PackageVersion.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BAE773411B6083E400B7D122 /* usr */ = {
+			isa = PBXGroup;
+			children = (
+				BAE773421B6083E400B7D122 /* lib */,
+			);
+			name = usr;
+			sourceTree = "<group>";
+		};
+		BAE773421B6083E400B7D122 /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				BAE773431B6083E400B7D122 /* 0xdeadfa11 */,
+			);
+			name = lib;
+			sourceTree = "<group>";
+		};
+		BAE773491B60874F00B7D122 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				BAE773571B60A02100B7D122 /* HookUtil.m */,
+				BAE7734A1B60874F00B7D122 /* NSData_Hook.m */,
+				BAE7734B1B60874F00B7D122 /* NSDictionary_Hook.m */,
+				BAE7734C1B60874F00B7D122 /* NSString_Hook.m */,
+				BA0F42C21B6217E200D769C7 /* NSFileManager_HOOK.m */,
+				BA2CD1861B65CC76009B3601 /* NSFileManagerDelegate_HOOK.m */,
+				BAE7733C1B6083E400B7D122 /* FileMonitor-Prefix.pch */,
+				BAE773511B60874F00B7D122 /* Keychain_HOOK.m */,
+				BAE773521B60874F00B7D122 /* sqlite3_HOOK.m */,
+				BAE7734E1B60874F00B7D122 /* Main.mm */,
+				BAE7734F1B60874F00B7D122 /* MyAdditions.h */,
+				BAE773501B60874F00B7D122 /* MyAdditions.m */,
+				BAE773531B60874F00B7D122 /* NSUserDefaults_HOOK.m */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		BAE773551B60A02100B7D122 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				BAE773561B60A02100B7D122 /* HookUtil.h */,
+				BAE773581B60A02100B7D122 /* Macro.h */,
+				BAE773591B60A02100B7D122 /* NSUtil.h */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		BA991AFD1B6B1DEF005BB5FE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA991AFE1B6B1DEF005BB5FE /* MyAdditions.h in Headers */,
+				BA991AFF1B6B1DEF005BB5FE /* HookUtil.h in Headers */,
+				BA991B001B6B1DEF005BB5FE /* Macro.h in Headers */,
+				BA991B011B6B1DEF005BB5FE /* NSUtil.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA991B1D1B6B9C4B005BB5FE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA991B1E1B6B9C4B005BB5FE /* MyAdditions.h in Headers */,
+				BA991B1F1B6B9C4B005BB5FE /* HookUtil.h in Headers */,
+				BA991B201B6B9C4B005BB5FE /* Macro.h in Headers */,
+				BA991B211B6B9C4B005BB5FE /* NSUtil.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		BA991AE61B6B1DEF005BB5FE /* FileMonitor8 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA991B031B6B1DEF005BB5FE /* Build configuration list for PBXNativeTarget "FileMonitor8" */;
+			buildPhases = (
+				BA991AE71B6B1DEF005BB5FE /* Sources */,
+				BA991AF51B6B1DEF005BB5FE /* Frameworks */,
+				BA991AFD1B6B1DEF005BB5FE /* Headers */,
+				BA991B021B6B1DEF005BB5FE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FileMonitor8;
+			productName = FileMonitor;
+			productReference = BA991B061B6B1DEF005BB5FE /* libFileMonitor8.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+		BA991B071B6B9C4B005BB5FE /* FileMonitor7 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BA991B231B6B9C4B005BB5FE /* Build configuration list for PBXNativeTarget "FileMonitor7" */;
+			buildPhases = (
+				BA991B081B6B9C4B005BB5FE /* Sources */,
+				BA991B151B6B9C4B005BB5FE /* Frameworks */,
+				BA991B1D1B6B9C4B005BB5FE /* Headers */,
+				BA991B221B6B9C4B005BB5FE /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FileMonitor7;
+			productName = FileMonitor;
+			productReference = BA991B261B6B9C4B005BB5FE /* libFileMonitor7.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BAE773251B6083E400B7D122 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0640;
+			};
+			buildConfigurationList = BAE773281B6083E400B7D122 /* Build configuration list for PBXProject "FileMonitor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = BAE773241B6083E400B7D122;
+			productRefGroup = BAE7732F1B6083E400B7D122 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BA991AE61B6B1DEF005BB5FE /* FileMonitor8 */,
+				BA991B071B6B9C4B005BB5FE /* FileMonitor7 */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BA991B021B6B1DEF005BB5FE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+		};
+		BA991B221B6B9C4B005BB5FE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/opt/iOSOpenDev/bin/iosod --xcbp";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BA991AE71B6B1DEF005BB5FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA991AE81B6B1DEF005BB5FE /* Main.mm in Sources */,
+				BA991AE91B6B1DEF005BB5FE /* HookUtil.m in Sources */,
+				BA991AEA1B6B1DEF005BB5FE /* NSData_Hook.m in Sources */,
+				BA991AEB1B6B1DEF005BB5FE /* NSDictionary_Hook.m in Sources */,
+				BA991AEC1B6B1DEF005BB5FE /* NSString_Hook.m in Sources */,
+				BA991AED1B6B1DEF005BB5FE /* MyAdditions.m in Sources */,
+				BA991AEE1B6B1DEF005BB5FE /* Keychain_HOOK.m in Sources */,
+				BA991AEF1B6B1DEF005BB5FE /* sqlite3_HOOK.m in Sources */,
+				BA991AF01B6B1DEF005BB5FE /* NSFileManager_HOOK.m in Sources */,
+				BA991AF21B6B1DEF005BB5FE /* FileMonitor-Prefix.pch in Sources */,
+				BA991AF31B6B1DEF005BB5FE /* NSUserDefaults_HOOK.m in Sources */,
+				BA991AF41B6B1DEF005BB5FE /* NSFileManagerDelegate_HOOK.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BA991B081B6B9C4B005BB5FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BA991B091B6B9C4B005BB5FE /* Main.mm in Sources */,
+				BA991B0A1B6B9C4B005BB5FE /* HookUtil.m in Sources */,
+				BA991B0B1B6B9C4B005BB5FE /* NSData_Hook.m in Sources */,
+				BA991B0C1B6B9C4B005BB5FE /* NSDictionary_Hook.m in Sources */,
+				BA991B0D1B6B9C4B005BB5FE /* NSString_Hook.m in Sources */,
+				BA991B0E1B6B9C4B005BB5FE /* MyAdditions.m in Sources */,
+				BA991B0F1B6B9C4B005BB5FE /* Keychain_HOOK.m in Sources */,
+				BA991B101B6B9C4B005BB5FE /* sqlite3_HOOK.m in Sources */,
+				BA991B111B6B9C4B005BB5FE /* NSFileManager_HOOK.m in Sources */,
+				BA991B121B6B9C4B005BB5FE /* FileMonitor-Prefix.pch in Sources */,
+				BA991B131B6B9C4B005BB5FE /* NSUserDefaults_HOOK.m in Sources */,
+				BA991B141B6B9C4B005BB5FE /* NSFileManagerDelegate_HOOK.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		BA991B041B6B1DEF005BB5FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FileMonitor/FileMonitor-Prefix.pch";
+				INSTALL_PATH = /usr/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = FileMonitor8;
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
+				VALID_ARCHS = "armv7 armv7s arm64";
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevDevicePort = 22;
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Debug;
+		};
+		BA991B051B6B1DEF005BB5FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FileMonitor/FileMonitor-Prefix.pch";
+				INSTALL_PATH = /usr/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = FileMonitor8;
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
+				VALID_ARCHS = "armv7 armv7s arm64";
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevDevicePort = 22;
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Release;
+		};
+		BA991B241B6B9C4B005BB5FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FileMonitor/FileMonitor-Prefix.pch";
+				INSTALL_PATH = /usr/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = FileMonitor7;
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
+				VALID_ARCHS = "armv7 armv7s";
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevDevicePort = 22;
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Debug;
+		};
+		BA991B251B6B9C4B005BB5FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				EXECUTABLE_PREFIX = lib;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "FileMonitor/FileMonitor-Prefix.pch";
+				INSTALL_PATH = /usr/lib;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = FileMonitor7;
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
+				VALID_ARCHS = "armv7 armv7s";
+				iOSOpenDevBuildPackageOnAnyBuild = NO;
+				iOSOpenDevCopyOnBuild = NO;
+				iOSOpenDevDevice = "";
+				iOSOpenDevDevicePort = 22;
+				iOSOpenDevInstallOnAnyBuild = NO;
+				iOSOpenDevInstallOnProfiling = YES;
+				iOSOpenDevRespringOnInstall = YES;
+				iOSOpenDevUsePackageVersionPList = YES;
+			};
+			name = Release;
+		};
+		BAE773441B6083E400B7D122 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = NO;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Debug;
+		};
+		BAE773451B6083E400B7D122 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.nib *.lproj *.gch (*) .DS_Store CVS .svn .git .hg *.xcodeproj *.xcode *.pbproj *.pbxproj";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(iOSOpenDevPath)/frameworks/**",
+					"$(SDKROOT)/System/Library/PrivateFrameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(iOSOpenDevPath)/include/**";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LIBRARY_SEARCH_PATHS = "$(iOSOpenDevPath)/lib/**";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				iOSOpenDevPath = /opt/iOSOpenDev;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BA991B031B6B1DEF005BB5FE /* Build configuration list for PBXNativeTarget "FileMonitor8" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA991B041B6B1DEF005BB5FE /* Debug */,
+				BA991B051B6B1DEF005BB5FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BA991B231B6B9C4B005BB5FE /* Build configuration list for PBXNativeTarget "FileMonitor7" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA991B241B6B9C4B005BB5FE /* Debug */,
+				BA991B251B6B9C4B005BB5FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BAE773281B6083E400B7D122 /* Build configuration list for PBXProject "FileMonitor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BAE773441B6083E400B7D122 /* Debug */,
+				BAE773451B6083E400B7D122 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BAE773251B6083E400B7D122 /* Project object */;
+}
