@@ -2,18 +2,253 @@
 //
 #import <vector>
 #import <algorithm>
-
+#import <CommonCrypto/CommonDigest.h>
+#import <CommonCrypto/CommonCryptor.h>
 //可选项
-#define PRINT_FILTERINFO //自动过滤多余的信息 如 加载nib等
+//#define PRINT_FILTERINFO //自动过滤多余的信息 如 加载nib等
 #define PRINT_PATH_MODE  //动态观看日志信息
 //#define DEBUG_MODE
 
+#define PRINT_DATA(mode,funcname,pathordata) NSLog(@"---FileMonitor---%@ : %@ : %@",mode,funcname,pathordata);
 
 
-#define PRINT_DATA(mode,path,funcname) NSLog(@"---FileMonitor---%@ : %@ : %@",mode,path,funcname);
+#define ____________________________________________________________________________________________________md5
+
+void Logmd5(NSString * funcName,NSString *source,NSString *dest, void *returnAddress)
+{
+    NSString *filepath;
+    static NSString *_logDir = nil;
+    static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0,s_index6 = 0;
+    
+    if (_logDir == nil)
+    {
+        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
+        
+        if (!isDirExist) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+    }
+
+    NSDictionary *dicData = [NSDictionary dictionaryWithObject:dest forKey:source];
+#ifdef PRINT_PATH_MODE
+    PRINT_DATA(@"MD5",funcName,dicData)
+#endif
+    
+    if (dicData == nil) {
+        return;
+    }
+    if ([funcName isEqualToString:@"CC_MD5"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+    }
+    else{
+        NSLog(@"error~~~ Logmd5");
+        return;
+    }
+    
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dicData forKey:funcName];
+    [dic writeToFile:filepath  atomically:YES];
+}
 
 
 
+#define ____________________________________________________________________________________________________base64
+void LogBase64(NSString * funcName,NSData *data1,id data2, void *returnAddress)
+{
+    NSString *filepath;
+    static NSString *_logDir = nil;
+    static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0,s_index6 = 0;
+    
+    if (_logDir == nil)
+    {
+        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
+        
+        if (!isDirExist) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+    }
+    
+    NSDictionary *dicData = [NSDictionary dictionaryWithObject:data2 forKey:data1];
+#ifdef PRINT_PATH_MODE
+    PRINT_DATA(@"Base64",funcName,dicData)
+#endif
+    
+    if (dicData == nil) {
+        return;
+    }
+    if ([funcName isEqualToString:@"base64Encoding"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+    }
+    else if ([funcName isEqualToString:@"base64EncodedDataWithOptions_"]){
+        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index2++];
+    }
+    else if ([funcName isEqualToString:@"base64EncodedStringWithOptions_"]){
+        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index3++];
+    }//
+    else if ([funcName isEqualToString:@"initWithBase64EncodedData_options_"]){
+        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index4++];
+    }
+    else if ([funcName isEqualToString:@"initWithBase64EncodedString_options_"]){
+        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index5++];
+    }
+    else if ([funcName isEqualToString:@"initWithBase64Encoding_"]){
+        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index6++];
+    }
+    else{
+        NSLog(@"error~~~ LogBase64");
+        return;
+    }
+    
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dicData forKey:funcName];
+    [dic writeToFile:filepath  atomically:YES];
+}
+
+#define ____________________________________________________________________________________________________CommonCrypto
+void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptions options, const void *key, const void *dataIn, size_t dataInLength, void *dataOut, size_t dataOutAvailable, size_t *dataOutMoved, void *returnAddress)
+{
+    //1 kCCEncrypt
+    //2 kCCAlgorithmAES128
+    //3 kCCOptionPKCS7Padding kCCOptionECBMode
+    //5 kCCBlockSizeAES128
+    //7 buf1
+    //8 length1
+    //9 buf2
+    //10 length2
+    //11 readed
+    NSString *filepath;
+    static NSString *_logDir = nil;
+    static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0,s_index6 = 0,s_index7 = 0,s_index8 = 0,s_index9 = 0,s_index10 = 0,s_index11 = 0;
+    
+    if (_logDir == nil)
+    {
+        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
+        
+        if (!isDirExist) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+    }
+    NSString *Cypto_op = nil;
+    if (op == kCCEncrypt) {
+        Cypto_op = @"kCCEncrypt";
+    }
+    else if(op == kCCDecrypt)
+    {
+        Cypto_op = @"kCCDecrypt";
+    }
+    else
+    {
+#ifdef PRINT_PATH_MODE
+        PRINT_DATA(@"Cypto",funcName,@"op_error~");
+#endif
+        return;
+    }
+    /*
+     kCCAlgorithmAES128 = 0,
+     kCCAlgorithmAES = 0,
+     kCCAlgorithmDES,1
+     kCCAlgorithm3DES,2
+     kCCAlgorithmCAST,3
+     kCCAlgorithmRC4,4
+     kCCAlgorithmRC2,5
+     kCCAlgorithmBlowfish6
+     */
+    NSString * Cypto_alg = nil;
+    switch (alg) {
+        case 0:
+            Cypto_alg = @"AES";
+            break;
+        case 1:
+            Cypto_alg = @"DES";
+            break;
+        case 2:
+            Cypto_alg = @"3DES";
+            break;
+        case 3:
+            Cypto_alg = @"CAST";
+            break;
+        case 4:
+            Cypto_alg = @"RC4";
+            break;
+        case 5:
+            Cypto_alg = @"RC2";
+            break;
+        case 6:
+            Cypto_alg = @"Blowfish6";
+            break;
+        default:
+#ifdef PRINT_PATH_MODE
+            PRINT_DATA(@"Cypto",funcName,@"alg_error~");
+#endif
+            return;
+            break;
+    }
+    /*
+     kCCOptionPKCS7Padding   = 0x0001,
+     kCCOptionECBMode        = 0x0002
+     */
+    NSString * Cypto_options = nil;
+    switch (options) {
+        case 0:
+            Cypto_options = @"None";
+            break;
+        case 1:
+            Cypto_options = @"kCCOptionPKCS7Padding";
+            break;
+        case 2:
+            Cypto_options = @"kCCOptionECBMode";
+            break;
+        case 3:
+            Cypto_options = @"kCCOptionPKCS7Padding|kCCOptionECBMode";
+            break;
+        default:
+#ifdef PRINT_PATH_MODE
+            NSString *errorCode =[NSString stringWithFormat:@"options_error~ %d",options];
+            PRINT_DATA(@"Cypto",funcName,errorCode);
+#endif
+            return;
+            break;
+    }
+    NSString *Cypto_key = [NSString stringWithFormat:@"%s",key];
+    NSData *Cypto_dataIn = [NSData dataWithBytes:dataIn length:dataInLength];
+    NSData *Cypto_dataOut = [NSData dataWithBytes:dataOut length:dataOutAvailable];
+    NSNumber *Cypto_Moved = [NSNumber numberWithInt:*dataOutMoved];
+    //NSString *data = [NSString stringWithFormat:@"%@_%@_%@_%@_%@_%@_%@",Cypto_op,Cypto_alg,Cypto_options,Cypto_key,Cypto_dataIn,Cypto_dataOut,Cypto_Moved];
+    NSArray *arryData = [NSArray arrayWithObjects:Cypto_op,              Cypto_alg,      Cypto_options,   Cypto_key,   Cypto_dataIn,     Cypto_dataOut,   Cypto_Moved, nil];
+    NSArray *arryDataKeys = [NSArray arrayWithObjects:@"Encrypt_or_Decrypt",@"Cypto_alg",@"Cypto_options",@"Cypto_key",@"Cypto_dataIn",@"Cypto_dataOut",@"Cypto_Moved",nil];
+    
+    NSDictionary *dicData = [NSDictionary dictionaryWithObjects:arryData forKeys:arryDataKeys];
+    
+    
+#ifdef PRINT_PATH_MODE
+    PRINT_DATA(@"Cypto",funcName,dicData)
+#endif
+    
+    if (dicData == nil) {
+        return;
+    }
+    if ([funcName isEqualToString:@"CCCrypt"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+    }
+    else{
+        NSLog(@"funcName~~~");
+        return;
+    }
+    
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dicData forKey:funcName];
+    
+    //    FILE *fp;
+    //    fp=fopen([filepath UTF8String], "w");
+    //
+    //    if ([dic description]) {
+    //        fprintf(fp,"%s", [[dic description] UTF8String]);
+    //    }
+    //
+    //
+    //    fclose(fp);
+    [dic writeToFile:filepath  atomically:YES];
+}
 
 
 #define ____________________________________________________________________________________________________NSUserDefaults
@@ -136,7 +371,7 @@ void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress)
         filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index29++];
     }
     else{
-        NSLog(@"error~~~");
+        NSLog(@"error~~~ LogNSUserDefaults");
         return;
     }
 
@@ -214,7 +449,7 @@ void Logsqlite3(NSString * funcName,NSString *data, void *returnAddress)
         filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index11++];
     }
     else{
-        NSLog(@"error~~~");
+        NSLog(@"error~~~ Logsqlite3");
         return;
     }
     
@@ -243,7 +478,7 @@ void LogKeychainFunc(NSString *funcName,id data, void *returnAddress)
 {
     NSMutableDictionary* query = (NSMutableDictionary*)data;
     
-     NSString *filepath;
+    NSString *filepath = nil;
     static NSString *_logDir = nil;
     static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0;
     
@@ -251,36 +486,38 @@ void LogKeychainFunc(NSString *funcName,id data, void *returnAddress)
     {
         _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
-        
+//        NSLog(@"_logDir = %@",_logDir);
+//        NSLog(@"isDirExist = %d",isDirExist);
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
         }
     }
     
     if ([funcName isEqualToString:@"SecItemCopyMatching_"]) {
-#ifdef PRINT_PATH_MODE
          filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+#ifdef PRINT_PATH_MODE
          PRINT_DATA(@"Keychain",funcName,data)
 #endif
     }
     else if ([funcName isEqualToString:@"SecItemAdd_"])
     {
-#ifdef PRINT_PATH_MODE
         filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index2++];
+#ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Keychain",funcName,data)
 #endif
     }
     else if ([funcName isEqualToString:@"SecItemUpdate_"])
     {
-#ifdef PRINT_PATH_MODE
         filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index3++];
+#ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Keychain",funcName,data)
 #endif
     }
     else if([funcName isEqualToString:@"SecItemDelete_"])
     {
-#ifdef PRINT_PATH_MODE
+
         filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index4++];
+#ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Keychain",funcName,data)
 #endif
     }
@@ -298,7 +535,9 @@ void LogKeychainFunc(NSString *funcName,id data, void *returnAddress)
 //        fprintf(fp,"%s", [[dic description] UTF8String]);
 //    }
 //    fclose(fp);
-    [dic writeToFile:filepath  atomically:YES];
+    if (filepath) {
+        [dic writeToFile:filepath  atomically:YES];
+    }
 }
 
 
@@ -343,7 +582,7 @@ void LogNSDictionaryWrite(NSString *funcName,id data,NSString *path, void *retur
     if ([funcName isEqualToString:@"writeToFile_atomically_"]) {
         filepath = [NSString stringWithFormat:@"%@/NSDictionary_%@_%03d.plist",_logDir,funcName, s_index++];
     }
-    else
+    else if([funcName isEqualToString:@"writeToURL_atomically_"])
     {
         filepath = [NSString stringWithFormat:@"%@/NSDictionary_%@_%03d.plist",_logDir,funcName, s_index2++];
     }
@@ -366,8 +605,9 @@ void LogNSDictionaryWrite(NSString *funcName,id data,NSString *path, void *retur
 //        fprintf(fp,"%s", [[dic description] UTF8String]);
 //    }
 //    fclose(fp);
-    
-    [dic writeToFile:filepath  atomically:YES];
+    if (filepath) {
+            [dic writeToFile:filepath  atomically:YES];
+    }
 }
 
 
@@ -401,7 +641,7 @@ void LogNSDataWrite(NSString *funcName,id data,NSString *path, void *returnAddre
     }
     
     //NSString *tmpPath = [[path description] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-    NSString *filepath;
+    NSString *filepath = nil;
     
     if ([funcName isEqualToString:@"writeToFile_atomically_"]) {
         filepath = [NSString stringWithFormat:@"%@/NSData_%@_%03d.plist",_logDir,funcName, s_index++];
@@ -412,14 +652,14 @@ void LogNSDataWrite(NSString *funcName,id data,NSString *path, void *returnAddre
     }
     else if([funcName isEqualToString:@"writeToURL_atomically_"])
     {
-        if ([[path description] hasPrefix:@"file://"]) {
+        if ([path hasPrefix:@"file://"]) {
             return;
         }
         filepath = [NSString stringWithFormat:@"%@/NSData_%@_%03d.plist",_logDir,funcName, s_index3++];
     }
     else
     {
-        if ([[path description] hasPrefix:@"file://"]) {
+        if ([path hasPrefix:@"file://"]) {
             return;
         }
         filepath = [NSString stringWithFormat:@"%@/NSData_%@_%03d.plist",_logDir,funcName, s_index4++];
@@ -437,13 +677,15 @@ void LogNSDataWrite(NSString *funcName,id data,NSString *path, void *returnAddre
     NSDictionary *dic = [NSDictionary dictionaryWithObject:data forKey:path];
 
     
-    FILE *fp;
+//    FILE *fp;
 //    fp=fopen([filepath UTF8String], "w");
 //    if ([dic description]) {
 //        fprintf(fp, "%s",[[dic description] UTF8String]);
 //    }
 //    fclose(fp);
-    [dic writeToFile:filepath  atomically:YES];
+    if (filepath) {
+        [dic writeToFile:filepath  atomically:YES];
+    }
 }
 
 
@@ -477,7 +719,7 @@ void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAdd
     }
     
     //NSString *tmpPath = [[path description] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
-    NSString *filepath;
+    NSString *filepath= nil;
     
     if ([funcName isEqualToString:@"writeToFile_atomically_encoding_error_"]) {
         filepath = [NSString stringWithFormat:@"%@/NSString_%@_%03d.plist",_logDir,funcName, s_index++];
@@ -488,16 +730,11 @@ void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAdd
     }
     else if([funcName isEqualToString:@"writeToURL_atomically_encoding_error_"])
     {
-//        if ([[path description] hasPrefix:@"file://"]) {
-//            return;
-//        }
+
         filepath = [NSString stringWithFormat:@"%@/NSString_%@_%03d.plist",_logDir,funcName, s_index3++];
     }
     else
     {
-//        if ([[path description] hasPrefix:@"file://"]) {
-//            return;
-//        }
         filepath = [NSString stringWithFormat:@"%@/NSString_%@_%03d.plist",_logDir,funcName, s_index4++];
     }
     
@@ -519,7 +756,9 @@ void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAdd
 //        fprintf(fp,  "%s",[[dic description] UTF8String]);
 //    }
 //    fclose(fp);
-    [dic writeToFile:filepath  atomically:YES];
+    if (filepath) {
+        [dic writeToFile:filepath  atomically:YES];
+    }
 }
 
 
@@ -528,7 +767,7 @@ void LoginitWithContentsOffileorurl(NSString *funcName,id data,id pathorurl, voi
 {
     NSString *str;
     NSDictionary *dic;
-    NSString *filepath;
+    NSString *filepath = nil;
     NSString *prefix;
     static NSString *_logDir = nil;
     static int s_index=0,s_index2 = 0;
@@ -592,7 +831,9 @@ void LoginitWithContentsOffileorurl(NSString *funcName,id data,id pathorurl, voi
 //        fprintf(fp, "%s",[[dic description] UTF8String]);
 //    }
 //    fclose(fp);
-    [dic writeToFile:filepath  atomically:YES];
+    if (filepath) {
+        [dic writeToFile:filepath  atomically:YES];
+    }
     
 }
 
@@ -614,11 +855,11 @@ void LogComparedata(NSString *funcName,id data,id data2, void *returnAddress)
     if (data2 == nil) {
         data2 =@"";
     }
+
     if (_logDir == nil)
     {
         _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
-        
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
         }
@@ -627,7 +868,7 @@ void LogComparedata(NSString *funcName,id data,id data2, void *returnAddress)
     if ([data isKindOfClass:[NSString class]]) {
         prefix = @"NSString";
         
-        str = [NSString stringWithFormat:@"%@_%@",prefix,funcName];
+        str = [NSString stringWithFormat:@"%@_%@_%@_%@",prefix,funcName,data,data2];
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Compare",@"",str)
 #endif
@@ -682,7 +923,9 @@ void LogComparedata(NSString *funcName,id data,id data2, void *returnAddress)
 //        fprintf(fp,  "%s",[[dic description] UTF8String]);
 //    }
 //    fclose(fp);
-    [dic writeToFile:filepath  atomically:YES];
+    if (filepath) {
+        [dic writeToFile:filepath  atomically:YES];
+    }
 }
 
 #define ____________________________________________________________________________________________________NSFileManagerDelegate
@@ -723,6 +966,11 @@ extern "C"
 #endif
 void LogNSFileManagerWrite(NSString *funcName,id data,NSString *path, void *returnAddress)
 {
+    NSRange range = [path rangeOfString:@"filemon"];
+    if (range.location != NSNotFound) {
+        return;
+    }
+    
 #ifdef DEBUG_MODE
     NSLog(@"data = %@",data);
     NSLog(@"path = %@",path);
@@ -742,6 +990,8 @@ void LogNSFileManagerWrite(NSString *funcName,id data,NSString *path, void *retu
     }
     
     //NSString *tmpPath = [[path description] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+    
+
     NSString *filepath;
     
     if ([funcName isEqualToString:@"createDirectoryAtPath_attributes_"]) {
@@ -822,7 +1072,7 @@ void LogNSFileManagerCreateSymblic(NSString *funcName,id souce,id  dest, void *r
     }
     else
     {
-        str = [NSString stringWithFormat:@"NSFileManager_%@,%@:%@",funcName,[souce description],[dest description]];
+        str = [NSString stringWithFormat:@"NSFileManager_%@,%@:%@",funcName,souce,dest];
         PRINT_DATA(@"CreateSymblic",@"",str)
     }
 }
@@ -882,7 +1132,7 @@ void LogNSFileManagerCopyItem(NSString *funcName,id souce,id  dest, void *return
     }
     else
     {
-        str = [NSString stringWithFormat:@"NSFileManager_%@,%@:%@",funcName,[souce description],[dest description]];
+        str = [NSString stringWithFormat:@"NSFileManager_%@,%@:%@",funcName,souce ,dest];
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"copy_move",@"",str)
 #endif

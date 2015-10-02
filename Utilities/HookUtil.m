@@ -62,8 +62,8 @@ void _HookMessage(Class cls, const char *msg, void *hook, void **old)
     }
     while (msg[i++]);
     
-    //printf("name = %s",name);
-    // NSLog(@"cls = %s",(char*)class_getName(name));
+//    printf("name = %s",name);
+//     NSLog(@"cls = %s",(char*)class_getName(name));
     
     SEL sel = sel_registerName(name);
     

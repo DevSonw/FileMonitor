@@ -13,7 +13,7 @@ HOOK_MESSAGE(BOOL,NSFileManagerDelegate,fileManager_shouldCopyItemAtPath_toPath_
 
 HOOK_MESSAGE(BOOL,NSFileManagerDelegate,fileManager_shouldCopyItemAtURL_toURL_,NSFileManager *fileManager,NSURL *srcURL,NSURL *dstURL)
 {
-    _LogNSFileManagerDelegate(@"fileManager_shouldCopyItemAtURL_toURL_",srcURL,dstURL);
+    _LogNSFileManagerDelegate(@"fileManager_shouldCopyItemAtURL_toURL_",[srcURL absoluteString],[dstURL absoluteString]);
     return _NSFileManagerDelegate_fileManager_shouldCopyItemAtURL_toURL_(self,sel,fileManager,srcURL,dstURL);
 }
 

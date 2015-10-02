@@ -25,7 +25,7 @@
 
 
 #define Function_readcontent__________________________
-HOOK_MESSAGE(BOOL,NSFileManager,contentsAtPath_,NSString  *path)
+HOOK_MESSAGE(NSData *,NSFileManager,contentsAtPath_,NSString  *path)
 {
 #ifdef DEBUG_INFO
     NSLog(@"~~~~~~~~~~~~~~~~~~~1");
@@ -54,7 +54,7 @@ HOOK_MESSAGE(BOOL,NSFileManager,createDirectoryAtURL_withIntermediateDirectories
     NSLog(@"~~~~~~~~~~~~~~~~~~~3");
 #endif
     
-    _LogNSFileManagerWrite(@"createDirectoryAtURL_withIntermediateDirectories_attributes_error_",@"",url);
+    _LogNSFileManagerWrite(@"createDirectoryAtURL_withIntermediateDirectories_attributes_error_",@"",[url absoluteString]);
     return _NSFileManager_createDirectoryAtURL_withIntermediateDirectories_attributes_error_(self,sel,url,createIntermediates,attributes,error);
 }
 

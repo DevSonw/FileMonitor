@@ -1,3 +1,5 @@
+#import <CommonCrypto/CommonDigest.h>
+#import <CommonCrypto/CommonCryptor.h>
 
 #define TEST
 #import "Macro.h"
@@ -8,6 +10,35 @@
 #endif
 
 #import "HookUtil.h"
+
+#define ____________________________________________________________________________________________________md5
+
+#if __cplusplus
+extern "C"
+#endif
+void Logmd5(NSString * funcName,NSString *source,NSString *dest, void *returnAddress);
+#define _Logmd5(funcName, source,dest) Logmd5(funcName,source,dest, __builtin_return_address(0))
+
+
+#define ____________________________________________________________________________________________________base64
+
+#if __cplusplus
+extern "C"
+#endif
+void LogBase64(NSString * funcName,NSData *data1,id data2, void *returnAddress);
+#define _LogBase64(funcName, data1,data2) LogBase64(funcName,data1,data2, __builtin_return_address(0))
+
+
+#define ____________________________________________________________________________________________________CommonCrypto
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptions options, const void *key, const void *dataIn, size_t dataInLength, void *dataOut, size_t dataOutAvailable, size_t *dataOutMoved, void *returnAddress);
+#define _LogCommonCypto(funcName,op,alg,options,key,dataIn,dataInLength,dataOut,dataOutAvailable,dataOutMoved) LogCommonCypto(funcName,op,alg,options,key,dataIn,dataInLength,dataOut,dataOutAvailable,dataOutMoved, __builtin_return_address(0))
+
+
+
 
 #define ____________________________________________________________________________________________________NSUserDefaults
 //
@@ -152,15 +183,13 @@ void LogNSFileManagerCopyItem(NSString *funcName,id souce,id  dest, void *return
 #define _LogNSFileManagerCopyItem(funcName,source,dest) LogNSFileManagerCopyItem(funcName,source,dest, __builtin_return_address(0))
 
 
-
-
-
-
-
-
-
-
-
+//#if __cplusplus
+//extern "C"
+//#endif
+//BOOL (*orig_NSString_isEqualToString_)(NSString *itself,SEL sel,NString *aString);
+//
+//
+//
 
 
 

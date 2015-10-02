@@ -9,18 +9,20 @@
 
 HOOK_CFUNCTION(int, (void *)0xFFFFFFFF, sqlite3_create_function,  sqlite3 *db, const char *zFunctionName, int nArg, int eTextRep, void *pApp, void (*xFunc)(sqlite3_context* context,int,sqlite3_value** value), void (*xStep)(sqlite3_context*,int,sqlite3_value**), void (*xFinal)(sqlite3_context*))
 {
-#ifdef DEBUG_INFO
-    NSLog(@"~~~~~~~~~~~~~~~~~~~15");
-#endif
-
-    NSString *data;
-    if ( zFunctionName) {
-        data = [[NSString alloc] initWithFormat:@"%s",zFunctionName];
-    }
-    _Logsqlite3(@"sqlite3_create_function",data);
+//#ifdef DEBUG_INFO
+//    NSLog(@"~~~~~~~~~~~~~~~~~~~15");
+//#endif
+//
+//    NSString *data = @"";
+//    if ( zFunctionName) {
+//        data = [[NSString alloc] initWithFormat:@"%s",zFunctionName];
+//    }
+//    _Logsqlite3(@"sqlite3_create_function",data);
 
     return _sqlite3_create_function(db,zFunctionName,nArg,eTextRep,pApp,xFunc,xStep,xFinal);
 }
+
+
 /*
  SQLITE_API int sqlite3_create_function(
  sqlite3 *db,
@@ -55,11 +57,11 @@ HOOK_CFUNCTION(const unsigned char *, (void *)0xFFFFFFFF, sqlite3_column_text, s
     NSLog(@"~~~~~~~~~~~~~~~~~~~1");
 #endif
     const char *str = _sqlite3_column_text(stmt, iCol);
-    NSString *data;
-    if (str) {
-        data = [[NSString alloc] initWithUTF8String:str];
-    }
-    _Logsqlite3(@"sqlite3_column_text",data);
+//    NSString *data = @"";
+//    if (str) {
+//        data = [[NSString alloc] initWithUTF8String:str];
+//    }
+//    _Logsqlite3(@"sqlite3_column_text",data);
     return str;
 }
 //SQLITE_API const unsigned char *sqlite3_column_text(sqlite3_stmt*, int iCol);
@@ -73,7 +75,7 @@ HOOK_FUNCTION(const char *,  (void *)0xFFFFFFFF, sqlite3_sql,sqlite3_stmt *pStmt
 #endif
     
     const  char * str = _sqlite3_sql(pStmt);
-    NSString *data;
+    NSString *data = @"";
     
     if (str) {
         data = [[NSString alloc] initWithUTF8String:str];
@@ -90,7 +92,7 @@ HOOK_FUNCTION(int,  (void *)0xFFFFFFFF, sqlite3_prepare,sqlite3 *db,const char *
 #ifdef DEBUG_INFO
     NSLog(@"~~~~~~~~~~~~~~~~~~~3");
 #endif
-    NSString *data;
+    NSString *data = @"";
     if (zSql) {
         data = [[NSString alloc] initWithUTF8String:zSql];
     }
@@ -112,7 +114,7 @@ HOOK_FUNCTION(int, (void *)0xFFFFFFFF , sqlite3_prepare_v2, sqlite3* db, const c
 #ifdef DEBUG_INFO
     NSLog(@"~~~~~~~~~~~~~~~~~~~4");
 #endif
-    NSString *data;
+    NSString *data = @"";
     if (zSql) {
         data = [[NSString alloc] initWithUTF8String:zSql];
     }
@@ -133,7 +135,7 @@ HOOK_FUNCTION(int, (void *)0xFFFFFFFF , sqlite3_prepare16, sqlite3 *db, const vo
 #ifdef DEBUG_INFO
     NSLog(@"~~~~~~~~~~~~~~~~~~~5");
 #endif
-    NSString *data;
+    NSString *data = @"";
     if (zSql) {
         data = [[NSString alloc] initWithUTF8String:zSql];
     }
@@ -154,7 +156,7 @@ HOOK_FUNCTION(int, (void *)0xFFFFFFFF , sqlite3_prepare16_v2, sqlite3 *db,const 
 #ifdef DEBUG_INFO
     NSLog(@"~~~~~~~~~~~~~~~~~~~6");
 #endif
-    NSString *data;
+    NSString *data = @"";
     if (zSql) {
     data = [[NSString alloc] initWithUTF8String:zSql];
     }
@@ -176,7 +178,7 @@ HOOK_CFUNCTION(int, (void *)0xFFFFFFFF, sqlite3_open, const char *filename, sqli
 #ifdef DEBUG_INFO
     NSLog(@"~~~~~~~~~~~~~~~~~~~7");
 #endif
-    NSString *data;
+    NSString *data = @"";
     if (filename) {
      data = [[NSString alloc] initWithUTF8String:filename];
     }
@@ -195,7 +197,7 @@ HOOK_FUNCTION(int, (void *)0xFFFFFFFF, sqlite3_open16, const void *filename,sqli
 #ifdef DEBUG_INFO
     NSLog(@"~~~~~~~~~~~~~~~~~~~8");
 #endif
-    NSString *data;
+    NSString *data = @"";
     if (filename) {
     data = [[NSString alloc] initWithUTF8String:filename];
     }
@@ -214,7 +216,7 @@ HOOK_FUNCTION(int, (void *)0xFFFFFFFF, sqlite3_open_v2, const void *filename,sql
 #ifdef DEBUG_INFO
     NSLog(@"~~~~~~~~~~~~~~~~~~~9");
 #endif
-    NSString *data;
+    NSString *data = @"";
     if (filename) {
         NSString *data = [[NSString alloc] initWithUTF8String:filename];
     }
@@ -234,7 +236,7 @@ HOOK_FUNCTION(int, (void *)0xFFFFFFFF, sqlite3_exec, sqlite3* database, const ch
 #ifdef DEBUG_INFO
     NSLog(@"~~~~~~~~~~~~~~~~~~~10");
 #endif
-    NSString *data;
+    NSString *data = @"";
     if (sql) {
         data = [[NSString alloc] initWithUTF8String:sql];
     }

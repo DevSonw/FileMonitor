@@ -52,6 +52,7 @@
  CCCrypt(CCOperation op, CCAlgorithm alg, CCOptions options, const void *key, size_t keyLength, const void *iv, const void *dataIn, size_t dataInLength, void *dataOut, size_t dataOutAvailable, size_t *dataOutMoved);
 */
 
+
 HOOK_CFUNCTION(CCCryptorStatus, (void *)0xFFFFFFFF, CCCrypt,CCOperation op, CCAlgorithm alg, CCOptions options,const void *key, size_t keyLength, const void *iv,const void *dataIn, size_t dataInLength, void *dataOut,size_t dataOutAvailable, size_t *dataOutMoved)
 {
     CCCryptorStatus status = _CCCrypt(op,alg,options,key,keyLength,iv,dataIn,dataInLength,dataOut,dataOutAvailable,dataOutMoved);
@@ -64,7 +65,9 @@ HOOK_CFUNCTION(CCCryptorStatus, (void *)0xFFFFFFFF, CCCrypt,CCOperation op, CCAl
     //9 buf2
     //10 length2
     //11 readed
-    _LogCommonCypto(@"CCCrypt",op,alg,options,key,dataIn,dataInLength,dataOut,dataOutAvailable,dataOutMoved);
+     _LogCommonCypto(@"CCCrypt",op,alg,options,key,dataIn,dataInLength,dataOut,dataOutAvailable,dataOutMoved);
+    
+    return status;
 //void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptions options, const void *key, const void *dataIn, size_t dataInLength, void *dataOut, size_t dataOutAvailable, size_t *dataOutMoved, void *returnAddress);
 
 }

@@ -98,6 +98,9 @@
 //Jul 31 19:19:38 360de-iPhone UserDefaults[2328] <Warning>: ---FileMonitor---NSUserDefaults : objectForKey_ : {
 //    hasAccessibilityBeenMigrated = 1;
 //}
+
+
+
 #define PRINT_FILTERINFO //自动过滤多余的信息 如 加载nib等
 
 //#define DEBUG_INFO
@@ -199,8 +202,13 @@ HOOK_MESSAGE(NSDictionary *, NSUserDefaults, dictionaryForKey_,NSString *default
 
 HOOK_MESSAGE(NSInteger, NSUserDefaults, integerForKey_,NSString *defaultName)
 {
-    
     NSInteger tmp =  _NSUserDefaults_integerForKey_(self,sel,defaultName);
+    
+    if (strcmp([defaultName UTF8String],"NSStringDrawingLongTermCacheSize") ==0  || strcmp([defaultName UTF8String],"NSStringDrawingLongTermThreshold") ==0 || \
+        strcmp([defaultName UTF8String],"NSStringDrawingShortTermCacheSize") ==0 || strcmp([defaultName UTF8String],"NSUndoManagerDefaultLevelsOfUndo") ==0 || \
+         strcmp([defaultName UTF8String],"NSCorrectionUnderlineBehavior") ==0 ) {
+        return tmp;
+    }
     
     NSNumber * num = [NSNumber numberWithInteger:tmp];
     
@@ -224,7 +232,7 @@ HOOK_MESSAGE(id, NSUserDefaults, objectForKey_,NSString *defaultName)
     id tmp = _NSUserDefaults_objectForKey_(self,sel,defaultName);
     
 #ifdef PRINT_FILTERINFO
-    if ([defaultName isEqualToString:@"UIDisableLegacyTextView"] || [defaultName isEqualToString:@"hasAccessibilityBeenMigrated"]) {
+    if (strcmp([defaultName UTF8String],"UIDisableLegacyTextView")==0 || strcmp([defaultName UTF8String],"hasAccessibilityBeenMigrated")==0) {
         return tmp;
     }
 #endif
@@ -442,8 +450,7 @@ HOOK_MESSAGE(BOOL, NSUserDefaults, synchronize)
 #ifdef DEBUG_INFO
     NSLog(@"2222222222222--25");
 #endif
-
-    _LogNSUserDefaults(@"synchronize",@"");
+//    _LogNSUserDefaults(@"synchronize",@"");
 
     return _NSUserDefaults_synchronize(self,sel);
 }
