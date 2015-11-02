@@ -8,9 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		BA26B4AC1BB1021000F74A29 /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BA26B4AB1BB1021000F74A29 /* CommonCrypto.m */; };
+		BA391F8E1BE3816D008F0297 /* dlopen_dlsym.m in Sources */ = {isa = PBXBuildFile; fileRef = BA391F8D1BE3816D008F0297 /* dlopen_dlsym.m */; };
 		BA69FF441BB267C90067EE8E /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BA26B4AB1BB1021000F74A29 /* CommonCrypto.m */; };
-		BA69FF461BB2A9950067EE8E /* CC_MD5_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA69FF451BB2A9950067EE8E /* CC_MD5_HOOK.m */; };
-		BA69FF471BB2AECC0067EE8E /* CC_MD5_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA69FF451BB2A9950067EE8E /* CC_MD5_HOOK.m */; };
+		BA69FF461BB2A9950067EE8E /* CC_HASH_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA69FF451BB2A9950067EE8E /* CC_HASH_HOOK.m */; };
+		BA69FF471BB2AECC0067EE8E /* CC_HASH_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA69FF451BB2A9950067EE8E /* CC_HASH_HOOK.m */; };
 		BA991AE81B6B1DEF005BB5FE /* Main.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734E1B60874F00B7D122 /* Main.mm */; };
 		BA991AE91B6B1DEF005BB5FE /* HookUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773571B60A02100B7D122 /* HookUtil.m */; };
 		BA991AEA1B6B1DEF005BB5FE /* NSData_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734A1B60874F00B7D122 /* NSData_Hook.m */; };
@@ -57,16 +58,20 @@
 		BA991B1F1B6B9C4B005BB5FE /* HookUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773561B60A02100B7D122 /* HookUtil.h */; };
 		BA991B201B6B9C4B005BB5FE /* Macro.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773581B60A02100B7D122 /* Macro.h */; };
 		BA991B211B6B9C4B005BB5FE /* NSUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773591B60A02100B7D122 /* NSUtil.h */; };
+		BAD55C7E1BD0E4A000D592E0 /* NSBundle_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD55C7D1BD0E4A000D592E0 /* NSBundle_HOOK.m */; };
+		BAD55C7F1BD0E5DF00D592E0 /* NSBundle_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD55C7D1BD0E4A000D592E0 /* NSBundle_HOOK.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BA0F42C21B6217E200D769C7 /* NSFileManager_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManager_HOOK.m; sourceTree = "<group>"; };
 		BA26B4AB1BB1021000F74A29 /* CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonCrypto.m; sourceTree = "<group>"; };
 		BA2CD1861B65CC76009B3601 /* NSFileManagerDelegate_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManagerDelegate_HOOK.m; sourceTree = "<group>"; };
-		BA69FF451BB2A9950067EE8E /* CC_MD5_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CC_MD5_HOOK.m; sourceTree = "<group>"; };
+		BA391F8D1BE3816D008F0297 /* dlopen_dlsym.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dlopen_dlsym.m; sourceTree = "<group>"; };
+		BA69FF451BB2A9950067EE8E /* CC_HASH_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CC_HASH_HOOK.m; sourceTree = "<group>"; };
 		BA991B061B6B1DEF005BB5FE /* libFileMonitor8.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libFileMonitor8.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA991B261B6B9C4B005BB5FE /* libFileMonitor7.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libFileMonitor7.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAAF84031B68A2550003AE96 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		BAD55C7D1BD0E4A000D592E0 /* NSBundle_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBundle_HOOK.m; sourceTree = "<group>"; };
 		BAE773311B6083E400B7D122 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BAE773331B6083E400B7D122 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		BAE773381B6083E400B7D122 /* control.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = control.txt; path = Package/DEBIAN/control.txt; sourceTree = "<group>"; };
@@ -217,13 +222,15 @@
 				BAE7734A1B60874F00B7D122 /* NSData_Hook.m */,
 				BAE7734B1B60874F00B7D122 /* NSDictionary_Hook.m */,
 				BAE7734C1B60874F00B7D122 /* NSString_Hook.m */,
+				BAD55C7D1BD0E4A000D592E0 /* NSBundle_HOOK.m */,
 				BA0F42C21B6217E200D769C7 /* NSFileManager_HOOK.m */,
 				BA2CD1861B65CC76009B3601 /* NSFileManagerDelegate_HOOK.m */,
 				BAE7733C1B6083E400B7D122 /* FileMonitor-Prefix.pch */,
 				BAE773511B60874F00B7D122 /* Keychain_HOOK.m */,
 				BAE773521B60874F00B7D122 /* sqlite3_HOOK.m */,
 				BAE773531B60874F00B7D122 /* NSUserDefaults_HOOK.m */,
-				BA69FF451BB2A9950067EE8E /* CC_MD5_HOOK.m */,
+				BA69FF451BB2A9950067EE8E /* CC_HASH_HOOK.m */,
+				BA391F8D1BE3816D008F0297 /* dlopen_dlsym.m */,
 				BA26B4AB1BB1021000F74A29 /* CommonCrypto.m */,
 				BAE7734E1B60874F00B7D122 /* Main.mm */,
 				BAE773501B60874F00B7D122 /* MyAdditions.m */,
@@ -369,13 +376,15 @@
 				BA991AE81B6B1DEF005BB5FE /* Main.mm in Sources */,
 				BA991AE91B6B1DEF005BB5FE /* HookUtil.m in Sources */,
 				BA991AEA1B6B1DEF005BB5FE /* NSData_Hook.m in Sources */,
+				BA391F8E1BE3816D008F0297 /* dlopen_dlsym.m in Sources */,
 				BA991AEB1B6B1DEF005BB5FE /* NSDictionary_Hook.m in Sources */,
 				BA991AEC1B6B1DEF005BB5FE /* NSString_Hook.m in Sources */,
 				BA991AED1B6B1DEF005BB5FE /* MyAdditions.m in Sources */,
+				BAD55C7E1BD0E4A000D592E0 /* NSBundle_HOOK.m in Sources */,
 				BA991AEE1B6B1DEF005BB5FE /* Keychain_HOOK.m in Sources */,
 				BA991AEF1B6B1DEF005BB5FE /* sqlite3_HOOK.m in Sources */,
 				BA991AF01B6B1DEF005BB5FE /* NSFileManager_HOOK.m in Sources */,
-				BA69FF461BB2A9950067EE8E /* CC_MD5_HOOK.m in Sources */,
+				BA69FF461BB2A9950067EE8E /* CC_HASH_HOOK.m in Sources */,
 				BA991AF21B6B1DEF005BB5FE /* FileMonitor-Prefix.pch in Sources */,
 				BA26B4AC1BB1021000F74A29 /* CommonCrypto.m in Sources */,
 				BA991AF31B6B1DEF005BB5FE /* NSUserDefaults_HOOK.m in Sources */,
@@ -387,7 +396,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA69FF471BB2AECC0067EE8E /* CC_MD5_HOOK.m in Sources */,
+				BAD55C7F1BD0E5DF00D592E0 /* NSBundle_HOOK.m in Sources */,
+				BA69FF471BB2AECC0067EE8E /* CC_HASH_HOOK.m in Sources */,
 				BA69FF441BB267C90067EE8E /* CommonCrypto.m in Sources */,
 				BA991B091B6B9C4B005BB5FE /* Main.mm in Sources */,
 				BA991B0A1B6B9C4B005BB5FE /* HookUtil.m in Sources */,

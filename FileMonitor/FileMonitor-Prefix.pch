@@ -16,8 +16,8 @@
 #if __cplusplus
 extern "C"
 #endif
-void Logmd5(NSString * funcName,NSString *source,NSString *dest, void *returnAddress);
-#define _Logmd5(funcName, source,dest) Logmd5(funcName,source,dest, __builtin_return_address(0))
+void LogHash(NSString * funcName,NSString *source,NSString *dest, void *returnAddress);
+#define _LogHash(funcName, source,dest) LogHash(funcName,source,dest, __builtin_return_address(0))
 
 
 #define ____________________________________________________________________________________________________base64
