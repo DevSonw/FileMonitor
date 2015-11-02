@@ -14,7 +14,7 @@
 
 #define ____________________________________________________________________________________________________md5
 
-void Logmd5(NSString * funcName,NSString *source,NSString *dest, void *returnAddress)
+void LogHash(NSString * funcName,NSString *source,NSString *dest, void *returnAddress)
 {
     NSString *filepath;
     static NSString *_logDir = nil;
@@ -32,7 +32,7 @@ void Logmd5(NSString * funcName,NSString *source,NSString *dest, void *returnAdd
 
     NSDictionary *dicData = [NSDictionary dictionaryWithObject:dest forKey:source];
 #ifdef PRINT_PATH_MODE
-    PRINT_DATA(@"MD5",funcName,dicData)
+    PRINT_DATA(funcName,source,dest)
 #endif
     
     if (dicData == nil) {
@@ -41,8 +41,11 @@ void Logmd5(NSString * funcName,NSString *source,NSString *dest, void *returnAdd
     if ([funcName isEqualToString:@"CC_MD5"]) {
         filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
     }
+    else if([funcName isEqualToString:@"CC_SHA1"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index2++];
+    }
     else{
-        NSLog(@"error~~~ Logmd5");
+        NSLog(@"error~~~  %@",funcName);
         return;
     }
     
