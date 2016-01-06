@@ -7,11 +7,44 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA19B7211C21157C00FB7690 /* libsubstrate.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BA19B7201C21157C00FB7690 /* libsubstrate.dylib */; };
+		BA19B7231C228FB600FB7690 /* IFHOOK.h in Headers */ = {isa = PBXBuildFile; fileRef = BA19B7221C228FB600FB7690 /* IFHOOK.h */; };
+		BA19B7241C228FB600FB7690 /* IFHOOK.h in Headers */ = {isa = PBXBuildFile; fileRef = BA19B7221C228FB600FB7690 /* IFHOOK.h */; };
 		BA26B4AC1BB1021000F74A29 /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BA26B4AB1BB1021000F74A29 /* CommonCrypto.m */; };
-		BA391F8E1BE3816D008F0297 /* dlopen_dlsym.m in Sources */ = {isa = PBXBuildFile; fileRef = BA391F8D1BE3816D008F0297 /* dlopen_dlsym.m */; };
+		BA2CADFC1C3A4F3000044682 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CADFB1C3A4F3000044682 /* FMDatabase.h */; };
+		BA2CADFD1C3A4F3000044682 /* FMDatabase.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CADFB1C3A4F3000044682 /* FMDatabase.h */; };
+		BA2CAE021C3A4F6200044682 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CADFE1C3A4F6200044682 /* FMDatabaseAdditions.h */; };
+		BA2CAE031C3A4F6200044682 /* FMDatabaseAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CADFE1C3A4F6200044682 /* FMDatabaseAdditions.h */; };
+		BA2CAE041C3A4F6200044682 /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CADFF1C3A4F6200044682 /* FMDatabasePool.h */; };
+		BA2CAE051C3A4F6200044682 /* FMDatabasePool.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CADFF1C3A4F6200044682 /* FMDatabasePool.h */; };
+		BA2CAE061C3A4F6200044682 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CAE001C3A4F6200044682 /* FMDatabaseQueue.h */; };
+		BA2CAE071C3A4F6200044682 /* FMDatabaseQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CAE001C3A4F6200044682 /* FMDatabaseQueue.h */; };
+		BA2CAE081C3A4F6200044682 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CAE011C3A4F6200044682 /* FMResultSet.h */; };
+		BA2CAE091C3A4F6200044682 /* FMResultSet.h in Headers */ = {isa = PBXBuildFile; fileRef = BA2CAE011C3A4F6200044682 /* FMResultSet.h */; };
+		BA3E29221C1A66F0007B3754 /* CallStackInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3E291A1C1A66F0007B3754 /* CallStackInspector.h */; };
+		BA3E29231C1A66F0007B3754 /* CallStackInspector.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3E291A1C1A66F0007B3754 /* CallStackInspector.h */; };
+		BA3E29241C1A66F0007B3754 /* CallStackInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3E291B1C1A66F0007B3754 /* CallStackInspector.m */; };
+		BA3E29251C1A66F0007B3754 /* CallStackInspector.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3E291B1C1A66F0007B3754 /* CallStackInspector.m */; };
+		BA3E29261C1A66F0007B3754 /* FileMonTracer.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3E291C1C1A66F0007B3754 /* FileMonTracer.h */; };
+		BA3E29271C1A66F0007B3754 /* FileMonTracer.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3E291C1C1A66F0007B3754 /* FileMonTracer.h */; };
+		BA3E29281C1A66F0007B3754 /* FileMonTracer.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3E291D1C1A66F0007B3754 /* FileMonTracer.m */; };
+		BA3E29291C1A66F0007B3754 /* FileMonTracer.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3E291D1C1A66F0007B3754 /* FileMonTracer.m */; };
+		BA3E292A1C1A66F0007B3754 /* PlistObjectConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3E291E1C1A66F0007B3754 /* PlistObjectConverter.h */; };
+		BA3E292B1C1A66F0007B3754 /* PlistObjectConverter.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3E291E1C1A66F0007B3754 /* PlistObjectConverter.h */; };
+		BA3E292C1C1A66F0007B3754 /* PlistObjectConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3E291F1C1A66F0007B3754 /* PlistObjectConverter.m */; };
+		BA3E292D1C1A66F0007B3754 /* PlistObjectConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3E291F1C1A66F0007B3754 /* PlistObjectConverter.m */; };
+		BA3E292E1C1A66F0007B3754 /* SQLiteStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3E29201C1A66F0007B3754 /* SQLiteStorage.h */; };
+		BA3E292F1C1A66F0007B3754 /* SQLiteStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = BA3E29201C1A66F0007B3754 /* SQLiteStorage.h */; };
+		BA3E29301C1A66F0007B3754 /* SQLiteStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3E29211C1A66F0007B3754 /* SQLiteStorage.m */; };
+		BA3E29311C1A66F0007B3754 /* SQLiteStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3E29211C1A66F0007B3754 /* SQLiteStorage.m */; };
+		BA4D31961C3A3DFB00B13EB9 /* FMDB_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA4D31951C3A3DFB00B13EB9 /* FMDB_HOOK.m */; };
+		BA525E601C17F3EA0016A80B /* NSArray_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BA525E5F1C17F3EA0016A80B /* NSArray_Hook.m */; };
+		BA525E611C17F3EA0016A80B /* NSArray_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BA525E5F1C17F3EA0016A80B /* NSArray_Hook.m */; };
 		BA69FF441BB267C90067EE8E /* CommonCrypto.m in Sources */ = {isa = PBXBuildFile; fileRef = BA26B4AB1BB1021000F74A29 /* CommonCrypto.m */; };
 		BA69FF461BB2A9950067EE8E /* CC_HASH_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA69FF451BB2A9950067EE8E /* CC_HASH_HOOK.m */; };
 		BA69FF471BB2AECC0067EE8E /* CC_HASH_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA69FF451BB2A9950067EE8E /* CC_HASH_HOOK.m */; };
+		BA71F7CA1C16AFC900B2D18C /* NSFileHandle_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA71F7C91C16AFC900B2D18C /* NSFileHandle_HOOK.m */; };
+		BA71F7CB1C16AFC900B2D18C /* NSFileHandle_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA71F7C91C16AFC900B2D18C /* NSFileHandle_HOOK.m */; };
 		BA991AE81B6B1DEF005BB5FE /* Main.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734E1B60874F00B7D122 /* Main.mm */; };
 		BA991AE91B6B1DEF005BB5FE /* HookUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773571B60A02100B7D122 /* HookUtil.m */; };
 		BA991AEA1B6B1DEF005BB5FE /* NSData_Hook.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE7734A1B60874F00B7D122 /* NSData_Hook.m */; };
@@ -24,7 +57,6 @@
 		BA991AF21B6B1DEF005BB5FE /* FileMonitor-Prefix.pch in Sources */ = {isa = PBXBuildFile; fileRef = BAE7733C1B6083E400B7D122 /* FileMonitor-Prefix.pch */; };
 		BA991AF31B6B1DEF005BB5FE /* NSUserDefaults_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773531B60874F00B7D122 /* NSUserDefaults_HOOK.m */; };
 		BA991AF41B6B1DEF005BB5FE /* NSFileManagerDelegate_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD1861B65CC76009B3601 /* NSFileManagerDelegate_HOOK.m */; };
-		BA991AF61B6B1DEF005BB5FE /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAF84031B68A2550003AE96 /* libsqlite3.dylib */; };
 		BA991AF71B6B1DEF005BB5FE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736F1B60A1CE00B7D122 /* MobileCoreServices.framework */; };
 		BA991AF81B6B1DEF005BB5FE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736D1B60A1C900B7D122 /* SystemConfiguration.framework */; };
 		BA991AF91B6B1DEF005BB5FE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736B1B60A1BB00B7D122 /* Security.framework */; };
@@ -47,7 +79,6 @@
 		BA991B121B6B9C4B005BB5FE /* FileMonitor-Prefix.pch in Sources */ = {isa = PBXBuildFile; fileRef = BAE7733C1B6083E400B7D122 /* FileMonitor-Prefix.pch */; };
 		BA991B131B6B9C4B005BB5FE /* NSUserDefaults_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE773531B60874F00B7D122 /* NSUserDefaults_HOOK.m */; };
 		BA991B141B6B9C4B005BB5FE /* NSFileManagerDelegate_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BA2CD1861B65CC76009B3601 /* NSFileManagerDelegate_HOOK.m */; };
-		BA991B161B6B9C4B005BB5FE /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAF84031B68A2550003AE96 /* libsqlite3.dylib */; };
 		BA991B171B6B9C4B005BB5FE /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736F1B60A1CE00B7D122 /* MobileCoreServices.framework */; };
 		BA991B181B6B9C4B005BB5FE /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736D1B60A1C900B7D122 /* SystemConfiguration.framework */; };
 		BA991B191B6B9C4B005BB5FE /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAE7736B1B60A1BB00B7D122 /* Security.framework */; };
@@ -58,19 +89,51 @@
 		BA991B1F1B6B9C4B005BB5FE /* HookUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773561B60A02100B7D122 /* HookUtil.h */; };
 		BA991B201B6B9C4B005BB5FE /* Macro.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773581B60A02100B7D122 /* Macro.h */; };
 		BA991B211B6B9C4B005BB5FE /* NSUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = BAE773591B60A02100B7D122 /* NSUtil.h */; };
+		BAA39D4C1BF9E34B00167E14 /* NSJSONSerialization_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAA39D4B1BF9E34B00167E14 /* NSJSONSerialization_HOOK.m */; };
+		BAA39D4D1BF9EA2C00167E14 /* NSJSONSerialization_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAA39D4B1BF9E34B00167E14 /* NSJSONSerialization_HOOK.m */; };
+		BAA39D551BFA043E00167E14 /* JSONKit_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAA39D541BFA043E00167E14 /* JSONKit_HOOK.m */; };
+		BAA39D561BFA080000167E14 /* JSONKit_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAA39D541BFA043E00167E14 /* JSONKit_HOOK.m */; };
+		BAA39D601BFADCF600167E14 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BAA39D5E1BFADCF600167E14 /* JSONKit.h */; };
+		BAA39D631BFC494500167E14 /* JSONKit.h in Headers */ = {isa = PBXBuildFile; fileRef = BAA39D5E1BFADCF600167E14 /* JSONKit.h */; };
+		BAB6FE951C2959810028BC13 /* xxxxxAppDelegate_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB6FE941C2959810028BC13 /* xxxxxAppDelegate_HOOK.m */; };
+		BAB6FE961C2959810028BC13 /* xxxxxAppDelegate_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB6FE941C2959810028BC13 /* xxxxxAppDelegate_HOOK.m */; };
+		BAB6FE971C295A8E0028BC13 /* dlopen_dlsym_NSClassFromString_NSSelectorFromString.m in Sources */ = {isa = PBXBuildFile; fileRef = BA391F8D1BE3816D008F0297 /* dlopen_dlsym_NSClassFromString_NSSelectorFromString.m */; };
+		BABD83EB1C02B0CE0094DE3F /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = BABD83EA1C02B0CE0094DE3F /* JSONKit.m */; };
 		BAD55C7E1BD0E4A000D592E0 /* NSBundle_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD55C7D1BD0E4A000D592E0 /* NSBundle_HOOK.m */; };
 		BAD55C7F1BD0E5DF00D592E0 /* NSBundle_HOOK.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD55C7D1BD0E4A000D592E0 /* NSBundle_HOOK.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		BA0F42C21B6217E200D769C7 /* NSFileManager_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManager_HOOK.m; sourceTree = "<group>"; };
+		BA19B7201C21157C00FB7690 /* libsubstrate.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libsubstrate.dylib; sourceTree = "<group>"; };
+		BA19B7221C228FB600FB7690 /* IFHOOK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFHOOK.h; sourceTree = "<group>"; };
 		BA26B4AB1BB1021000F74A29 /* CommonCrypto.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommonCrypto.m; sourceTree = "<group>"; };
+		BA2CADFB1C3A4F3000044682 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		BA2CADFE1C3A4F6200044682 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		BA2CADFF1C3A4F6200044682 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
+		BA2CAE001C3A4F6200044682 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
+		BA2CAE011C3A4F6200044682 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		BA2CD1861B65CC76009B3601 /* NSFileManagerDelegate_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileManagerDelegate_HOOK.m; sourceTree = "<group>"; };
-		BA391F8D1BE3816D008F0297 /* dlopen_dlsym.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dlopen_dlsym.m; sourceTree = "<group>"; };
+		BA391F8D1BE3816D008F0297 /* dlopen_dlsym_NSClassFromString_NSSelectorFromString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dlopen_dlsym_NSClassFromString_NSSelectorFromString.m; sourceTree = "<group>"; };
+		BA3E291A1C1A66F0007B3754 /* CallStackInspector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallStackInspector.h; sourceTree = "<group>"; };
+		BA3E291B1C1A66F0007B3754 /* CallStackInspector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallStackInspector.m; sourceTree = "<group>"; };
+		BA3E291C1C1A66F0007B3754 /* FileMonTracer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileMonTracer.h; sourceTree = "<group>"; };
+		BA3E291D1C1A66F0007B3754 /* FileMonTracer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileMonTracer.m; sourceTree = "<group>"; };
+		BA3E291E1C1A66F0007B3754 /* PlistObjectConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlistObjectConverter.h; sourceTree = "<group>"; };
+		BA3E291F1C1A66F0007B3754 /* PlistObjectConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlistObjectConverter.m; sourceTree = "<group>"; };
+		BA3E29201C1A66F0007B3754 /* SQLiteStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SQLiteStorage.h; sourceTree = "<group>"; };
+		BA3E29211C1A66F0007B3754 /* SQLiteStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SQLiteStorage.m; sourceTree = "<group>"; };
+		BA4D31951C3A3DFB00B13EB9 /* FMDB_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDB_HOOK.m; path = Sources/FMDB_HOOK.m; sourceTree = "<group>"; };
+		BA525E5F1C17F3EA0016A80B /* NSArray_Hook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSArray_Hook.m; sourceTree = "<group>"; };
 		BA69FF451BB2A9950067EE8E /* CC_HASH_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CC_HASH_HOOK.m; sourceTree = "<group>"; };
+		BA71F7C91C16AFC900B2D18C /* NSFileHandle_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSFileHandle_HOOK.m; sourceTree = "<group>"; };
 		BA991B061B6B1DEF005BB5FE /* libFileMonitor8.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libFileMonitor8.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA991B261B6B9C4B005BB5FE /* libFileMonitor7.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libFileMonitor7.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
-		BAAF84031B68A2550003AE96 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		BAA39D4B1BF9E34B00167E14 /* NSJSONSerialization_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSJSONSerialization_HOOK.m; sourceTree = "<group>"; };
+		BAA39D541BFA043E00167E14 /* JSONKit_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit_HOOK.m; path = Sources/JSONKit_HOOK.m; sourceTree = "<group>"; };
+		BAA39D5E1BFADCF600167E14 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONKit.h; path = third_lib/JSONKittest/JSONKittest/JSONKit.h; sourceTree = "<group>"; };
+		BAB6FE941C2959810028BC13 /* xxxxxAppDelegate_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = xxxxxAppDelegate_HOOK.m; sourceTree = "<group>"; };
+		BABD83EA1C02B0CE0094DE3F /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONKit.m; path = third_lib/JSONKittest/JSONKittest/JSONKit.m; sourceTree = "<group>"; };
 		BAD55C7D1BD0E4A000D592E0 /* NSBundle_HOOK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBundle_HOOK.m; sourceTree = "<group>"; };
 		BAE773311B6083E400B7D122 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BAE773331B6083E400B7D122 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -103,7 +166,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA991AF61B6B1DEF005BB5FE /* libsqlite3.dylib in Frameworks */,
+				BA19B7211C21157C00FB7690 /* libsubstrate.dylib in Frameworks */,
 				BA991AF71B6B1DEF005BB5FE /* MobileCoreServices.framework in Frameworks */,
 				BA991AF81B6B1DEF005BB5FE /* SystemConfiguration.framework in Frameworks */,
 				BA991AF91B6B1DEF005BB5FE /* Security.framework in Frameworks */,
@@ -117,7 +180,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA991B161B6B9C4B005BB5FE /* libsqlite3.dylib in Frameworks */,
 				BA991B171B6B9C4B005BB5FE /* MobileCoreServices.framework in Frameworks */,
 				BA991B181B6B9C4B005BB5FE /* SystemConfiguration.framework in Frameworks */,
 				BA991B191B6B9C4B005BB5FE /* Security.framework in Frameworks */,
@@ -130,9 +192,58 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BA3E29191C1A66C7007B3754 /* Tracer */ = {
+			isa = PBXGroup;
+			children = (
+				BA3E291A1C1A66F0007B3754 /* CallStackInspector.h */,
+				BA3E291B1C1A66F0007B3754 /* CallStackInspector.m */,
+				BA3E291C1C1A66F0007B3754 /* FileMonTracer.h */,
+				BA3E291D1C1A66F0007B3754 /* FileMonTracer.m */,
+				BA3E291E1C1A66F0007B3754 /* PlistObjectConverter.h */,
+				BA3E291F1C1A66F0007B3754 /* PlistObjectConverter.m */,
+				BA3E29201C1A66F0007B3754 /* SQLiteStorage.h */,
+				BA3E29211C1A66F0007B3754 /* SQLiteStorage.m */,
+			);
+			name = Tracer;
+			sourceTree = "<group>";
+		};
+		BA4D31941C3A3D3700B13EB9 /* fmdb */ = {
+			isa = PBXGroup;
+			children = (
+				BA2CADFE1C3A4F6200044682 /* FMDatabaseAdditions.h */,
+				BA2CADFF1C3A4F6200044682 /* FMDatabasePool.h */,
+				BA2CAE001C3A4F6200044682 /* FMDatabaseQueue.h */,
+				BA2CAE011C3A4F6200044682 /* FMResultSet.h */,
+				BA2CADFB1C3A4F3000044682 /* FMDatabase.h */,
+				BA4D31951C3A3DFB00B13EB9 /* FMDB_HOOK.m */,
+			);
+			name = fmdb;
+			sourceTree = "<group>";
+		};
+		BAA39D4E1BFA03F600167E14 /* third_lib */ = {
+			isa = PBXGroup;
+			children = (
+				BA4D31941C3A3D3700B13EB9 /* fmdb */,
+				BAA39D4F1BFA040100167E14 /* JSONKit */,
+			);
+			name = third_lib;
+			sourceTree = "<group>";
+		};
+		BAA39D4F1BFA040100167E14 /* JSONKit */ = {
+			isa = PBXGroup;
+			children = (
+				BABD83EA1C02B0CE0094DE3F /* JSONKit.m */,
+				BAA39D5E1BFADCF600167E14 /* JSONKit.h */,
+				BAA39D541BFA043E00167E14 /* JSONKit_HOOK.m */,
+			);
+			name = JSONKit;
+			sourceTree = "<group>";
+		};
 		BAE773241B6083E400B7D122 = {
 			isa = PBXGroup;
 			children = (
+				BA3E29191C1A66C7007B3754 /* Tracer */,
+				BAA39D4E1BFA03F600167E14 /* third_lib */,
 				BAE773551B60A02100B7D122 /* Utilities */,
 				BAE773491B60874F00B7D122 /* Sources */,
 				BAE773351B6083E400B7D122 /* FileMonitor */,
@@ -153,7 +264,7 @@
 		BAE773301B6083E400B7D122 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BAAF84031B68A2550003AE96 /* libsqlite3.dylib */,
+				BA19B7201C21157C00FB7690 /* libsubstrate.dylib */,
 				BAE7736F1B60A1CE00B7D122 /* MobileCoreServices.framework */,
 				BAE7736D1B60A1C900B7D122 /* SystemConfiguration.framework */,
 				BAE7736B1B60A1BB00B7D122 /* Security.framework */,
@@ -218,9 +329,13 @@
 		BAE773491B60874F00B7D122 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				BA19B7221C228FB600FB7690 /* IFHOOK.h */,
 				BAE773571B60A02100B7D122 /* HookUtil.m */,
+				BA71F7C91C16AFC900B2D18C /* NSFileHandle_HOOK.m */,
 				BAE7734A1B60874F00B7D122 /* NSData_Hook.m */,
+				BA525E5F1C17F3EA0016A80B /* NSArray_Hook.m */,
 				BAE7734B1B60874F00B7D122 /* NSDictionary_Hook.m */,
+				BAA39D4B1BF9E34B00167E14 /* NSJSONSerialization_HOOK.m */,
 				BAE7734C1B60874F00B7D122 /* NSString_Hook.m */,
 				BAD55C7D1BD0E4A000D592E0 /* NSBundle_HOOK.m */,
 				BA0F42C21B6217E200D769C7 /* NSFileManager_HOOK.m */,
@@ -230,7 +345,8 @@
 				BAE773521B60874F00B7D122 /* sqlite3_HOOK.m */,
 				BAE773531B60874F00B7D122 /* NSUserDefaults_HOOK.m */,
 				BA69FF451BB2A9950067EE8E /* CC_HASH_HOOK.m */,
-				BA391F8D1BE3816D008F0297 /* dlopen_dlsym.m */,
+				BAB6FE941C2959810028BC13 /* xxxxxAppDelegate_HOOK.m */,
+				BA391F8D1BE3816D008F0297 /* dlopen_dlsym_NSClassFromString_NSSelectorFromString.m */,
 				BA26B4AB1BB1021000F74A29 /* CommonCrypto.m */,
 				BAE7734E1B60874F00B7D122 /* Main.mm */,
 				BAE773501B60874F00B7D122 /* MyAdditions.m */,
@@ -256,10 +372,21 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA19B7231C228FB600FB7690 /* IFHOOK.h in Headers */,
+				BA3E29261C1A66F0007B3754 /* FileMonTracer.h in Headers */,
+				BA2CAE021C3A4F6200044682 /* FMDatabaseAdditions.h in Headers */,
+				BA3E292E1C1A66F0007B3754 /* SQLiteStorage.h in Headers */,
 				BA991AFE1B6B1DEF005BB5FE /* MyAdditions.h in Headers */,
-				BA991AFF1B6B1DEF005BB5FE /* HookUtil.h in Headers */,
 				BA991B001B6B1DEF005BB5FE /* Macro.h in Headers */,
+				BA2CAE061C3A4F6200044682 /* FMDatabaseQueue.h in Headers */,
+				BA3E29221C1A66F0007B3754 /* CallStackInspector.h in Headers */,
+				BA2CADFC1C3A4F3000044682 /* FMDatabase.h in Headers */,
+				BA2CAE081C3A4F6200044682 /* FMResultSet.h in Headers */,
+				BA2CAE041C3A4F6200044682 /* FMDatabasePool.h in Headers */,
 				BA991B011B6B1DEF005BB5FE /* NSUtil.h in Headers */,
+				BAA39D601BFADCF600167E14 /* JSONKit.h in Headers */,
+				BA3E292A1C1A66F0007B3754 /* PlistObjectConverter.h in Headers */,
+				BA991AFF1B6B1DEF005BB5FE /* HookUtil.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,10 +394,21 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA19B7241C228FB600FB7690 /* IFHOOK.h in Headers */,
+				BA3E29271C1A66F0007B3754 /* FileMonTracer.h in Headers */,
+				BA2CAE031C3A4F6200044682 /* FMDatabaseAdditions.h in Headers */,
+				BA3E292F1C1A66F0007B3754 /* SQLiteStorage.h in Headers */,
+				BAA39D631BFC494500167E14 /* JSONKit.h in Headers */,
 				BA991B1E1B6B9C4B005BB5FE /* MyAdditions.h in Headers */,
+				BA2CAE071C3A4F6200044682 /* FMDatabaseQueue.h in Headers */,
 				BA991B1F1B6B9C4B005BB5FE /* HookUtil.h in Headers */,
+				BA2CADFD1C3A4F3000044682 /* FMDatabase.h in Headers */,
+				BA2CAE091C3A4F6200044682 /* FMResultSet.h in Headers */,
+				BA2CAE051C3A4F6200044682 /* FMDatabasePool.h in Headers */,
+				BA3E29231C1A66F0007B3754 /* CallStackInspector.h in Headers */,
 				BA991B201B6B9C4B005BB5FE /* Macro.h in Headers */,
 				BA991B211B6B9C4B005BB5FE /* NSUtil.h in Headers */,
+				BA3E292B1C1A66F0007B3754 /* PlistObjectConverter.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,19 +511,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA991AE81B6B1DEF005BB5FE /* Main.mm in Sources */,
+				BAB6FE971C295A8E0028BC13 /* dlopen_dlsym_NSClassFromString_NSSelectorFromString.m in Sources */,
 				BA991AE91B6B1DEF005BB5FE /* HookUtil.m in Sources */,
+				BA991AE81B6B1DEF005BB5FE /* Main.mm in Sources */,
+				BA3E29301C1A66F0007B3754 /* SQLiteStorage.m in Sources */,
+				BA4D31961C3A3DFB00B13EB9 /* FMDB_HOOK.m in Sources */,
+				BA3E29241C1A66F0007B3754 /* CallStackInspector.m in Sources */,
+				BA525E601C17F3EA0016A80B /* NSArray_Hook.m in Sources */,
+				BABD83EB1C02B0CE0094DE3F /* JSONKit.m in Sources */,
+				BAA39D551BFA043E00167E14 /* JSONKit_HOOK.m in Sources */,
+				BA71F7CA1C16AFC900B2D18C /* NSFileHandle_HOOK.m in Sources */,
 				BA991AEA1B6B1DEF005BB5FE /* NSData_Hook.m in Sources */,
-				BA391F8E1BE3816D008F0297 /* dlopen_dlsym.m in Sources */,
 				BA991AEB1B6B1DEF005BB5FE /* NSDictionary_Hook.m in Sources */,
+				BA3E292C1C1A66F0007B3754 /* PlistObjectConverter.m in Sources */,
 				BA991AEC1B6B1DEF005BB5FE /* NSString_Hook.m in Sources */,
 				BA991AED1B6B1DEF005BB5FE /* MyAdditions.m in Sources */,
 				BAD55C7E1BD0E4A000D592E0 /* NSBundle_HOOK.m in Sources */,
 				BA991AEE1B6B1DEF005BB5FE /* Keychain_HOOK.m in Sources */,
 				BA991AEF1B6B1DEF005BB5FE /* sqlite3_HOOK.m in Sources */,
 				BA991AF01B6B1DEF005BB5FE /* NSFileManager_HOOK.m in Sources */,
+				BAA39D4C1BF9E34B00167E14 /* NSJSONSerialization_HOOK.m in Sources */,
+				BA3E29281C1A66F0007B3754 /* FileMonTracer.m in Sources */,
 				BA69FF461BB2A9950067EE8E /* CC_HASH_HOOK.m in Sources */,
 				BA991AF21B6B1DEF005BB5FE /* FileMonitor-Prefix.pch in Sources */,
+				BAB6FE951C2959810028BC13 /* xxxxxAppDelegate_HOOK.m in Sources */,
 				BA26B4AC1BB1021000F74A29 /* CommonCrypto.m in Sources */,
 				BA991AF31B6B1DEF005BB5FE /* NSUserDefaults_HOOK.m in Sources */,
 				BA991AF41B6B1DEF005BB5FE /* NSFileManagerDelegate_HOOK.m in Sources */,
@@ -396,20 +545,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA991B091B6B9C4B005BB5FE /* Main.mm in Sources */,
 				BAD55C7F1BD0E5DF00D592E0 /* NSBundle_HOOK.m in Sources */,
 				BA69FF471BB2AECC0067EE8E /* CC_HASH_HOOK.m in Sources */,
+				BA71F7CB1C16AFC900B2D18C /* NSFileHandle_HOOK.m in Sources */,
 				BA69FF441BB267C90067EE8E /* CommonCrypto.m in Sources */,
-				BA991B091B6B9C4B005BB5FE /* Main.mm in Sources */,
+				BA525E611C17F3EA0016A80B /* NSArray_Hook.m in Sources */,
+				BA3E292D1C1A66F0007B3754 /* PlistObjectConverter.m in Sources */,
 				BA991B0A1B6B9C4B005BB5FE /* HookUtil.m in Sources */,
-				BA991B0B1B6B9C4B005BB5FE /* NSData_Hook.m in Sources */,
+				BAA39D561BFA080000167E14 /* JSONKit_HOOK.m in Sources */,
+				BA3E29251C1A66F0007B3754 /* CallStackInspector.m in Sources */,
 				BA991B0C1B6B9C4B005BB5FE /* NSDictionary_Hook.m in Sources */,
+				BA3E29291C1A66F0007B3754 /* FileMonTracer.m in Sources */,
 				BA991B0D1B6B9C4B005BB5FE /* NSString_Hook.m in Sources */,
 				BA991B0E1B6B9C4B005BB5FE /* MyAdditions.m in Sources */,
+				BAB6FE961C2959810028BC13 /* xxxxxAppDelegate_HOOK.m in Sources */,
+				BA991B0B1B6B9C4B005BB5FE /* NSData_Hook.m in Sources */,
 				BA991B0F1B6B9C4B005BB5FE /* Keychain_HOOK.m in Sources */,
+				BAA39D4D1BF9EA2C00167E14 /* NSJSONSerialization_HOOK.m in Sources */,
 				BA991B101B6B9C4B005BB5FE /* sqlite3_HOOK.m in Sources */,
 				BA991B111B6B9C4B005BB5FE /* NSFileManager_HOOK.m in Sources */,
 				BA991B121B6B9C4B005BB5FE /* FileMonitor-Prefix.pch in Sources */,
 				BA991B131B6B9C4B005BB5FE /* NSUserDefaults_HOOK.m in Sources */,
+				BA3E29311C1A66F0007B3754 /* SQLiteStorage.m in Sources */,
 				BA991B141B6B9C4B005BB5FE /* NSFileManagerDelegate_HOOK.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,11 +584,13 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FileMonitor/FileMonitor-Prefix.pch";
+				INIT_ROUTINE = _main;
 				INSTALL_PATH = /usr/lib;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = FileMonitor8;
@@ -457,11 +617,13 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FileMonitor/FileMonitor-Prefix.pch";
+				INIT_ROUTINE = _main;
 				INSTALL_PATH = /usr/lib;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/system",
+					"$(PROJECT_DIR)",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = FileMonitor8;
@@ -488,6 +650,7 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FileMonitor/FileMonitor-Prefix.pch";
+				INIT_ROUTINE = _main;
 				INSTALL_PATH = /usr/lib;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = "";
@@ -515,6 +678,7 @@
 				EXECUTABLE_PREFIX = lib;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FileMonitor/FileMonitor-Prefix.pch";
+				INIT_ROUTINE = _main;
 				INSTALL_PATH = /usr/lib;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				OTHER_LDFLAGS = "";

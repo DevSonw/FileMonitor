@@ -1,0 +1,24 @@
+#!/bin/bash
+
+chmod 777 "/var/root/tmp"
+chmod 777 "/Library/MobileSubstrate/DynamicLibraries/"
+chown root:wheel "/Library/MobileSubstrate/DynamicLibraries/"
+
+cd "/Applications/FileMonitor.app/"
+
+# process origin binary
+mv FileMonitor FileMonitor_
+chown root.wheel FileMonitor_
+chmod +s         FileMonitor_
+
+cont=`cat <<"EOF"
+#!/bin/bash
+dir=$(dirname "$0")
+exec "${dir}"/FileMonitor_ "$@"
+EOF
+`
+# create new fake binary
+echo -e "$cont" > FileMonitor
+chown root.wheel  FileMonitor
+chmod +x          FileMonitor
+su mobile -c uicache

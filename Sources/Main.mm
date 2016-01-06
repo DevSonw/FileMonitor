@@ -1,28 +1,324 @@
 
-//
 #import <vector>
 #import <algorithm>
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
+#import "SQLiteStorage.h"
+
+//#define NSLog(...)
+
+//目录
+#define GLobalFileMonitorPath @"%@uiautomation/%@_%@.filemon",NSTemporaryDirectory(),NSProcessInfo.processInfo.processName,GET_TIME_APPVERSION()
+
+#define GET_TIME_APPVERSION() [NSString stringWithFormat:@"%@__%@_%@",[SQLiteStorage getBackgroundRealDateString],\
+[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],\
+[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]
+
+NSString *FileMonitorPath = [NSString stringWithFormat:GLobalFileMonitorPath];
+
+#define GLobalFileMonitorPath @"%@PrivateAPI/%@_%@.privateapi",NSTemporaryDirectory(),NSProcessInfo.processInfo.processName,GET_TIME_APPVERSION()
+
+NSString *PrivateAPIPath = [NSString stringWithFormat:GLobalFileMonitorPath];
+
+
+
+
+//排除私有API调用函数的数据用的。
+int PrivateAPIindexdlopen = 0;
+NSMutableArray *dlopen_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexdlsym = 0;
+NSMutableArray *dlsym_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_getClass = 0;
+NSMutableArray *objc_getClass_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_NSClassFromString = 0;
+NSMutableArray *NSClassFromString_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_NSSelectorFromString = 0;
+NSMutableArray *NSSelectorFromString_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+
+//noninstance:
+int PrivateAPIindexobjc_noninstance_performSelector_ = 0;
+NSMutableArray *noninstance_performSelector_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_noninstance_performSelector_withObject_ = 0;
+NSMutableArray *noninstance_performSelector_withObject_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_noninstance_performSelector_withObject_withObject_ = 0;
+NSMutableArray *noninstance_performSelector_withObject_withObject_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+
+//instance:
+        //protocol
+int PrivateAPIindexobjc_performSelector_ = 0;
+NSMutableArray *performSelector_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_performSelector_withObject_ = 0;
+NSMutableArray *performSelector_withObject_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_performSelector_withObject_withObject_ = 0;
+NSMutableArray *performSelector_withObject_withObject_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+        //normal
+int PrivateAPIindexobjc_performSelector_withObject_afterDelay_ = 0;
+NSMutableArray *performSelector_withObject_afterDelay_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_performSelector_withObject_afterDelay_inModes_ = 0;
+NSMutableArray *performSelector_withObject_afterDelay_inModes_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_performSelectorOnMainThread_withObject_waitUntilDone_ = 0;
+NSMutableArray *performSelectorOnMainThread_withObject_waitUntilDone_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_performSelectorOnMainThread_withObject_waitUntilDone_modes_ = 0;
+NSMutableArray *performSelectorOnMainThread_withObject_waitUntilDone_modes_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_performSelector_onThread_withObject_waitUntilDone_ = 0;
+NSMutableArray *performSelector_onThread_withObject_waitUntilDone_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_performSelector_onThread_withObject_waitUntilDone_modes_ = 0;
+NSMutableArray *performSelector_onThread_withObject_waitUntilDone_modes_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+int PrivateAPIindexobjc_performSelectorInBackground_withObject_ = 0;
+NSMutableArray *performSelectorInBackground_withObject_excludeArray = [NSMutableArray arrayWithCapacity:10];
+
+
+//排除所有的文件名的操作的过滤   正则表达式
+//has pathExtension-> lowercaseString
+//NSPredicate
+//NSString *string = @"asdasdasdasd.png.exe";
+//NSString *pathexten = [string pathExtension];
+NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(png|bmp|jpg|tiff|gif|pcx|tga|exif|fpx|svg|psd|cdr|pcd|dxf|ufo|eps|ai|raw|mp3|mp4|avi|3gp|rmvb|wmv|mkv|mpg|vob|mov|flv)" options:0 error:nil];
+
+//NSArray *checkingResults  = [regex matchesInString:pathexten options:0 range:NSMakeRange(0, [pathexten length])];
+//for (NSTextCheckingResult *match in checkingResults)
+//{
+//    NSLog(@"%@",[pathexten substringWithRange:match.range]);
+//}
+
+
+
+BOOL SQLITERECORD = 0; //1 数据库记录 0 xml记录
+
 //可选项
 //#define PRINT_FILTERINFO //自动过滤多余的信息 如 加载nib等
+#define PRINT_REPEAT_INFO //自动过滤重复的信息
 #define PRINT_PATH_MODE  //动态观看日志信息
 //#define DEBUG_MODE
 
-#define PRINT_DATA(mode,funcname,pathordata) NSLog(@"---FileMonitor---%@ : %@ : %@",mode,funcname,pathordata);
+//#define WRITE_TO_FILE //查看写文件成功
+
+SQLiteStorage *traceStorage;
+NSString *objectTypeNotSupported = @"FileMon - Not supported";
+
+
+int PRINT_GLOBAL_COUNT = 0;
+int WRITE_GLOBAL_COUNT = 0; //写的次数
+
+NSMutableArray *HASHarray =   [[NSMutableArray alloc]init];
+NSMutableArray *logfilesarray=[[NSMutableArray alloc]init];
+
+#define PRINT_DATA(mode,funcname,pathordata) {PRINT_GLOBAL_COUNT++;NSLog(@"%-5d---FileMonitor---%@ : %@ : %@",PRINT_GLOBAL_COUNT,mode,funcname,pathordata);}
+
+
+#define ____________________________________________________________________________________________________NSArray
+void LogNSArrayWrite(NSString *funcName,id data,NSString *path, void *returnAddress)
+{
+    @try {
+#ifdef DEBUG_MODE
+        NSLog(@"data = %@",data);
+        NSLog(@"path = %@",path);
+#endif
+        if (data == nil) {
+#ifdef PRINT_PATH_MODE
+            PRINT_DATA(@"Write data=nil",path,[@"NSArray_" stringByAppendingString:funcName])
+#endif
+            return;
+        }
+        static NSString *_logDir = nil;
+        static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0;
+        
+        if (_logDir == nil)
+        {
+            _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
+            BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
+            
+            if (!isDirExist) {
+                [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+        }
+        
+        //NSString *tmpPath = [[path description] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+        NSString *filepath = nil;
+        
+        if ([funcName isEqualToString:@"arrayWithContentsOfURL_"]) {
+            filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index++];
+        }
+        else if([funcName isEqualToString:@"arrayWithContentsOfFile_"])
+        {
+            filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index2++];
+        }
+        else if([funcName isEqualToString:@"writeToURL_atomically_"])
+        {
+            filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index4++];
+        }
+        else if([funcName isEqualToString:@"writeToFile_atomically_"])
+        {
+            filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index5++];
+        }
+        else
+            return;
+        
+#ifdef DEBUG_MODE
+        NSLog(@"filepath=%@",filepath);
+        NSLog(@"[[data description] class] = %@",[[data description] class]);
+        NSLog(@"data = %@",data);
+#endif
+        
+#ifdef PRINT_PATH_MODE
+        PRINT_DATA(@"Write",path,[@"NSArray_" stringByAppendingString:funcName])
+#endif
+        
+        NSDictionary *dic0 = [NSDictionary dictionaryWithObject:data forKey:path];
+        NSString *funcName2 = [NSString stringWithFormat:@"NSData_%@",funcName];
+        
+        NSDictionary *dic = [NSDictionary dictionaryWithObject:dic0 forKey:funcName2];
+        
+        //    FILE *fp;
+        //    fp=fopen([filepath UTF8String], "w");
+        //    if ([dic description]) {
+        //        fprintf(fp, "%s",[[dic description] UTF8String]);
+        //    }
+        //    fclose(fp);
+        
+        if (filepath) {
+            BOOL flag = [dic writeToFile:filepath
+                              atomically:YES];
+#ifdef WRITE_TO_FILE
+            NSLog(@"1flag = %d",flag);
+#endif
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"LogNSArrayWrite exception reason=%@",exception.reason);
+    }
+    @finally {
+        return;
+    }
+
+}
+
+#define ____________________________________________________________________________________________________NSFileHandle NSData printable
+void LogNSFileHandle(NSString * funcName,id data, void *returnAddress)
+{
+    PRINT_DATA(@"filehandle",funcName,data);
+}
+
+
+#define ____________________________________________________________________________________________________json
+void LogNSJSONSerialization(NSString * funcName,id source,id dest, void *returnAddress)
+{
+    NSString *filepath;
+    static NSString *_logDir = nil;
+    static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0;
+    
+    if (_logDir == nil)
+    {
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
+        BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
+        
+        if (!isDirExist) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+    }
+    
+//    NSLog(@"source = %@  dest = %@",[source class],[dest class]);
+//    NSData * data = [NSKeyedArchiver archivedDataWithRootObject:dest];
+//    id data = [NSKeyedUnarchiver unarchiveObjectWithData:dest];
+//    NSData *data = [NSData dataWithBytes:[dest bytes] length:[dest length]];
+
+//    NSString * strdata = [[NSString alloc] initWithData:dest encoding:NSUTF8StringEncoding];
+    
+    NSString *source2 = [NSString stringWithFormat:@"%@",source];
+    NSDictionary *dicData = [NSDictionary dictionaryWithObject:dest forKey:source2];
+    
+//    NSMutableDictionary *tmp = [NSMutableDictionary dictionaryWithObject:@"1" forKey:@"2"];
+//    if ([source isKindOfClass:[tmp class]]) {
+//        NSDictionary *source2 = [[NSDictionary alloc] initWithDictionary:source];
+//        NSDictionary *dic = [NSDictionary dictionaryWithObject:@"123" forKey:@"456"];
+//        dicData = [NSDictionary dictionaryWithObject:dest forKey:dic];
+//        NSLog(@"source2 = %@",[source2 class]);
+//    }
+//    else
+//    {
+//        dicData = [NSDictionary dictionaryWithObject:dest forKey:source];
+//        NSLog(@"source = %@",[source class]);
+//    }
+
+    if (dicData == nil) {
+        return;
+    }
+    if ([funcName isEqualToString:@"JSONObjectWithData_options_error_"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index++];
+    }
+    else if([funcName isEqualToString:@"dataWithJSONObject_options_error_"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index2++];
+    }
+    else if([funcName isEqualToString:@"JSONLit_objectFromJSONStringWithParseOptions_error_"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index3++];
+    }
+    else if([funcName isEqualToString:@"JSONLit_objectFromJSONDataWithParseOptions_error_"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index4++];
+    }
+    else{
+        NSLog(@"error~~~  %@",funcName);
+        return;
+    }
+    
+#ifdef PRINT_PATH_MODE
+    PRINT_DATA(funcName,@"read_the_log_file",filepath)
+#endif
+    
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dicData forKey:funcName];
+    
+    
+    @synchronized(filepath)
+    {
+        BOOL flag = [dic writeToFile:filepath
+                          atomically:YES];
+#ifdef WRITE_TO_FILE
+        NSLog(@"2flag = %d",flag);
+#endif
+    }
+//        raise( SIGINT );
+}
+
 
 
 #define ____________________________________________________________________________________________________md5
-
 void LogHash(NSString * funcName,NSString *source,NSString *dest, void *returnAddress)
 {
+#ifdef PRINT_REPEAT_INFO
+    @synchronized(HASHarray)
+    {
+    for (NSString *item in HASHarray){
+        if ([item isEqualToString:source])
+        {
+            return;
+        }
+    }
+    [HASHarray addObject:source];
+    }
+#endif
     NSString *filepath;
     static NSString *_logDir = nil;
     static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0,s_index6 = 0;
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -31,32 +327,38 @@ void LogHash(NSString * funcName,NSString *source,NSString *dest, void *returnAd
     }
 
     NSDictionary *dicData = [NSDictionary dictionaryWithObject:dest forKey:source];
-#ifdef PRINT_PATH_MODE
-    PRINT_DATA(funcName,source,dest)
-#endif
-    
+
     if (dicData == nil) {
         return;
     }
     if ([funcName isEqualToString:@"CC_MD5"]) {
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index++];
     }
     else if([funcName isEqualToString:@"CC_SHA1"]) {
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index2++];
     }
     else{
         NSLog(@"error~~~  %@",funcName);
         return;
     }
     
+#ifdef PRINT_PATH_MODE
+    PRINT_DATA(funcName,dicData,filepath)
+#endif
+    
+    
     NSDictionary *dic = [NSDictionary dictionaryWithObject:dicData forKey:funcName];
-    [dic writeToFile:filepath  atomically:YES];
+    BOOL flag = [dic writeToFile:filepath
+                      atomically:YES];
+#ifdef WRITE_TO_FILE
+    NSLog(@"3flag = %d",flag);
+#endif
 }
 
 
 
 #define ____________________________________________________________________________________________________base64
-void LogBase64(NSString * funcName,NSData *data1,id data2, void *returnAddress)
+void LogBase64(NSString * funcName,NSString *data1,id data2, void *returnAddress)
 {
     NSString *filepath;
     static NSString *_logDir = nil;
@@ -64,7 +366,7 @@ void LogBase64(NSString * funcName,NSData *data1,id data2, void *returnAddress)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -76,27 +378,28 @@ void LogBase64(NSString * funcName,NSData *data1,id data2, void *returnAddress)
 #ifdef PRINT_PATH_MODE
     PRINT_DATA(@"Base64",funcName,dicData)
 #endif
-    
+   
     if (dicData == nil) {
         return;
     }
+    
     if ([funcName isEqualToString:@"base64Encoding"]) {
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index++];
     }
     else if ([funcName isEqualToString:@"base64EncodedDataWithOptions_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index2++];
     }
     else if ([funcName isEqualToString:@"base64EncodedStringWithOptions_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index3++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index3++];
     }//
     else if ([funcName isEqualToString:@"initWithBase64EncodedData_options_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index4++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index4++];
     }
     else if ([funcName isEqualToString:@"initWithBase64EncodedString_options_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index5++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index5++];
     }
     else if ([funcName isEqualToString:@"initWithBase64Encoding_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index6++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index6++];
     }
     else{
         NSLog(@"error~~~ LogBase64");
@@ -104,11 +407,113 @@ void LogBase64(NSString * funcName,NSData *data1,id data2, void *returnAddress)
     }
     
     NSDictionary *dic = [NSDictionary dictionaryWithObject:dicData forKey:funcName];
-    [dic writeToFile:filepath  atomically:YES];
+    BOOL flag = [dic writeToFile:filepath
+                      atomically:YES];
+#ifdef WRITE_TO_FILE
+    NSLog(@"4flag = %d",flag);
+#endif
 }
 
+
+
 #define ____________________________________________________________________________________________________CommonCrypto
-void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptions options, const void *key, const void *dataIn, size_t dataInLength, void *dataOut, size_t dataOutAvailable, size_t *dataOutMoved, void *returnAddress)
+
+void LogCommonCyptoCCHmac(NSString * funcName,CCHmacAlgorithm algorithm,NSString* NS_key,NSString* NS_data,NSString* NS_result,void *returnAddress)
+{
+    NSString *filepath;
+    static NSString *_logDir = nil;
+    static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0,s_index6 = 0,s_index7 = 0,s_index8 = 0,s_index9 = 0,s_index10 = 0,s_index11 = 0;
+    
+    if (_logDir == nil)
+    {
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
+        BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
+        
+        if (!isDirExist) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+    }
+
+    /*
+     kCCHmacAlgSHA1,
+     kCCHmacAlgMD5,
+     kCCHmacAlgSHA256,
+     kCCHmacAlgSHA384,
+     kCCHmacAlgSHA512,
+     kCCHmacAlgSHA224
+     */
+    NSString * Cypto_alg = nil;
+    switch (algorithm) {
+        case 0:
+            Cypto_alg = @"kCCHmacAlgSHA1";
+            break;
+        case 1:
+            Cypto_alg = @"kCCHmacAlgMD5";
+            break;
+        case 2:
+            Cypto_alg = @"kCCHmacAlgSHA256";
+            break;
+        case 3:
+            Cypto_alg = @"kCCHmacAlgSHA384";
+            break;
+        case 4:
+            Cypto_alg = @"kCCHmacAlgSHA512";
+            break;
+        case 5:
+            Cypto_alg = @"kCCHmacAlgSHA224";
+            break;
+        case 6:
+            Cypto_alg = @"kCCHmacAlgNotKnow";
+            break;
+        default:
+#ifdef PRINT_PATH_MODE
+            PRINT_DATA(@"CCHmac",funcName,@"alg_error~");
+#endif
+            return;
+            break;
+    }
+    
+    NSArray *arryData =     [NSArray arrayWithObjects:Cypto_alg,     NS_key,      NS_data      , NS_result      ,nil];
+    NSArray *arryDataKeys = [NSArray arrayWithObjects:@"CCHmac_alg",@"NS_key",@"NS_data",@"NS_result",nil];
+    
+    NSDictionary *dicData = [NSDictionary dictionaryWithObjects:arryData forKeys:arryDataKeys];
+    
+    
+#ifdef PRINT_PATH_MODE
+    PRINT_DATA(@"CCHmac",funcName,dicData)
+#endif
+    
+    if (dicData == nil) {
+        return;
+    }
+    if ([funcName isEqualToString:@"CCHmac"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index++];
+    }
+    else if ([funcName isEqualToString:@"CCHmacInit"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index2++];
+    }
+    else if ([funcName isEqualToString:@"CCHmacUpdate"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index3++];
+    }
+    else if ([funcName isEqualToString:@"CCHmacFinal"]) {
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index4++];
+    }
+    else{
+        NSLog(@"funcName~~~");
+        return;
+    }
+    
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dicData forKey:funcName];
+    
+    BOOL flag = [dic writeToFile:filepath
+                      atomically:YES];
+#ifdef WRITE_TO_FILE
+    NSLog(@"5flag = %d",flag);
+#endif
+}
+
+
+void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptions options, const void *key, const void *iv, const void *dataIn, size_t dataInLength, void *dataOut, size_t dataOutAvailable, size_t *dataOutMoved, void *returnAddress)
 {
     //1 kCCEncrypt
     //2 kCCAlgorithmAES128
@@ -125,7 +530,7 @@ void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptio
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -214,12 +619,14 @@ void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptio
             break;
     }
     NSString *Cypto_key = [NSString stringWithFormat:@"%s",key];
+    NSString *Cypto_iv = [NSString stringWithFormat:@"%s",iv];
+    
     NSData *Cypto_dataIn = [NSData dataWithBytes:dataIn length:dataInLength];
     NSData *Cypto_dataOut = [NSData dataWithBytes:dataOut length:dataOutAvailable];
     NSNumber *Cypto_Moved = [NSNumber numberWithInt:*dataOutMoved];
     //NSString *data = [NSString stringWithFormat:@"%@_%@_%@_%@_%@_%@_%@",Cypto_op,Cypto_alg,Cypto_options,Cypto_key,Cypto_dataIn,Cypto_dataOut,Cypto_Moved];
-    NSArray *arryData = [NSArray arrayWithObjects:Cypto_op,              Cypto_alg,      Cypto_options,   Cypto_key,   Cypto_dataIn,     Cypto_dataOut,   Cypto_Moved, nil];
-    NSArray *arryDataKeys = [NSArray arrayWithObjects:@"Encrypt_or_Decrypt",@"Cypto_alg",@"Cypto_options",@"Cypto_key",@"Cypto_dataIn",@"Cypto_dataOut",@"Cypto_Moved",nil];
+    NSArray *arryData = [NSArray arrayWithObjects:Cypto_op,              Cypto_alg,      Cypto_options,   Cypto_key,Cypto_iv,   Cypto_dataIn,     Cypto_dataOut,   Cypto_Moved, nil];
+    NSArray *arryDataKeys = [NSArray arrayWithObjects:@"Encrypt_or_Decrypt",@"Cypto_alg",@"Cypto_options",@"Cypto_key",@"Cypto_iv",@"Cypto_dataIn",@"Cypto_dataOut",@"Cypto_Moved",nil];
     
     NSDictionary *dicData = [NSDictionary dictionaryWithObjects:arryData forKeys:arryDataKeys];
     
@@ -232,7 +639,7 @@ void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptio
         return;
     }
     if ([funcName isEqualToString:@"CCCrypt"]) {
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index++];
     }
     else{
         NSLog(@"funcName~~~");
@@ -250,12 +657,15 @@ void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptio
     //
     //
     //    fclose(fp);
-    [dic writeToFile:filepath  atomically:YES];
+    BOOL flag = [dic writeToFile:filepath
+                      atomically:YES];
+#ifdef WRITE_TO_FILE
+    NSLog(@"5flag = %d",flag);
+#endif
 }
 
 
 #define ____________________________________________________________________________________________________NSUserDefaults
-
 void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress)
 {
     NSString *filepath;
@@ -265,7 +675,7 @@ void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -275,7 +685,7 @@ void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress)
     
     if (data == nil) {
 #ifdef PRINT_PATH_MODE
-        PRINT_DATA(@"NSUserDefaults",funcName,@"")
+        PRINT_DATA(@"NSUserDefaults data = nil",funcName,@"")
 #endif
         return;
     }
@@ -290,88 +700,88 @@ void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress)
         }
     }
     if ([funcName isEqualToString:@"dataForKey_"]) {
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index++];
     }
     else if ([funcName isEqualToString:@"arrayForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index2++];
     }
     else if ([funcName isEqualToString:@"boolForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index3++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index3++];
     }
     else if ([funcName isEqualToString:@"dictionaryForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index4++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index4++];
     }
     else if ([funcName isEqualToString:@"floatForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index5++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index5++];
     }
     else if ([funcName isEqualToString:@"integerForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index6++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index6++];
     }
     else if ([funcName isEqualToString:@"objectForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index7++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index7++];
     }
     else if ([funcName isEqualToString:@"stringArrayForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index8++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index8++];
     }
     else if ([funcName isEqualToString:@"stringForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index9++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index9++];
     }
     else if ([funcName isEqualToString:@"doubleForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index10++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index10++];
     }
     else if ([funcName isEqualToString:@"URLForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index11++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index11++];
     }
     else if ([funcName isEqualToString:@"setBool_forKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index12++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index12++];
     }
     else if ([funcName isEqualToString:@"setFloat_forKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index13++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index13++];
     }
     else if ([funcName isEqualToString:@"setInteger_forKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index14++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index14++];
     }
     else if ([funcName isEqualToString:@"setObject_forKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index15++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index15++];
     }
     else if ([funcName isEqualToString:@"setDouble_forKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index16++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index16++];
     }
     else if ([funcName isEqualToString:@"setURL_forKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index17++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index17++];
     }
     else if ([funcName isEqualToString:@"removeObjectForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index18++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index18++];
     }
     else if ([funcName isEqualToString:@"persistentDomainForName_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index20++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index20++];
     }
-    else if ([funcName isEqualToString:@"persistentDomainNames_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index21++];
-    }
+//    else if ([funcName isEqualToString:@"persistentDomainNames_"]){
+//        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index21++];
+//    }
     else if ([funcName isEqualToString:@"removePersistentDomainForName_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index22++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index22++];
     }
     else if ([funcName isEqualToString:@"setPersistentDomain_forName_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index23++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index23++];
     }
     else if ([funcName isEqualToString:@"objectIsForcedForKey_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index24++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index24++];
     }
     else if ([funcName isEqualToString:@"objectIsForcedForKey_inDomain_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index25++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index25++];
     }
     else if ([funcName isEqualToString:@"dictionaryRepresentation"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index26++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index26++];
     }
     else if ([funcName isEqualToString:@"removeVolatileDomainForName_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index27++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index27++];
     }
     else if ([funcName isEqualToString:@"setVolatileDomain_forName_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index28++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index28++];
     }
     else if ([funcName isEqualToString:@"volatileDomainForName_"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index29++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index29++];
     }
     else{
         NSLog(@"error~~~ LogNSUserDefaults");
@@ -389,8 +799,91 @@ void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress)
 //    
 //    
 //    fclose(fp);
-    [dic writeToFile:filepath  atomically:YES];
+    BOOL flag = [dic writeToFile:filepath
+                      atomically:YES];
+#ifdef WRITE_TO_FILE
+    NSLog(@"6flag = %d",flag);
+#endif
 }
+
+
+
+#define ____________________________________________________________________________________________________FMDB
+
+void LogFMDB(NSString *funcName,NSDictionary*dic,void *returnAddress)
+{
+    @try {
+#ifdef DEBUG_MODE
+        NSLog(@"dic = %@",dic);
+#endif
+        if (dic == nil) {
+#ifdef PRINT_PATH_MODE
+            PRINT_DATA(@"FMBD data=nil",dic,@"")
+#endif
+            return;
+        }
+        static NSString *_logDir = nil;
+        
+        if (_logDir == nil)
+        {
+            _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
+            BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
+            
+            if (!isDirExist) {
+                [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+            }
+        }
+        //NSString *tmpPath = [[path description] stringByReplacingOccurrencesOfString:@"/" withString:@"_"];
+        NSString *filepath = nil;
+        static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0,s_index6 = 0,s_index7 = 0;
+#ifdef PRINT_PATH_MODE
+        PRINT_DATA(@"FMDB",@"",funcName)
+#endif
+        
+        if ([funcName isEqualToString:@"_FMDatabase_open"]) {
+            filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index++];
+        }
+        else if ([funcName isEqualToString:@"_FMDatabase_openWithFlags_vfs_"]){
+            filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index2++];
+        }
+        else if ([funcName isEqualToString:@"_FMDatabase_databaseWithPath_"]){
+            filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index3++];
+        }
+        else if ([funcName isEqualToString:@"_FMDatabase_initWithPath_"]){
+            filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index4++];
+        }
+        else if ([funcName isEqualToString:@"_FMDatabase_executeQuery_withArgumentsInArray_orDictionary_orVAList_"]){
+            filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index5++];
+        }
+        else if ([funcName isEqualToString:@"_FMDatabase_executeUpdate_error_withArgumentsInArray_orDictionary_orVAList_"]){
+            filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index6++];
+        }
+        else if ([funcName isEqualToString:@"_FMDatabase_executeStatements_withResultBlock_"]){
+            filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index7++];
+        }
+        else{
+            NSLog(@"error~~~ Logsqlite3");
+            return;
+        }
+        
+        if (filepath) {
+            BOOL flag = [dic writeToFile:filepath
+                              atomically:YES];
+#ifdef WRITE_TO_FILE
+            NSLog(@"1flag = %d",flag);
+#endif
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"LogFBDM exception reason=%@",exception.reason);
+    }
+    @finally {
+        return;
+    }
+}
+
+
+
 
 
 
@@ -399,11 +892,11 @@ void Logsqlite3(NSString * funcName,NSString *data, void *returnAddress)
 {
     NSString *filepath;
     static NSString *_logDir = nil;
-    static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0,s_index6 = 0,s_index7 = 0,s_index8 = 0,s_index9 = 0,s_index10 = 0,s_index11 = 0;
+    static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0,s_index6 = 0,s_index7 = 0,s_index8 = 0,s_index9 = 0,s_index10 = 0,s_index11 = 0,s_index12 = 0;
   
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -419,44 +912,48 @@ void Logsqlite3(NSString * funcName,NSString *data, void *returnAddress)
         return;
     }
     if ([funcName isEqualToString:@"sqlite3_column_text"]) {
-         filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+         filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index++];
     }
     else if ([funcName isEqualToString:@"sqlite3_sql"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index2++];
     }
     else if ([funcName isEqualToString:@"sqlite3_prepare"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index3++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index3++];
     }
     else if ([funcName isEqualToString:@"sqlite3_prepare_v2"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index4++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index4++];
     }
     else if ([funcName isEqualToString:@"sqlite3_prepare16"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index5++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index5++];
     }
     else if ([funcName isEqualToString:@"sqlite3_prepare16_v2"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index6++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index6++];
     }
     else if ([funcName isEqualToString:@"sqlite3_open"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index7++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index7++];
     }
     else if ([funcName isEqualToString:@"sqlite3_open16"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index8++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index8++];
     }
     else if ([funcName isEqualToString:@"sqlite3_open_v2"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index9++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index9++];
     }
     else if ([funcName isEqualToString:@"sqlite3_exec"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index10++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index10++];
     }
     else if ([funcName isEqualToString:@"sqlite3_create_function"]){
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index11++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index11++];
+    }
+    else if ([funcName isEqualToString:@"sqlite3_value_text"]){
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index12++];
     }
     else{
         NSLog(@"error~~~ Logsqlite3");
         return;
     }
+    NSDictionary *dic0 = [NSDictionary dictionaryWithObject:data forKey:@"sqlite3"];
     
-    NSDictionary *dic = [NSDictionary dictionaryWithObject:data forKey:funcName];
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dic0 forKey:funcName];
     
 //    FILE *fp;
 //    fp=fopen([filepath UTF8String], "w");
@@ -467,7 +964,11 @@ void Logsqlite3(NSString * funcName,NSString *data, void *returnAddress)
 //    
 //    
 //    fclose(fp);
-    [dic writeToFile:filepath  atomically:YES];
+    BOOL flag = [dic writeToFile:filepath
+                      atomically:YES];
+#ifdef WRITE_TO_FILE
+    NSLog(@"7flag = %d",flag);
+#endif
 }
 
 
@@ -487,7 +988,7 @@ void LogKeychainFunc(NSString *funcName,id data, void *returnAddress)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
 //        NSLog(@"_logDir = %@",_logDir);
 //        NSLog(@"isDirExist = %d",isDirExist);
@@ -497,21 +998,21 @@ void LogKeychainFunc(NSString *funcName,id data, void *returnAddress)
     }
     
     if ([funcName isEqualToString:@"SecItemCopyMatching_"]) {
-         filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index++];
+         filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index++];
 #ifdef PRINT_PATH_MODE
          PRINT_DATA(@"Keychain",funcName,data)
 #endif
     }
     else if ([funcName isEqualToString:@"SecItemAdd_"])
     {
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index2++];
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Keychain",funcName,data)
 #endif
     }
     else if ([funcName isEqualToString:@"SecItemUpdate_"])
     {
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index3++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index3++];
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Keychain",funcName,data)
 #endif
@@ -519,7 +1020,7 @@ void LogKeychainFunc(NSString *funcName,id data, void *returnAddress)
     else if([funcName isEqualToString:@"SecItemDelete_"])
     {
 
-        filepath = [NSString stringWithFormat:@"%@/%@_%03d.plist",_logDir,funcName, s_index4++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%04d.plist",_logDir,funcName, s_index4++];
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Keychain",funcName,data)
 #endif
@@ -539,7 +1040,7 @@ void LogKeychainFunc(NSString *funcName,id data, void *returnAddress)
 //    }
 //    fclose(fp);
     if (filepath) {
-        [dic writeToFile:filepath  atomically:YES];
+//        [dic writeToFile:filepath  atomically:YES];
     }
 }
 
@@ -563,7 +1064,7 @@ void LogNSDictionaryWrite(NSString *funcName,id data,NSString *path, void *retur
     if (data == nil) {
 #ifdef PRINT_PATH_MODE
         NSLog(@"path = %@",path);
-        PRINT_DATA(@"Write",path,[@"NSDictionary_" stringByAppendingString:funcName])
+        PRINT_DATA(@"Write data = nil",path,[@"NSDictionary_" stringByAppendingString:funcName])
 #endif
         return;
     }
@@ -572,7 +1073,7 @@ void LogNSDictionaryWrite(NSString *funcName,id data,NSString *path, void *retur
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -583,11 +1084,14 @@ void LogNSDictionaryWrite(NSString *funcName,id data,NSString *path, void *retur
     NSString *filepath;
     
     if ([funcName isEqualToString:@"writeToFile_atomically_"]) {
-        filepath = [NSString stringWithFormat:@"%@/NSDictionary_%@_%03d.plist",_logDir,funcName, s_index++];
+        filepath = [NSString stringWithFormat:@"%@/NSDictionary_%@_%04d.plist",_logDir,funcName, s_index++];
     }
     else if([funcName isEqualToString:@"writeToURL_atomically_"])
     {
-        filepath = [NSString stringWithFormat:@"%@/NSDictionary_%@_%03d.plist",_logDir,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/NSDictionary_%@_%04d.plist",_logDir,funcName, s_index2++];
+    }
+    else{
+        return;
     }
 
 #ifdef DEBUG_MODE
@@ -600,7 +1104,12 @@ void LogNSDictionaryWrite(NSString *funcName,id data,NSString *path, void *retur
     PRINT_DATA(@"Write",path,[@"NSDictionary_" stringByAppendingString:funcName])
 #endif
     
-    NSDictionary *dic = [NSDictionary dictionaryWithObject:data forKey:path];
+    NSDictionary *dic0 = [NSDictionary dictionaryWithObject:data forKey:path];
+    
+    NSString *funcName2 = [NSString stringWithFormat:@"NSDictionary_%@",funcName];
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dic0 forKey:funcName2];
+    
+
     
 //    FILE *fp;
 //    fp=fopen([filepath UTF8String], "w");
@@ -608,9 +1117,11 @@ void LogNSDictionaryWrite(NSString *funcName,id data,NSString *path, void *retur
 //        fprintf(fp,"%s", [[dic description] UTF8String]);
 //    }
 //    fclose(fp);
-    if (filepath) {
-            [dic writeToFile:filepath  atomically:YES];
-    }
+    BOOL flag = [dic writeToFile:filepath
+                      atomically:YES];
+#ifdef WRITE_TO_FILE
+    NSLog(@"8flag= %d",flag);
+#endif
 }
 
 
@@ -620,22 +1131,23 @@ extern "C"
 #endif
 void LogNSDataWrite(NSString *funcName,id data,NSString *path, void *returnAddress)
 {
+    @try {
 #ifdef DEBUG_MODE
     NSLog(@"data = %@",data);
     NSLog(@"path = %@",path);
 #endif
     if (data == nil) {
 #ifdef PRINT_PATH_MODE
-        PRINT_DATA(@"Write",path,[@"NSData_" stringByAppendingString:funcName])
+        PRINT_DATA(@"Write data = nil",path,[@"NSData_" stringByAppendingString:funcName])
 #endif
         return;
     }
     static NSString *_logDir = nil;
-    static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0;
+    static int s_index=0,s_index2 = 0,s_index3 = 0,s_index4 = 0,s_index5 = 0,s_index6 = 0,s_index7 = 0,s_index8 = 0,s_index9 = 0,s_index10 = 0;
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -647,26 +1159,52 @@ void LogNSDataWrite(NSString *funcName,id data,NSString *path, void *returnAddre
     NSString *filepath = nil;
     
     if ([funcName isEqualToString:@"writeToFile_atomically_"]) {
-        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%03d.plist",_logDir,funcName, s_index++];
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index++];
     }
     else if([funcName isEqualToString:@"writeToFile_options_error_"])
     {
-        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%03d.plist",_logDir,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index2++];
     }
     else if([funcName isEqualToString:@"writeToURL_atomically_"])
     {
         if ([path hasPrefix:@"file://"]) {
             return;
         }
-        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%03d.plist",_logDir,funcName, s_index3++];
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index3++];
     }
-    else
+    else if([funcName isEqualToString:@"writeToURL_options_error_"])
     {
         if ([path hasPrefix:@"file://"]) {
             return;
         }
-        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%03d.plist",_logDir,funcName, s_index4++];
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index4++];
     }
+    else if([funcName isEqualToString:@"initWithContentsOfFile_options_error_"])
+    {
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index5++];
+    }
+    else if([funcName isEqualToString:@"initWithContentsOfURL_options_error_"])
+    {
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index6++];
+    }
+    else if([funcName isEqualToString:@"dataWithContentsOfURL_options_error_"])
+    {
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index7++];
+    }
+    else if([funcName isEqualToString:@"dataWithContentsOfURL_"])
+    {
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index8++];
+    }
+    else if([funcName isEqualToString:@"dataWithContentsOfFile_options_error_"])
+    {
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index9++];
+    }
+    else if([funcName isEqualToString:@"dataWithContentsOfFile_"])
+    {
+        filepath = [NSString stringWithFormat:@"%@/NSData_%@_%04d.plist",_logDir,funcName, s_index10++];
+    }
+    else
+        return;
 
 #ifdef DEBUG_MODE
     NSLog(@"filepath=%@",filepath);
@@ -677,9 +1215,12 @@ void LogNSDataWrite(NSString *funcName,id data,NSString *path, void *returnAddre
 #ifdef PRINT_PATH_MODE
     PRINT_DATA(@"Write",path,[@"NSData_" stringByAppendingString:funcName])
 #endif
-    NSDictionary *dic = [NSDictionary dictionaryWithObject:data forKey:path];
-
+    NSDictionary *dic0 = [NSDictionary dictionaryWithObject:data forKey:path];
+        
+    NSString *funcName2 = [NSString stringWithFormat:@"NSData_%@",funcName];
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dic0 forKey:funcName2];
     
+        
 //    FILE *fp;
 //    fp=fopen([filepath UTF8String], "w");
 //    if ([dic description]) {
@@ -687,7 +1228,18 @@ void LogNSDataWrite(NSString *funcName,id data,NSString *path, void *returnAddre
 //    }
 //    fclose(fp);
     if (filepath) {
-        [dic writeToFile:filepath  atomically:YES];
+        BOOL flag = [dic writeToFile:filepath
+                          atomically:YES];
+#ifdef WRITE_TO_FILE
+        NSLog(@"9flag = %d",flag);
+#endif
+    }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"LogNSDataWrite exception reason=%@",exception.reason);
+    }
+    @finally {
+        return;
     }
 }
 
@@ -704,7 +1256,7 @@ void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAdd
 #endif
     if (data == nil) {
 #ifdef PRINT_PATH_MODE
-        PRINT_DATA(@"Write",path,[@"NSString_" stringByAppendingString:funcName])
+        PRINT_DATA(@"Write data = nil",path,[@"NSString_" stringByAppendingString:funcName])
 #endif
         return;
     }
@@ -713,7 +1265,7 @@ void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAdd
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -725,20 +1277,20 @@ void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAdd
     NSString *filepath= nil;
     
     if ([funcName isEqualToString:@"writeToFile_atomically_encoding_error_"]) {
-        filepath = [NSString stringWithFormat:@"%@/NSString_%@_%03d.plist",_logDir,funcName, s_index++];
+        filepath = [NSString stringWithFormat:@"%@/NSString_%@_%04d.plist",_logDir,funcName, s_index++];
     }
     else if([funcName isEqualToString:@"writeToFile_atomically_"])
     {
-        filepath = [NSString stringWithFormat:@"%@/NSString_%@_%03d.plist",_logDir,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/NSString_%@_%04d.plist",_logDir,funcName, s_index2++];
     }
     else if([funcName isEqualToString:@"writeToURL_atomically_encoding_error_"])
     {
 
-        filepath = [NSString stringWithFormat:@"%@/NSString_%@_%03d.plist",_logDir,funcName, s_index3++];
+        filepath = [NSString stringWithFormat:@"%@/NSString_%@_%04d.plist",_logDir,funcName, s_index3++];
     }
     else
     {
-        filepath = [NSString stringWithFormat:@"%@/NSString_%@_%03d.plist",_logDir,funcName, s_index4++];
+        filepath = [NSString stringWithFormat:@"%@/NSString_%@_%04d.plist",_logDir,funcName, s_index4++];
     }
     
 #ifdef DEBUG_MODE
@@ -750,8 +1302,10 @@ void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAdd
 #ifdef PRINT_PATH_MODE
     PRINT_DATA(@"Write",path,[@"NSString_" stringByAppendingString:funcName])
 #endif
-    NSDictionary *dic = [NSDictionary dictionaryWithObject:data forKey:path];
+    NSDictionary *dic0 = [NSDictionary dictionaryWithObject:data forKey:path];
     
+        NSString *funcName2 = [NSString stringWithFormat:@"NSString_%@",funcName];
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dic0 forKey:funcName2];
     
 //    FILE *fp;
 //    fp=fopen([filepath UTF8String], "w");
@@ -760,7 +1314,11 @@ void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAdd
 //    }
 //    fclose(fp);
     if (filepath) {
-        [dic writeToFile:filepath  atomically:YES];
+        BOOL flag = [dic writeToFile:filepath
+                          atomically:YES];
+#ifdef WRITE_TO_FILE
+        NSLog(@"10flag = %d",flag);
+#endif
     }
 }
 
@@ -768,6 +1326,33 @@ void LogNSStringWrite(NSString *funcName,id data,NSString *path, void *returnAdd
 #define ____________________________________________________________________________________________________Thecommon
 void LoginitWithContentsOffileorurl(NSString *funcName,id data,id pathorurl, void *returnAddress)
 {
+    if (data == nil) {
+        return;
+    }
+
+#ifdef PRINT_REPEAT_INFO
+    @try {
+        @synchronized(logfilesarray) {
+        if ([data description]) {
+            for (NSString *item in logfilesarray){
+                if ([item isEqualToString:[data description]])
+                {
+                    return;
+                }
+            }
+            [logfilesarray addObject:[data description]];
+        }
+        }
+    }
+    @catch (NSException *exception) {
+        NSLog(@"LoginitWithContentsOffileorurl error exception reason=%@",exception.reason);
+        NSLog(@"exdata = %@",data);
+    }
+    @finally {
+        return;
+    }
+#endif
+    
     NSString *str;
     NSDictionary *dic;
     NSString *filepath = nil;
@@ -775,15 +1360,9 @@ void LoginitWithContentsOffileorurl(NSString *funcName,id data,id pathorurl, voi
     static NSString *_logDir = nil;
     static int s_index=0,s_index2 = 0;
     
-// NSString *jsonString = [[NSString alloc] initWithData:data_ encoding:NSUTF8StringEncoding];
-//    NSLog(@"filemonitor~~~~~~~~~~data = %s",[data bytes]);
-    if (data == nil) {
-        return;
-    }
-    
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -792,28 +1371,29 @@ void LoginitWithContentsOffileorurl(NSString *funcName,id data,id pathorurl, voi
     }
 
     if ([data isKindOfClass:[NSString class]]) {
-        prefix = @"NSString";
+        prefix = @"data=NSString";
     }
     else if ([data isKindOfClass:[NSDictionary class]])
     {
-        prefix = @"NSDictionary";
+        prefix = @"data=NSDictionary";
 
     }
     else if ([data isKindOfClass:[NSData class]])
     {
-        prefix = @"NSData";
+        prefix = @"data=NSData";
     }
+    else
+        prefix = @"data=NotKnow";
     
     if ([pathorurl isKindOfClass:[NSURL class]]) {
         str = [NSString stringWithFormat:@"%@_%@,%@",prefix,funcName,[(NSURL*)pathorurl absoluteURL]];
 #ifdef PRINT_PATH_MODE
-        PRINT_DATA(@"init",@"",str)
+        PRINT_DATA(@"LoginitWithContentsOffileorurl",@"",str)
 #endif
-        filepath = [NSString stringWithFormat:@"%@/%@_%@_%03d.plist",_logDir,prefix,funcName, s_index++];
-           dic = [NSDictionary dictionaryWithObject:data forKey:pathorurl];
+        filepath = [NSString stringWithFormat:@"%@/%@_%@_%04d.plist",_logDir,prefix,funcName, s_index++];
+           dic = [NSDictionary dictionaryWithObject:data forKey:[(NSURL*)pathorurl absoluteURL]];
     }
     else{
-        
 #ifdef PRINT_FILTERINFO
         if ([(NSString*)pathorurl hasSuffix:@"nib"]) {
             return;
@@ -824,10 +1404,12 @@ void LoginitWithContentsOffileorurl(NSString *funcName,id data,id pathorurl, voi
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"init",@"",str)
 #endif
-        filepath = [NSString stringWithFormat:@"%@/%@_%@_%03d.plist",_logDir,prefix,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%@_%04d.plist",_logDir,prefix,funcName, s_index2++];
            dic = [NSDictionary dictionaryWithObject:data forKey:pathorurl];
     }
-
+    NSDictionary *dic2 = [NSDictionary dictionaryWithObject:dic forKey:funcName];
+    
+    
 //    FILE *fp;
 //    fp=fopen([filepath UTF8String], "w");
 //    if ([dic description]) {
@@ -835,7 +1417,11 @@ void LoginitWithContentsOffileorurl(NSString *funcName,id data,id pathorurl, voi
 //    }
 //    fclose(fp);
     if (filepath) {
-        [dic writeToFile:filepath  atomically:YES];
+        BOOL flag = [dic2 writeToFile:filepath
+                          atomically:YES];
+#ifdef WRITE_TO_FILE
+        NSLog(@"11flag = %d",flag);
+#endif
     }
     
 }
@@ -843,7 +1429,6 @@ void LoginitWithContentsOffileorurl(NSString *funcName,id data,id pathorurl, voi
 void LogComparedata(NSString *funcName,id data,id data2, void *returnAddress)
 {
     NSString *str;
-    NSDictionary *dic;
     NSString *filepath;
     NSString *prefix;
     static NSString *_logDir = nil;
@@ -861,7 +1446,7 @@ void LogComparedata(NSString *funcName,id data,id data2, void *returnAddress)
 
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -869,18 +1454,18 @@ void LogComparedata(NSString *funcName,id data,id data2, void *returnAddress)
     }
     
     if ([data isKindOfClass:[NSString class]]) {
-        prefix = @"NSString";
+        prefix = @"data=NSString";
         
         str = [NSString stringWithFormat:@"%@_%@_%@_%@",prefix,funcName,data,data2];
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Compare",@"",str)
 #endif
-        filepath = [NSString stringWithFormat:@"%@/%@_%@_%03d.plist",_logDir,prefix,funcName, s_index++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%@_%04d.plist",_logDir,prefix,funcName, s_index++];
 
          }
     else if ([data isKindOfClass:[NSDictionary class]])
     {
-        prefix = @"NSDictionary";
+        prefix = @"data=NSDictionary";
         
 //过滤~~~~~~~~~~~~~~~~~~~~
 #ifdef PRINT_FILTERINFO
@@ -894,32 +1479,36 @@ void LogComparedata(NSString *funcName,id data,id data2, void *returnAddress)
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Compare",@"",str)
 #endif
-        filepath = [NSString stringWithFormat:@"%@/%@_%@_%03d.plist",_logDir,prefix,funcName, s_index2++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%@_%04d.plist",_logDir,prefix,funcName, s_index2++];
 
     }
     else if ([data isKindOfClass:[NSData class]])
     {
-        prefix = @"NSData";
+        prefix = @"data=NSData";
         
         str = [NSString stringWithFormat:@"%@_%@_%@_%@",prefix,funcName,data,data2];
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Compare",@"",str)
 #endif
-        filepath = [NSString stringWithFormat:@"%@/%@_%@_%03d.plist",_logDir,prefix,funcName, s_index3++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%@_%04d.plist",_logDir,prefix,funcName, s_index3++];
     }
     else
     {
-        prefix = @"UnKonw";
+        prefix = @"data=UnKonw";
         
         str = [NSString stringWithFormat:@"%@_%@_%@_%@",prefix,funcName,data,data2];
 #ifdef PRINT_PATH_MODE
         PRINT_DATA(@"Compare",@"",str)
 #endif
-        filepath = [NSString stringWithFormat:@"%@/%@_%@_%03d.plist",_logDir,prefix,funcName, s_index4++];
+        filepath = [NSString stringWithFormat:@"%@/%@_%@_%04d.plist",_logDir,prefix,funcName, s_index4++];
     }
 
-    dic = [NSDictionary dictionaryWithObject:data forKey:data2];
+    
+    NSDictionary *dic0 = [NSDictionary dictionaryWithObject:data forKey:data2];
 
+            NSString *funcName2 = [NSString stringWithFormat:@"%@_%@",prefix,funcName];
+    NSDictionary *dic = [NSDictionary dictionaryWithObject:dic0 forKey:funcName2];
+    
 //    FILE *fp;
 //    fp=fopen([filepath UTF8String], "w");
 //    if ([dic description]) {
@@ -927,7 +1516,11 @@ void LogComparedata(NSString *funcName,id data,id data2, void *returnAddress)
 //    }
 //    fclose(fp);
     if (filepath) {
-        [dic writeToFile:filepath  atomically:YES];
+        BOOL flag = [dic writeToFile:filepath
+                          atomically:YES];
+#ifdef WRITE_TO_FILE
+        NSLog(@"12flag = %d",flag);
+#endif
     }
 }
 
@@ -984,7 +1577,7 @@ void LogNSFileManagerWrite(NSString *funcName,id data,NSString *path, void *retu
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:@"/var/root/tmp/%@.filemon", NSProcessInfo.processInfo.processName];
+        _logDir = [[NSString alloc] initWithFormat:FileMonitorPath];
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -1014,12 +1607,14 @@ void LogNSFileManagerWrite(NSString *funcName,id data,NSString *path, void *retu
     else if([funcName isEqualToString:@"contentsAtPath_"])
     {
         PRINT_DATA(@"Create",path,[@"NSFileManager_" stringByAppendingString:funcName])
-        filepath = [NSString stringWithFormat:@"%@/NSFileManager_%@_%03d.plist",_logDir,funcName, s_index++];
+        filepath = [NSString stringWithFormat:@"%@/NSFileManager_%@_%04d.plist",_logDir,funcName, s_index++];
     }
     else
     {
-        PRINT_DATA(@"Create",path,[@"NSFileManager_" stringByAppendingString:funcName])
-         filepath = [NSString stringWithFormat:@"%@/NSFileManager_%@_%03d.plist",_logDir,funcName, s_index2++];
+//        PRINT_DATA(@"Create",path,[@"NSFileManager_" stringByAppendingString:funcName])
+//         filepath = [NSString stringWithFormat:@"%@/NSFileManager_%@_%04d.plist",_logDir,funcName, s_index2++];
+        NSLog(@"error");
+        return;
     }
     
 #ifdef DEBUG_MODE
@@ -1032,7 +1627,10 @@ void LogNSFileManagerWrite(NSString *funcName,id data,NSString *path, void *retu
     PRINT_DATA(@"Write",path,[@"NSFileManager_" stringByAppendingString:funcName])
 #endif
     if (data != nil) {
-        NSDictionary *dic = [NSDictionary dictionaryWithObject:data forKey:path];
+        NSDictionary *dic0 = [NSDictionary dictionaryWithObject:data forKey:path];
+        
+        NSString *funcName2 = [NSString stringWithFormat:@"NSFileManager_%@",funcName];
+        NSDictionary *dic = [NSDictionary dictionaryWithObject:dic0 forKey:funcName2];
         
 //        FILE *fp;
 //        fp=fopen([filepath UTF8String], "w");
@@ -1040,10 +1638,12 @@ void LogNSFileManagerWrite(NSString *funcName,id data,NSString *path, void *retu
 //             fprintf(fp,  "%s",[[dic description] UTF8String]);
 //        }
 //        fclose(fp);
-        [dic writeToFile:filepath  atomically:YES];
+        BOOL flag = [dic writeToFile:filepath
+                          atomically:YES];
+#ifdef WRITE_TO_FILE
+        NSLog(@"13flag = %d",flag);
+#endif
     }
-
-    
 }
 #define Function_Change_Attributes__________________________
 #if __cplusplus
@@ -1143,14 +1743,13 @@ void LogNSFileManagerCopyItem(NSString *funcName,id souce,id  dest, void *return
 }
 
 
-
-
-
 #if __cplusplus
 extern "C"
 #endif
 int main()
 {
-	//_LogLine();
+//   traceStorage = [[SQLiteStorage alloc] initWithDefaultDBFilePathAndLogToConsole: 1];
+//   _LogLine();
+//   _LogStack();
 	return 0;
 }

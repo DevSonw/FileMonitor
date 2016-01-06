@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, DeviceSize){
     iPhone55inch = 4
 };
 
++(NSDictionary*) deviceNamesByCode;
 +(DeviceVersion)deviceVersion;
 +(DeviceSize)deviceSize;
 +(NSString*)deviceName;

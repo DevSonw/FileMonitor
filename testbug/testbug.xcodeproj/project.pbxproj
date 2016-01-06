@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA19B6A91C1FF15C00FB7690 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA19B6A81C1FF15C00FB7690 /* Foundation.framework */; };
 		BA525E711C17FB810016A80B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BA525E701C17FB810016A80B /* main.m */; };
 		BA525E741C17FB810016A80B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA525E731C17FB810016A80B /* AppDelegate.m */; };
 		BA525E771C17FB810016A80B /* testbug.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BA525E751C17FB810016A80B /* testbug.xcdatamodeld */; };
@@ -28,6 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA19B6A81C1FF15C00FB7690 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		BA525E6B1C17FB810016A80B /* testbug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testbug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA525E6F1C17FB810016A80B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BA525E701C17FB810016A80B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -49,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA19B6A91C1FF15C00FB7690 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +68,7 @@
 		BA525E621C17FB810016A80B = {
 			isa = PBXGroup;
 			children = (
+				BA19B6A81C1FF15C00FB7690 /* Foundation.framework */,
 				BA525E6D1C17FB810016A80B /* testbug */,
 				BA525E8A1C17FB820016A80B /* testbugTests */,
 				BA525E6C1C17FB810016A80B /* Products */,
@@ -353,9 +357,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
 				INFOPLIST_FILE = testbug/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
 			};
 			name = Debug;
 		};
@@ -364,8 +375,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = testbug/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/system",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
 			};
 			name = Release;
 		};
@@ -422,6 +439,7 @@
 				BA525E931C17FB820016A80B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BA525E941C17FB820016A80B /* Build configuration list for PBXNativeTarget "testbugTests" */ = {
 			isa = XCConfigurationList;
@@ -430,6 +448,7 @@
 				BA525E961C17FB820016A80B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

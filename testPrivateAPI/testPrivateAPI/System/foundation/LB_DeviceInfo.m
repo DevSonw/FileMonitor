@@ -13,8 +13,8 @@
 #import <UIKit/UIKit.h>
 
 @implementation LB_DeviceInfo
-+(NSDictionary*)deviceNamesByCode {
-    
+
++(NSDictionary*) deviceNamesByCode {
     static NSDictionary* deviceNamesByCode = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -55,12 +55,15 @@
                               @"iPad4,4" :[NSNumber numberWithInteger:iPadMiniRetina],
                               @"iPad4,5" :[NSNumber numberWithInteger:iPadMiniRetina]
                               
-                              
                               };
     });
     
     return deviceNamesByCode;
 }
+
+
+
+
 
 +(DeviceVersion)deviceVersion {
     

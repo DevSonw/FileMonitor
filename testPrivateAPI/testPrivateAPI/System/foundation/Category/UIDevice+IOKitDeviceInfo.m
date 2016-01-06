@@ -80,7 +80,7 @@ static const CFStringRef kIODeviceIMEI = CFSTR("device-imei");
         CFTypeRef imei = pIORegistryEntryCreateCFProperty(platformExpert, CFSTR("device-imei"), kCFAllocatorDefault, 0);
         imeiString = [[NSString alloc]initWithBytes:[(NSData *)CFBridgingRelease(imei) bytes] length:[(NSData *)CFBridgingRelease(imei) length] encoding:NSUTF8StringEncoding];
         NSLog(@"device imei = %@\n",imeiString);
-        CFRelease(imei);
+//        CFRelease(imei);
     }
 
     return imeiString;

@@ -1,25 +1,32 @@
-#import "CallTracer.h"
+#import "FileMonTracer.h"
 #import "SQLiteStorage.h"
 #import "PlistObjectConverter.h"
 
 
 
-@implementation CallTracer
-
+@implementation FileMonTracer
 @synthesize args;
-@synthesize className;
-@synthesize methodName;
+@synthesize Behavior;
+@synthesize className_methodName;
 @synthesize argsAndReturnValue;
 
-- (CallTracer*)initWithClass:(NSString *)clazz andMethod:(NSString *)meth {
+//LoadFile
+//Encrypt
+//Ddecrypt
+//Json
+//WriteData
+//sqlite3
+//Hash
+
+
+- (FileMonTracer*)initWithClass:(NSString *)clazz andMethod:(NSString *)meth andBehavior:(NSString *)behavior{
 	/* initialize the call tracer with class and method names */
 	self = [super init];
 	args = [[NSMutableDictionary alloc] init];
-	className = [[NSString alloc] initWithString:clazz];
-	methodName = [[NSString alloc] initWithString:meth];
+    className_methodName = [NSString stringWithFormat:@"%@_%@",clazz,meth];
 	argsAndReturnValue = [[NSMutableDictionary alloc] init];
+    Behavior = [NSString stringWithFormat:@"%@",behavior];
 	[argsAndReturnValue setValue:args forKey:@"arguments"];
-
 	return self;
 }
 
@@ -58,8 +65,7 @@
 {
 	[args release];
 	[argsAndReturnValue release];
-	[className release];
-	[methodName release];
+	[className_methodName release];
 	[super dealloc];
 }
 

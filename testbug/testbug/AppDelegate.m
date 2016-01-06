@@ -7,6 +7,14 @@
 //
 
 #import "AppDelegate.h"
+#import <CommonCrypto/CommonCryptor.h>
+#import <CommonCrypto/CommonKeyDerivation.h>
+#include <CommonCrypto/CommonDigest.h>
+#include <CommonCrypto/CommonHMAC.h>
+#import "dlfcn.h"
+
+const NSUInteger kPBKDFRounds = 10000;  // ~80ms on an iPhone 4
+
 
 @interface AppDelegate ()
 
@@ -14,9 +22,155 @@
 
 @implementation AppDelegate
 
+#define FileMonitorPath @"%@uiautomation/%@_%@.filemon",NSTemporaryDirectory(),NSProcessInfo.processInfo.processName,GET_TIME_APPVERSION()
+
+#define GET_TIME_APPVERSION() [NSString stringWithFormat:@"%@__%@_%@",[AppDelegate getBackgroundRealDateString],\
+[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],\
+[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]
+
+
++(NSString *)getBackgroundRealDateString
+{
+    NSDate *date = [NSDate date];
+    date = [date dateByAddingTimeInterval:8*3600]; //东八区
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy_MM_dd_HH_mm_ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]]; //北京时间
+    NSString *datestr =  [dateFormatter stringFromDate:date];
+    NSString *ret = [NSString stringWithString:datestr];
+    return ret;
+}
+
+
++(NSString *)hmacsha1:(NSString *)data secret:(NSString *)key {
+    
+    const char *cKey  = [key cStringUsingEncoding:NSASCIIStringEncoding];
+    const char *cData = [data cStringUsingEncoding:NSASCIIStringEncoding];
+    
+    unsigned char cHMAC[CC_SHA1_DIGEST_LENGTH];
+    
+    NSLog(@"CCHmac = 0x%llx",CCHmac);
+    
+//    void CCHmac(
+//                CCHmacAlgorithm algorithm,  /* kCCHmacSHA1, kCCHmacMD5 */
+//                const void *key,
+//                size_t keyLength,           /* length of key in bytes */
+//                const void *data,
+//                size_t dataLength,          /* length of data in bytes */
+//                void *macOut)               /* MAC written here */
+    
+    void *symbol = dlsym(RTLD_DEFAULT, "CCHmac");
+    
+    NSLog(@"symbol = 0x%llx",symbol);
+    
+    CCHmac(kCCHmacAlgSHA1, cKey, strlen(cKey), cData, strlen(cData), cHMAC);
+    
+    NSData *HMAC = [[NSData alloc] initWithBytes:cHMAC length:sizeof(cHMAC)];
+    
+    NSString *hash = [HMAC base64Encoding];
+    
+    NSLog(@"Hash: %@", hash);
+    return hash;
+}
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
+    NSArray *FileNamesfilter = [NSMutableArray arrayWithObjects:@"jpg",@"gif",@"png",@"mov",@"mp4",@"wmv",@"mp3",nil];
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"name == %@", @"Ansel"];
+    NSArray *filteredArray = [FileNamesfilter filteredArrayUsingPredicate:predicate];
+    
+    
     // Override point for customization after application launch.
+//    NSArray *arryData = [NSArray arrayWithObjects:@"1",              @"2",      @"3",   @"4",@"5",   @"6",     @"7",   @"8", nil];
+//    NSArray *arryDataKeys = [NSArray arrayWithObjects:@"Encrypt_or_Decrypt",@"Cypto_alg",@"Cypto_options",@"Cypto_key",@"Cypto_iv",@"Cypto_dataIn",@"Cypto_dataOut",@"Cypto_Moved",nil];
+//    
+//    NSDictionary *dicData = [NSDictionary dictionaryWithObjects:arryData forKeys:arryDataKeys];
+//    
+//    BOOL flag = [dicData writeToFile:@"/var/root/tmp/SecurityRouter.filemon/1.plist" atomically:YES];
+//    
+//    NSLog(@"flag = %d",flag);
+//    NSLog(@"flag = %d",flag);
+    
+//    NSString *_logDir = [NSString stringWithFormat:FileMonitorPath];
+//    NSLog(@"_logDir  = %@",_logDir);
+//    
+//    BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
+//    
+//    if (!isDirExist) {
+//        [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+//    }
+    
+//    char *data = "1234567890";
+    
+//    NSString *str = @"0000000000123123";
+//    //NSString *str = @"2345678901";
+//    char *str1 =  [str UTF8String];
+//    
+//    char str2[30];
+//    strcpy(str2, str1);
+//    
+//    for (int i=0 ;i<10 ;i++ ) {
+//        if (str2[i] != '0') {
+//            str2[i] += 1;
+//        }
+//    }
+//    NSString *str3 = [NSString stringWithFormat:@"%s",str2];
+//    NSLog(@"str3 = %@",str3);
+    
+//    CCHmacContext    ctx;
+//    char             *key = "12345678";
+//    char             buf[ 8192 ] = "12345678";
+//    unsigned char    mac[ CC_MD5_DIGEST_LENGTH ];
+//    char             hexmac[ 2 * CC_MD5_DIGEST_LENGTH + 1 ];
+//    char             *p;
+//    int              fd;
+//    int              rr, i;
+//    
+//    CCHmacInit( &ctx, kCCHmacAlgMD5, key, strlen( key ));
+//    
+//    rr = sizeof(buf);
+//    CCHmacUpdate( &ctx, buf, rr );
+//
+//    CCHmacFinal( &ctx, mac );
+//    
+//    p = hexmac;
+//    for ( i = 0; i < CC_MD5_DIGEST_LENGTH; i++ ) {
+//        snprintf( p, 3, "%02x", mac[ i ] );
+//        p += 2;
+//    }
+//    
+//    NSLog(@"%s\n", hexmac );
+//    
+//    
+//    NSData *data = [NSData dataWithBytes:"12345678" length:8];
+//    NSString *str = [AppDelegate hmacsha1:@"12345678" secret:@"12345678"];
+//    NSLog(@"str = %@",str);
+    
+    
+//    NSLog(@"GETAPPVERSION()  = %@",GETAPPVERSION());
+//    NSData *data = [NSData dataWithBytes:"123" length:3];
+//    
+//    NSString *base64str = [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+//    
+//    NSData *data0 = [base64str dataUsingEncoding:NSASCIIStringEncoding];
+//    
+//    NSData *data2 =  [[NSData alloc] initWithBase64EncodedString:data0
+//                                                         options:NSDataBase64DecodingIgnoreUnknownCharacters];
+//    
+//    NSData *data3 = [[NSData alloc] initWithBase64EncodedData:data0 options:NSDataBase64DecodingIgnoreUnknownCharacters];
+//    
+//    NSData *data4 = [[NSData alloc]initWithBase64Encoding:data0];
+//    
+//    NSError *error = nil;
+//    NSData *data5 = [[NSData alloc] initWithContentsOfFile:@"123.txt" options:NSDataReadingMappedIfSafe error:&error];
+//    
+////    NSData *data6 = [NSData dataWithContentsOfURL:@"123.txt"];
+//    
+//    NSData *data7 = [NSData dataWithContentsOfFile:@"123.txt" options:NSDataReadingMappedIfSafe error:&error];
+//    
+//    NSData *data8 = [NSData dataWithContentsOfFile:@"1.txt" options:NSDataReadingMappedIfSafe error:&error];
+    
     return YES;
 }
 

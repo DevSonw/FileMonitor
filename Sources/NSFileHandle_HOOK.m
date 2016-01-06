@@ -1,47 +1,113 @@
 
-/*
- - (NSString *)localizedStringForKey:(NSString *)key
- value:(NSString *)value
- table:(NSString *)tableName
- */
-HOOK_MESSAGE(NSString*,NSBundle,localizedStringForKey_value_table_,NSString *key,NSString *value,NSString *tableName)
+
+
+
+
+#import "FileMonTracer.h"
+#import "SQLiteStorage.h"
+
+#import "IFHOOK.h"
+#ifdef NSFileHandle_IF_HOOK //
+
+// Nice global
+extern SQLiteStorage *traceStorage;
+extern NSString *objectTypeNotSupported;
+
+
+HOOK_META(id, NSFileHandle, fileHandleForReadingAtPath_,NSString *path)
 {
-    NSString *str = _NSBundle_localizedStringForKey_value_table_(self,sel,key,value,tableName);
-    if (value && str) {
-        if ([str rangeOfString:@"Saved By"].location == NSNotFound) {
-            NSArray *array = [NSArray arrayWithObjects:key,value,nil];
-            _LoginitWithContentsOffileorurl(@"localizedStringForKey_value_table_",str,array);
-        }
+    id filehandle = _NSFileHandle_fileHandleForReadingAtPath_(self,sel,path);
+    
+    //    CallTracer *tracer = [[CallTracer alloc] initWithClass:@"NSFileHandle" andMethod:@"fileHandleForWritingAtPath:"];
+    //    [tracer addArgFromPlistObject:path withKey:@"path"];
+    //    [tracer addReturnValueFromPlistObject: objectTypeNotSupported];
+    //    [traceStorage saveTracedCall: tracer];
+    //    [tracer release];
+    if (filehandle) {
+        _LogNSFileHandle(@"_NSFileHandle_fileHandleForReadingAtPath_",path);
     }
-    return str;
+    return filehandle;
 }
 
-//- (NSString *)pathForAuxiliaryExecutable:(NSString *)executableName
-HOOK_MESSAGE(NSString*,NSBundle,pathForAuxiliaryExecutable_,NSString *executableName)
+HOOK_META(id, NSFileHandle, fileHandleForReadingFromURL_error_,NSURL *url,NSError **error)
 {
-    NSString *str = _NSBundle_pathForAuxiliaryExecutable_(self,sel,executableName);
-    if (str && executableName) {
-        _LoginitWithContentsOffileorurl(@"pathForAuxiliaryExecutable",str,executableName);
+    id filehandle = _NSFileHandle_fileHandleForReadingFromURL_error_(self,sel,url,error);
+    
+    //    CallTracer *tracer = [[CallTracer alloc] initWithClass:@"NSFileHandle" andMethod:@"fileHandleForWritingAtPath:"];
+    //    [tracer addArgFromPlistObject:path withKey:@"path"];
+    //    [tracer addReturnValueFromPlistObject: objectTypeNotSupported];
+    //    [traceStorage saveTracedCall: tracer];
+    //    [tracer release];
+    if (filehandle) {
+        _LogNSFileHandle(@"_NSFileHandle_fileHandleForReadingFromURL_error_",url);
     }
-    return str;
+    
+    return filehandle;
+}
+HOOK_META(id, NSFileHandle, fileHandleForUpdatingAtPath_,NSString* path)
+{
+    id filehandle = _NSFileHandle_fileHandleForUpdatingAtPath_(self,sel,path);
+    
+    //    CallTracer *tracer = [[CallTracer alloc] initWithClass:@"NSFileHandle" andMethod:@"fileHandleForWritingAtPath:"];
+    //    [tracer addArgFromPlistObject:path withKey:@"path"];
+    //    [tracer addReturnValueFromPlistObject: objectTypeNotSupported];
+    //    [traceStorage saveTracedCall: tracer];
+    //    [tracer release];
+    if (filehandle) {
+        _LogNSFileHandle(@"NSFileHandle_fileHandleForUpdatingAtPath_",path);
+    }
+    
+    return filehandle;
 }
 
-//- (NSURL *)URLForAuxiliaryExecutable:(NSString *)executableName
-HOOK_MESSAGE(NSURL*,NSBundle,URLForAuxiliaryExecutable_,NSString *executableName)
+HOOK_META(id, NSFileHandle, fileHandleForUpdatingAtPath_error_,NSString* path,NSError **error)
 {
-    NSURL *url = _NSBundle_URLForAuxiliaryExecutable_(self,sel,executableName);
-    if (url && executableName) {
-    _LoginitWithContentsOffileorurl(@"URLForAuxiliaryExecutable_",url,executableName);
+    id filehandle = _NSFileHandle_fileHandleForUpdatingAtPath_error_(self,sel,path,error);
+    
+    //    CallTracer *tracer = [[CallTracer alloc] initWithClass:@"NSFileHandle" andMethod:@"fileHandleForWritingAtPath:"];
+    //    [tracer addArgFromPlistObject:path withKey:@"path"];
+    //    [tracer addReturnValueFromPlistObject: objectTypeNotSupported];
+    //    [traceStorage saveTracedCall: tracer];
+    //    [tracer release];
+    if (filehandle) {
+        _LogNSFileHandle(@"_NSFileHandle_fileHandleForUpdatingAtPath_",path);
     }
-    return url;
+    
+    return filehandle;
 }
 
-//- (id)objectForInfoDictionaryKey:(NSString *)key
-HOOK_MESSAGE(id,NSBundle,objectForInfoDictionaryKey_,NSString *key)
+
+HOOK_META(id, NSFileHandle, fileHandleForWritingAtPath_,NSString *path)
 {
-    id data = _NSBundle_objectForInfoDictionaryKey_(self,sel,key);
-    if (data && key) {
-    _LoginitWithContentsOffileorurl(@"objectForInfoDictionaryKey_",data,key);
+    id filehandle = _NSFileHandle_fileHandleForWritingAtPath_(self,sel,path);
+    
+    //    CallTracer *tracer = [[CallTracer alloc] initWithClass:@"NSFileHandle" andMethod:@"fileHandleForWritingAtPath:"];
+    //    [tracer addArgFromPlistObject:path withKey:@"path"];
+    //    [tracer addReturnValueFromPlistObject: objectTypeNotSupported];
+    //    [traceStorage saveTracedCall: tracer];
+    //    [tracer release];
+    if (filehandle) {
+        _LogNSFileHandle(@"_NSFileHandle_fileHandleForWritingAtPath_",path);
     }
-    return data;
+    
+    return filehandle;
 }
+
+HOOK_META(id, NSFileHandle, fileHandleForWritingToURL_error_,NSURL *url,NSError **error)
+{
+    id filehandle = _NSFileHandle_fileHandleForWritingToURL_error_(self,sel,url,error);
+    
+    //    CallTracer *tracer = [[CallTracer alloc] initWithClass:@"NSFileHandle" andMethod:@"fileHandleForWritingAtPath:"];
+    //    [tracer addArgFromPlistObject:path withKey:@"path"];
+    //    [tracer addReturnValueFromPlistObject: objectTypeNotSupported];
+    //    [traceStorage saveTracedCall: tracer];
+    //    [tracer release];
+    if (filehandle) {
+        _LogNSFileHandle(@"NSFileHandle_fileHandleForWritingAtPath_error_",url);
+    }
+    
+    return filehandle;
+}
+
+
+#endif

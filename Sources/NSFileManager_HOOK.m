@@ -23,6 +23,11 @@
 //#define DEBUG_INFO
 
 
+#import "IFHOOK.h"
+#ifdef NSFileManager_IF_HOOK
+
+extern NSRegularExpression *regex;
+
 
 #define Function_readcontent__________________________
 HOOK_MESSAGE(NSData *,NSFileManager,contentsAtPath_,NSString  *path)
@@ -32,6 +37,11 @@ HOOK_MESSAGE(NSData *,NSFileManager,contentsAtPath_,NSString  *path)
 #endif
     
     NSData * data = _NSFileManager_contentsAtPath_(self,sel,path);
+    NSString *pathexten = [path pathExtension];
+    NSArray *checkingResults  = [regex matchesInString:pathexten options:0 range:NSMakeRange(0, [pathexten length])];
+    if ([checkingResults count] != 0) {
+        
+    }else
     _LogNSFileManagerWrite(@"contentsAtPath_",data,path);
     return data;
 }
@@ -169,7 +179,7 @@ HOOK_MESSAGE(BOOL,NSFileManager,moveItemAtPath_toPath_error_,NSString *srcPath,N
 }
 
 
-
+#endif
 /*
  NSFileAppendOnly: 文件是否只读
  NSFileBusy: 文件是否繁忙

@@ -18,20 +18,18 @@ static void			__TTReleaseNoOp( CFAllocatorRef allocator, const void * value ) { 
     CFArrayCallBacks callbacks = kCFTypeArrayCallBacks;
     callbacks.retain = __TTRetainNoOp;
     callbacks.release = __TTReleaseNoOp;
-    return [(NSMutableArray *)CFArrayCreateMutable( nil, 0, &callbacks ) autorelease];
+    return (NSMutableArray *)CFBridgingRelease(CFArrayCreateMutable( nil, 0, &callbacks )) ;
 }
 
 
 - (void)insertObjectNoRetain:(id)object atIndex:(NSUInteger)index
 {
     [self insertObject:object atIndex:index];
-    [object release];
 }
 
 - (void)addObjectNoRetain:(NSObject *)object
 {
     [self addObject:object];
-    [object release];
 }
 
 @end

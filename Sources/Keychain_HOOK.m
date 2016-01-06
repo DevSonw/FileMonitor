@@ -42,6 +42,9 @@
 //
 ////
 
+#import "IFHOOK.h"
+#ifdef Keychainity_IF_HOOK
+
 HOOK_FUNCTION(OSStatus, /System/Library/Frameworks/Security.framework/Security, SecItemCopyMatching, CFNotificationCenterRef query, CFTypeRef *result)
 {
 
@@ -81,3 +84,5 @@ HOOK_FUNCTION(OSStatus, /System/Library/Frameworks/Security.framework/Security, 
     return _SecItemDelete(query);
 }
 //OSStatus SecItemDelete ( CFDictionaryRef query );
+
+#endif

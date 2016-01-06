@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "JSONKit.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+     NSDictionary *dic = [NSDictionary dictionaryWithObject:@"123" forKey:@"456"];
+    NSError* error = nil;
+    id result = [NSJSONSerialization dataWithJSONObject:dic options:1 error:&error];
+    NSLog(@"result = %@",result);
+    id result2 = [result objectFromJSONData];
+    NSLog(@"result = %@",result2);
+
+//    NSString *str = @"123456";
+//    NSData* data = [str dataUsingEncoding:NSUTF8StringEncoding];
+//    NSError* error = nil;
+//    id result = [NSJSONSerialization JSONObjectWithData:data options:1 error:&error];
+//    NSLog(@"result = %@",result);
+//    id result2 = [str objectFromJSONString];
+//    NSLog(@"result2 = %@",result2);
+    
+//
     return YES;
 }
 

@@ -100,6 +100,8 @@
 //}
 
 
+#import "IFHOOK.h"
+#ifdef NSUserDefaults_IF_HOOK
 
 #define PRINT_FILTERINFO //自动过滤多余的信息 如 加载nib等
 
@@ -109,6 +111,15 @@
 HOOK_MESSAGE(NSArray *, NSUserDefaults, arrayForKey_,NSString *defaultName)
 {
     NSArray * array =  _NSUserDefaults_arrayForKey_(self,sel,defaultName);
+    
+    
+#ifdef PRINT_FILTERINFO
+    if (strcmp([defaultName UTF8String],"UIDisableLegacyTextView")==0 || strcmp([defaultName UTF8String],"hasAccessibilityBeenMigrated")==0 || \
+        strcmp([defaultName UTF8String],"AppleLanguages")==0) {
+        return array;
+    }
+#endif
+    
     NSDictionary *dic=nil;
     if (array) {
         dic = [NSDictionary dictionaryWithObject:array forKey:defaultName];
@@ -232,7 +243,8 @@ HOOK_MESSAGE(id, NSUserDefaults, objectForKey_,NSString *defaultName)
     id tmp = _NSUserDefaults_objectForKey_(self,sel,defaultName);
     
 #ifdef PRINT_FILTERINFO
-    if (strcmp([defaultName UTF8String],"UIDisableLegacyTextView")==0 || strcmp([defaultName UTF8String],"hasAccessibilityBeenMigrated")==0) {
+    if (strcmp([defaultName UTF8String],"UIDisableLegacyTextView")==0 || strcmp([defaultName UTF8String],"hasAccessibilityBeenMigrated")==0 || \
+        strcmp([defaultName UTF8String],"AppleLanguages")==0) {
         return tmp;
     }
 #endif
@@ -243,6 +255,7 @@ HOOK_MESSAGE(id, NSUserDefaults, objectForKey_,NSString *defaultName)
     }
     
 #ifdef DEBUG_INFO
+    NSLog(@"defaultName = %@",defaultName);
     NSLog(@"2222222222222--8");
     NSLog(@"dic = %@",dic);
 #endif
@@ -258,6 +271,15 @@ HOOK_MESSAGE(NSArray *, NSUserDefaults, stringArrayForKey_,NSString *defaultName
 {
     
     NSArray * tmp = _NSUserDefaults_stringArrayForKey_(self,sel,defaultName);
+    
+    
+#ifdef PRINT_FILTERINFO
+    if (strcmp([defaultName UTF8String],"UIDisableLegacyTextView")==0 || strcmp([defaultName UTF8String],"hasAccessibilityBeenMigrated")==0 || \
+        strcmp([defaultName UTF8String],"AppleLanguages")==0) {
+        return tmp;
+    }
+#endif
+    
     
         NSDictionary *dic = nil;
     if (tmp) {
@@ -440,7 +462,7 @@ HOOK_MESSAGE(void, NSUserDefaults, removeObjectForKey_,NSString *defaultName)
     NSLog(@"2222222222222--24");
 #endif
     if (defaultName) {
-    _LogNSUserDefaults(@"removeObjectForKey_",defaultName);
+        _LogNSUserDefaults(@"removeObjectForKey_",defaultName);
     }
     return _NSUserDefaults_removeObjectForKey_(self,sel,defaultName);
 }
@@ -459,33 +481,35 @@ HOOK_MESSAGE(NSDictionary *, NSUserDefaults, persistentDomainForName_,NSString *
 {
     
     NSDictionary *dictmp = _NSUserDefaults_persistentDomainForName_(self,sel,defaultName);
-    NSDictionary *dic=nil;
-    if (dictmp) {
-         dic = [NSDictionary dictionaryWithObject:dictmp forKey:defaultName];
-    }
     
+    if ([defaultName rangeOfString:@"com.apple.UIKit"].location == NSNotFound) {
+        NSDictionary *dic=nil;
+        if (dictmp) {
+            dic = [NSDictionary dictionaryWithObject:dictmp forKey:defaultName];
+        }
+        
 #ifdef DEBUG_INFO
-    NSLog(@"2222222222222--26");
+        NSLog(@"2222222222222--26");
 #endif
-    if (dic) {
-    _LogNSUserDefaults(@"persistentDomainForName_",dic);
+        if (dic) {
+            _LogNSUserDefaults(@"persistentDomainForName_",dic);
+        }
     }
-
     return dictmp;
 }
 
-HOOK_MESSAGE(NSArray *, NSUserDefaults, persistentDomainNames_)
-{
-    
-    NSArray *tmp = _NSUserDefaults_persistentDomainNames_(self,sel);
-#ifdef DEBUG_INFO
-    NSLog(@"2222222222222--31");
-#endif
-    if (tmp) {
-    _LogNSUserDefaults(@"persistentDomainNames_",tmp);
-    }
-    return tmp;
-}
+//HOOK_MESSAGE(NSArray *, NSUserDefaults, persistentDomainNames_)
+//{
+//    
+//    NSArray *tmp = _NSUserDefaults_persistentDomainNames_(self,sel);
+//#ifdef DEBUG_INFO
+//    NSLog(@"2222222222222--31");
+//#endif
+//    if (tmp) {
+//    _LogNSUserDefaults(@"persistentDomainNames_",tmp);
+//    }
+//    return tmp;
+//}
 
 
 
@@ -610,7 +634,7 @@ HOOK_MESSAGE(NSDictionary *, NSUserDefaults,volatileDomainForName_,NSString *dom
 //NSKeyedUnarchiver
 
 
-
+#endif
 
 
 

@@ -1,0 +1,6 @@
+cp -r ./LatestBuild/FileMonitor.app ./FileMonitor/Package/Applications/
+dpkg-deb -b ./FileMonitor/Package
+scp ./FileMonitor/Package.deb i5s3:/
+#rm -r ./FileMonitor/Package/Applications/FileMonitor.app
+#rm -r ./FileMonitor/Package.deb
+#rm -r ./LatestBuild/FileMonitor.app

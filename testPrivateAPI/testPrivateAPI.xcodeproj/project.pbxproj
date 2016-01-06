@@ -15,6 +15,19 @@
 		BAB6FEB51C295BE00028BC13 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAB6FEB41C295BE00028BC13 /* Images.xcassets */; };
 		BAB6FEB81C295BE00028BC13 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = BAB6FEB61C295BE00028BC13 /* LaunchScreen.xib */; };
 		BAB6FEC41C295BE00028BC13 /* testPrivateAPITests.m in Sources */ = {isa = PBXBuildFile; fileRef = BAB6FEC31C295BE00028BC13 /* testPrivateAPITests.m */; };
+		BAD6229A1C2B8BC700EAD950 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAD622991C2B8BC700EAD950 /* IOKit.framework */; };
+		BAD623061C2BF3A800EAD950 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAD623051C2BF3A800EAD950 /* UIKit.framework */; };
+		BAD623081C2BF3AC00EAD950 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAD623071C2BF3AC00EAD950 /* Foundation.framework */; };
+		BAD6230A1C2BF3B500EAD950 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAD623091C2BF3B500EAD950 /* CoreFoundation.framework */; };
+		BAD623201C2CE9F100EAD950 /* NSArray+LBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD6230F1C2CE9F100EAD950 /* NSArray+LBExtension.m */; };
+		BAD623211C2CE9F100EAD950 /* NSData+BeeCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD623111C2CE9F100EAD950 /* NSData+BeeCategory.m */; };
+		BAD623221C2CE9F100EAD950 /* NSString+LBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD623131C2CE9F100EAD950 /* NSString+LBExtension.m */; };
+		BAD623231C2CE9F100EAD950 /* UIDevice+IOKitDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD623151C2CE9F100EAD950 /* UIDevice+IOKitDeviceInfo.m */; };
+		BAD623241C2CE9F100EAD950 /* LB_DeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD623171C2CE9F100EAD950 /* LB_DeviceInfo.m */; };
+		BAD623251C2CE9F100EAD950 /* LB_Foundation.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD623191C2CE9F100EAD950 /* LB_Foundation.m */; };
+		BAD623261C2CE9F100EAD950 /* LB_Sandbox.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD6231B1C2CE9F100EAD950 /* LB_Sandbox.m */; };
+		BAD623271C2CE9F100EAD950 /* LB_Singleton.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD6231D1C2CE9F100EAD950 /* LB_Singleton.m */; };
+		BAD623281C2CE9F100EAD950 /* LB_SystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD6231F1C2CE9F100EAD950 /* LB_SystemInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +55,28 @@
 		BAB6FEBD1C295BE00028BC13 /* testPrivateAPITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = testPrivateAPITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAB6FEC21C295BE00028BC13 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAB6FEC31C295BE00028BC13 /* testPrivateAPITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = testPrivateAPITests.m; sourceTree = "<group>"; };
+		BAD622991C2B8BC700EAD950 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		BAD623051C2BF3A800EAD950 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		BAD623071C2BF3AC00EAD950 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		BAD623091C2BF3B500EAD950 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		BAD6230E1C2CE9F100EAD950 /* NSArray+LBExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+LBExtension.h"; sourceTree = "<group>"; };
+		BAD6230F1C2CE9F100EAD950 /* NSArray+LBExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+LBExtension.m"; sourceTree = "<group>"; };
+		BAD623101C2CE9F100EAD950 /* NSData+BeeCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+BeeCategory.h"; sourceTree = "<group>"; };
+		BAD623111C2CE9F100EAD950 /* NSData+BeeCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+BeeCategory.m"; sourceTree = "<group>"; };
+		BAD623121C2CE9F100EAD950 /* NSString+LBExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+LBExtension.h"; sourceTree = "<group>"; };
+		BAD623131C2CE9F100EAD950 /* NSString+LBExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+LBExtension.m"; sourceTree = "<group>"; };
+		BAD623141C2CE9F100EAD950 /* UIDevice+IOKitDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+IOKitDeviceInfo.h"; sourceTree = "<group>"; };
+		BAD623151C2CE9F100EAD950 /* UIDevice+IOKitDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+IOKitDeviceInfo.m"; sourceTree = "<group>"; };
+		BAD623161C2CE9F100EAD950 /* LB_DeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LB_DeviceInfo.h; sourceTree = "<group>"; };
+		BAD623171C2CE9F100EAD950 /* LB_DeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LB_DeviceInfo.m; sourceTree = "<group>"; };
+		BAD623181C2CE9F100EAD950 /* LB_Foundation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LB_Foundation.h; sourceTree = "<group>"; };
+		BAD623191C2CE9F100EAD950 /* LB_Foundation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LB_Foundation.m; sourceTree = "<group>"; };
+		BAD6231A1C2CE9F100EAD950 /* LB_Sandbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LB_Sandbox.h; sourceTree = "<group>"; };
+		BAD6231B1C2CE9F100EAD950 /* LB_Sandbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LB_Sandbox.m; sourceTree = "<group>"; };
+		BAD6231C1C2CE9F100EAD950 /* LB_Singleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LB_Singleton.h; sourceTree = "<group>"; };
+		BAD6231D1C2CE9F100EAD950 /* LB_Singleton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LB_Singleton.m; sourceTree = "<group>"; };
+		BAD6231E1C2CE9F100EAD950 /* LB_SystemInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LB_SystemInfo.h; sourceTree = "<group>"; };
+		BAD6231F1C2CE9F100EAD950 /* LB_SystemInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LB_SystemInfo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +84,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAD6230A1C2BF3B500EAD950 /* CoreFoundation.framework in Frameworks */,
+				BAD623081C2BF3AC00EAD950 /* Foundation.framework in Frameworks */,
+				BAD623061C2BF3A800EAD950 /* UIKit.framework in Frameworks */,
+				BAD6229A1C2B8BC700EAD950 /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +104,10 @@
 		BAB6FE981C295BE00028BC13 = {
 			isa = PBXGroup;
 			children = (
+				BAD623091C2BF3B500EAD950 /* CoreFoundation.framework */,
+				BAD623071C2BF3AC00EAD950 /* Foundation.framework */,
+				BAD623051C2BF3A800EAD950 /* UIKit.framework */,
+				BAD622991C2B8BC700EAD950 /* IOKit.framework */,
 				BAB6FEA31C295BE00028BC13 /* testPrivateAPI */,
 				BAB6FEC01C295BE00028BC13 /* testPrivateAPITests */,
 				BAB6FEA21C295BE00028BC13 /* Products */,
@@ -83,6 +126,7 @@
 		BAB6FEA31C295BE00028BC13 /* testPrivateAPI */ = {
 			isa = PBXGroup;
 			children = (
+				BAD6230B1C2CE9F100EAD950 /* System */,
 				BAB6FEA81C295BE00028BC13 /* AppDelegate.h */,
 				BAB6FEA91C295BE00028BC13 /* AppDelegate.m */,
 				BAB6FEAE1C295BE00028BC13 /* ViewController.h */,
@@ -120,6 +164,47 @@
 				BAB6FEC21C295BE00028BC13 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		BAD6230B1C2CE9F100EAD950 /* System */ = {
+			isa = PBXGroup;
+			children = (
+				BAD6230C1C2CE9F100EAD950 /* foundation */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		BAD6230C1C2CE9F100EAD950 /* foundation */ = {
+			isa = PBXGroup;
+			children = (
+				BAD6230D1C2CE9F100EAD950 /* Category */,
+				BAD623161C2CE9F100EAD950 /* LB_DeviceInfo.h */,
+				BAD623171C2CE9F100EAD950 /* LB_DeviceInfo.m */,
+				BAD623181C2CE9F100EAD950 /* LB_Foundation.h */,
+				BAD623191C2CE9F100EAD950 /* LB_Foundation.m */,
+				BAD6231A1C2CE9F100EAD950 /* LB_Sandbox.h */,
+				BAD6231B1C2CE9F100EAD950 /* LB_Sandbox.m */,
+				BAD6231C1C2CE9F100EAD950 /* LB_Singleton.h */,
+				BAD6231D1C2CE9F100EAD950 /* LB_Singleton.m */,
+				BAD6231E1C2CE9F100EAD950 /* LB_SystemInfo.h */,
+				BAD6231F1C2CE9F100EAD950 /* LB_SystemInfo.m */,
+			);
+			path = foundation;
+			sourceTree = "<group>";
+		};
+		BAD6230D1C2CE9F100EAD950 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				BAD6230E1C2CE9F100EAD950 /* NSArray+LBExtension.h */,
+				BAD6230F1C2CE9F100EAD950 /* NSArray+LBExtension.m */,
+				BAD623101C2CE9F100EAD950 /* NSData+BeeCategory.h */,
+				BAD623111C2CE9F100EAD950 /* NSData+BeeCategory.m */,
+				BAD623121C2CE9F100EAD950 /* NSString+LBExtension.h */,
+				BAD623131C2CE9F100EAD950 /* NSString+LBExtension.m */,
+				BAD623141C2CE9F100EAD950 /* UIDevice+IOKitDeviceInfo.h */,
+				BAD623151C2CE9F100EAD950 /* UIDevice+IOKitDeviceInfo.m */,
+			);
+			path = Category;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -223,9 +308,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				BAB6FEAD1C295BE00028BC13 /* testPrivateAPI.xcdatamodeld in Sources */,
+				BAD623221C2CE9F100EAD950 /* NSString+LBExtension.m in Sources */,
+				BAD623231C2CE9F100EAD950 /* UIDevice+IOKitDeviceInfo.m in Sources */,
+				BAD623211C2CE9F100EAD950 /* NSData+BeeCategory.m in Sources */,
+				BAD623201C2CE9F100EAD950 /* NSArray+LBExtension.m in Sources */,
+				BAD623271C2CE9F100EAD950 /* LB_Singleton.m in Sources */,
 				BAB6FEAA1C295BE00028BC13 /* AppDelegate.m in Sources */,
+				BAD623251C2CE9F100EAD950 /* LB_Foundation.m in Sources */,
+				BAD623241C2CE9F100EAD950 /* LB_DeviceInfo.m in Sources */,
 				BAB6FEB01C295BE00028BC13 /* ViewController.m in Sources */,
 				BAB6FEA71C295BE00028BC13 /* main.m in Sources */,
+				BAD623281C2CE9F100EAD950 /* LB_SystemInfo.m in Sources */,
+				BAD623261C2CE9F100EAD950 /* LB_Sandbox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,9 +447,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
 				INFOPLIST_FILE = testPrivateAPI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
 			};
 			name = Debug;
 		};
@@ -363,9 +460,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
 				INFOPLIST_FILE = testPrivateAPI/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
 			};
 			name = Release;
 		};
@@ -422,6 +522,7 @@
 				BAB6FEC91C295BE00028BC13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BAB6FECA1C295BE00028BC13 /* Build configuration list for PBXNativeTarget "testPrivateAPITests" */ = {
 			isa = XCConfigurationList;
@@ -430,6 +531,7 @@
 				BAB6FECC1C295BE00028BC13 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:NSPredicate/NSPredicate.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:testPrivateAPI/testPrivateAPI.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:testhook/testhook.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:testbug/testbug.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:testsqlite3/testsqlite3.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:third_lib/JSONKittest/JSONKittest.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:FileMonitor.xcodeproj">
+   </FileRef>
+</Workspace>

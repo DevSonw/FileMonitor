@@ -1,0 +1,10 @@
+Package: com.360.FileMonitor
+Name: FileMonitor
+Version: 0.1-1
+Description: A good Tool for File Monitor
+Section: System
+Depends: firmware (>= 7.0)
+Priority: optional
+Architecture: iphoneos-arm
+Author: xcq_panda
+Maintainer: xcq_panda

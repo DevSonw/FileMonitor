@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "DF585B6294A4F549C22958557C05CA0BF5344B6C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "DF585B6294A4F549C22958557C05CA0BF5344B6C" : 0,
+    "89ACD9B1F6A03DDD247F86E2A6034EF77AB8AACE" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "88EF1C22-9CFF-4F4C-B9A5-33566653A11F",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "DF585B6294A4F549C22958557C05CA0BF5344B6C" : "FileMonitor",
+    "89ACD9B1F6A03DDD247F86E2A6034EF77AB8AACE" : "FileMonitorForAduit\/NSPredicate"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "FileMonitor",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "FileMonitor.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/q858333\/NSPredicate.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "89ACD9B1F6A03DDD247F86E2A6034EF77AB8AACE"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:zcc1414\/FileMonitor.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "DF585B6294A4F549C22958557C05CA0BF5344B6C"
+    }
+  ]
+}

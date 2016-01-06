@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BA12399D1C0C1BDE00EBCFF4 /* DSFMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = BA12399C1C0C1BDE00EBCFF4 /* DSFMDatabase.m */; };
+		BA1239A01C0C1C1300EBCFF4 /* DSFMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = BA12399F1C0C1C1300EBCFF4 /* DSFMResultSet.m */; };
+		BA19B6B11C2042A000FB7690 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BA19B6B01C2042A000FB7690 /* libsqlite3.dylib */; };
 		BAE539311C0BE3C300FDA6FD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE539301C0BE3C300FDA6FD /* main.m */; };
 		BAE539341C0BE3C300FDA6FD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE539331C0BE3C300FDA6FD /* AppDelegate.m */; };
 		BAE539371C0BE3C300FDA6FD /* testsqlite3.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BAE539351C0BE3C300FDA6FD /* testsqlite3.xcdatamodeld */; };
@@ -28,6 +31,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		BA12399B1C0C1BDE00EBCFF4 /* DSFMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSFMDatabase.h; sourceTree = "<group>"; };
+		BA12399C1C0C1BDE00EBCFF4 /* DSFMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSFMDatabase.m; sourceTree = "<group>"; };
+		BA12399E1C0C1C1300EBCFF4 /* DSFMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DSFMResultSet.h; sourceTree = "<group>"; };
+		BA12399F1C0C1C1300EBCFF4 /* DSFMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DSFMResultSet.m; sourceTree = "<group>"; };
+		BA19B6B01C2042A000FB7690 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		BAE5392B1C0BE3C300FDA6FD /* testsqlite3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testsqlite3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAE5392F1C0BE3C300FDA6FD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BAE539301C0BE3C300FDA6FD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -49,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA19B6B11C2042A000FB7690 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,7 @@
 		BAE539221C0BE3C300FDA6FD = {
 			isa = PBXGroup;
 			children = (
+				BA19B6B01C2042A000FB7690 /* libsqlite3.dylib */,
 				BAE5392D1C0BE3C300FDA6FD /* testsqlite3 */,
 				BAE5394A1C0BE3C300FDA6FD /* testsqlite3Tests */,
 				BAE5392C1C0BE3C300FDA6FD /* Products */,
@@ -83,6 +93,10 @@
 		BAE5392D1C0BE3C300FDA6FD /* testsqlite3 */ = {
 			isa = PBXGroup;
 			children = (
+				BA12399E1C0C1C1300EBCFF4 /* DSFMResultSet.h */,
+				BA12399F1C0C1C1300EBCFF4 /* DSFMResultSet.m */,
+				BA12399B1C0C1BDE00EBCFF4 /* DSFMDatabase.h */,
+				BA12399C1C0C1BDE00EBCFF4 /* DSFMDatabase.m */,
 				BAE539321C0BE3C300FDA6FD /* AppDelegate.h */,
 				BAE539331C0BE3C300FDA6FD /* AppDelegate.m */,
 				BAE539381C0BE3C300FDA6FD /* ViewController.h */,
@@ -225,6 +239,8 @@
 				BAE539341C0BE3C300FDA6FD /* AppDelegate.m in Sources */,
 				BAE539311C0BE3C300FDA6FD /* main.m in Sources */,
 				BAE5393A1C0BE3C300FDA6FD /* ViewController.m in Sources */,
+				BA1239A01C0C1C1300EBCFF4 /* DSFMResultSet.m in Sources */,
+				BA12399D1C0C1BDE00EBCFF4 /* DSFMDatabase.m in Sources */,
 				BAE539371C0BE3C300FDA6FD /* testsqlite3.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,9 +369,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
 				INFOPLIST_FILE = testsqlite3/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
 			};
 			name = Debug;
 		};
@@ -363,9 +383,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
 				INFOPLIST_FILE = testsqlite3/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
 			};
 			name = Release;
 		};
@@ -422,6 +446,7 @@
 				BAE539531C0BE3C300FDA6FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		BAE539541C0BE3C300FDA6FD /* Build configuration list for PBXNativeTarget "testsqlite3Tests" */ = {
 			isa = XCConfigurationList;
@@ -430,6 +455,7 @@
 				BAE539561C0BE3C300FDA6FD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

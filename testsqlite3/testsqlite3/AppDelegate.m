@@ -7,16 +7,123 @@
 //
 
 #import "AppDelegate.h"
+#import <sqlite3.h>
+#import "DSFMDatabase.h"
 
 @interface AppDelegate ()
 
 @end
+
+
+static void firstchar(sqlite3_context *context, int argc, sqlite3_value **argv)
+{
+//    printf("argv[0]");
+//    printf("argc = %d",argc);
+    if (argc == 1) {
+        
+        char *text = sqlite3_value_text(argv[0]);
+        if (text && text[0]) {
+            char result[2];
+            result[0] = text[0]; result[1] = '\0';
+            sqlite3_result_text(context, result, -1, SQLITE_TRANSIENT);
+            return;
+        }
+    }
+    sqlite3_result_null(context);
+}
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+//    NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true);
+//    NSString *documentPath = [paths objectAtIndex:0];
+//    NSString *dbpath = [documentPath stringByAppendingPathComponent:@"1.db"];
+    
+    sqlite3 *db;
+    sqlite3_stmt *res;
+    
+    int rc = sqlite3_open(":memory:", &db);
+//    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+        
+        return 1;
+    }
+    
+    rc = sqlite3_prepare_v2(db, "SELECT SQLITE_VERSION()", -1, &res, 0);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Failed to fetch data: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+        
+        return 1;
+    }
+    
+    rc = sqlite3_step(res);
+    
+    if (rc == SQLITE_ROW) {
+        printf("%s\n", sqlite3_column_text(res, 0));
+    }
+    
+    sqlite3_finalize(res);
+    sqlite3_close(db);
+
+    char *err_msg = 0;
+    
+     rc = sqlite3_open(":memory:", &db);
+    
+    if (rc != SQLITE_OK) {
+        
+        fprintf(stderr, "Cannot open database: %s\n", sqlite3_errmsg(db));
+        sqlite3_close(db);
+        
+        return 1;
+    }
+    
+    char *sql = "CREATE TABLE Friends(Id INTEGER PRIMARY KEY, Name TEXT);"
+    "INSERT INTO Friends(Name) VALUES ('Tom');"
+    "INSERT INTO Friends(Name) VALUES ('Rebecca');"
+    "INSERT INTO Friends(Name) VALUES ('Jim');"
+    "INSERT INTO Friends(Name) VALUES ('Roger');"
+    "INSERT INTO Friends(Name) VALUES ('Robert');";
+    
+    rc = sqlite3_exec(db, sql, 0, 0, &err_msg);
+    
+    if (rc != SQLITE_OK ) {
+        
+        fprintf(stderr, "SQL error: %s\n", err_msg);
+        
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+        
+        return 1;
+    }
+    sqlite3_create_function(db, "firstchar", 1, SQLITE_UTF8, NULL, &firstchar, NULL, NULL);
+    
+    char *sql2 = "SELECT firstchar(Name) from Friends";
+    
+    rc = sqlite3_exec(db, sql2, 0, 0, &err_msg);
+    
+    rc = sqlite3_exec(db, sql2, 0, 0, &err_msg);
+    
+    if (rc != SQLITE_OK ) {
+        
+        fprintf(stderr, "SQL error: %s\n", err_msg);
+        
+        sqlite3_free(err_msg);
+        sqlite3_close(db);
+        
+        return 1;
+    }
+
+    sqlite3_close(db);
+    
     return YES;
 }
 

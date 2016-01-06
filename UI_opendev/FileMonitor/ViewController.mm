@@ -44,10 +44,10 @@
             break;
         }
     }
-    
 }
 - (void)viewDidLoad
 {
+    NSLog(@"Filemonitor~~~~~~~~~~~~~~~~~~~~");
     [super viewDidLoad];
     // 初始化tableView的数据
     //NSMutableArray *list = [NSArray arrayWithObjects:@"武汉",@"上海",@"北京",@"深圳",@"广州",@"重庆",@"香港",@"台海",@"天津", nil];
@@ -65,6 +65,8 @@
         command = [NSString stringWithFormat:@"chown mobile:mobile /var/root/tmp"];
         system([command UTF8String]);
     }
+    
+  
     
     float SysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
     if(SysVer < 8.0)
@@ -107,10 +109,8 @@
                 NSLog(@"path = %@",[[self.dataList objectAtIndex:1] appPath]);
                 NSLog(@"Name = %@",[[self.dataList objectAtIndex:1] appName]);
         
-        self->global_flag = 0;
-        
-        NSString *command = [NSString stringWithFormat:@"rm -r /var/root/tmp/*.req"];
-        system([command UTF8String]);
+//        NSString *command = [NSString stringWithFormat:@"rm -r /var/root/tmp/*.req"];
+//        system([command UTF8String]);
         [ViewController cleanPlist];
     }
     else
@@ -148,61 +148,61 @@
         [but2 addTarget:self action:@selector(refreshTable:) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:but2];
         
-        NSString *command = [NSString stringWithFormat:@"rm -r /var/root/tmp/*.req"];
+//        NSString *command = [NSString stringWithFormat:@"rm -r /var/root/tmp/*.req"];
         [ViewController cleanPlist];
-        system([command UTF8String]);
+//        system([command UTF8String]);
 //                NSLog(@"bundle = %@",[[self.dataList objectAtIndex:1] appBundle]);
 //                NSLog(@"DisplayName = %@",[[self.dataList objectAtIndex:1] appDisplayName]);
 //                NSLog(@"path = %@",[[self.dataList objectAtIndex:1] appPath]);
 //                NSLog(@"Name = %@",[[self.dataList objectAtIndex:1] appName]);
     }
     
+    self->global_flag = 0;
+    
+//    NSLog(@"self.view.bounds.size.height = %f",self.view.bounds.size.height);
+//    NSLog(@"self.view.bounds.size.width  = %f",self.view.bounds.size.width);
+
+    CGRect rect = self.view.bounds;
+    rect.origin.x    = rect.size.width /2;
+    rect.size.width  = rect.size.width /2;
+    rect.size.height = rect.size.height/2;
+   
+    NSLog(@"rect.origin.x = %f",   rect.origin.x);
+    NSLog(@"rect.size.width  = %f",rect.size.width);
+    NSLog(@"rect.size.height  = %f",rect.size.height);
+    
+    UIView *view =[[UIView alloc] initWithFrame:self.view.bounds];
+    UIImageView *backImageView = [[UIImageView alloc] initWithFrame:rect];
+    [backImageView setImage:[UIImage imageNamed:@"nirvanteam.jpg"]];
+    NSLog(@"backImageView = %@",backImageView);
+    [view addSubview:backImageView];
+    NSLog(@"view = %@",view);
+    self.myTableView.backgroundView = view;
+    
+    /*
+     经常遇到要给tableView设置背景图片的问题,但如果直接设置背景  backgroundView的话,背景图不会显示,原因是  tableView上的cell默认是不透明的颜色,所以解决方法是 让  cell透明即可:
+     [cpp] view plaincopyprint?
+     1.给tableView设置背景view
+     UIImageView *backImageView=[[UIImageViewalloc]initWithFrame:self.view.bounds];
+     [backImageView setImage:[UIImageimageNamed:@"liaotianbeijing"]];
+     self.tableView.backgroundView=backImageView;
+     
+     2.让cell透明
+     -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+     {
+     
+     
+     MyCell  *cell = [tableViewdequeueReusableCellWithIdentifier:@"METext"forIndexPath:indexPath];
+     cell.backgroundColor=[UIColor clearColor];//关键语句
+     [cell setCellInfo:dic];//自定义类目方法
+     return cell;  
+     
+     }
+     */
     [self isConnectNetworkandwarnning];
     setuid(0);
 }
 
--(void)ConstructPacket:(NSString *)app_name :(NSString *) app_version :(NSString *)app_package_id :(NSString *) device_tag :(NSArray *)paramSum
-{
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    //token：生成算法$token=md5(md5($app_name.$ app_version.$ app_package_id.$device_tag)."SeC0riTy")
-    NSString * Params = [NSString stringWithFormat:@"%@%@%@%@",app_name,app_version,app_package_id,device_tag];
-    NSLog(@"Params = %@",Params);
-    NSString *token = [[[Params md5] stringByAppendingString:@"SeC0riTy"] md5];
-    
-    //NSString * adust = [NSString stringWithFormat:@"{\"method\":\"%@\",\"url\":\"%@\",\"host\":\"%@\",\"cookie\":\"%@\",\"mime\":\"%@\",\"data\":\"%@\"}",method,url,host,cookie,@"application/json",@"id=1&type=3"];
-    //NSData * param = adust.JSONValue;
-    
-    NSError * error = [[NSError alloc] init];
-    NSData *urls =[ NSJSONSerialization dataWithJSONObject:paramSum
-                                                   options:NSJSONWritingPrettyPrinted
-                                                     error:&error];
-    
-    NSString *jsonString = [[NSString alloc] initWithData:urls encoding:NSUTF8StringEncoding];
-    
-    jsonString = [jsonString stringByDecodingHTMLEntities];//转义 &amp; 等转移字符
-    jsonString = [jsonString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
-    
-    NSString* post = [NSString stringWithFormat:@"app_name=%@&app_version=%@&app_package_id=%@&device_tag=%@&token=%@&urls=%@",\
-                      [app_name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],app_version,app_package_id,device_tag,token,[jsonString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    
-    postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
-    NSString *postLength = [NSString stringWithFormat:@"%d",(int)[postData length]];
-    
-    [request setURL:[NSURL URLWithString:@"http://pcap.0kee.com/ios.php"]];
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setHTTPBody:postData];
-    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];///
-    if(conn) {
-        NSLog(@"Connection Successful");
-        [conn start];
-    } else {
-        NSLog(@"Connection could not be made");
-    }
-}
 
 +(void) cleanPlist
 {
@@ -213,24 +213,24 @@
         NSLog(@"cleanPlist");
         NSError *error;
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek7.plist" error:&error];
+        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist" error:&error];
         
         NSMutableDictionary *iadbPlist = [NSMutableDictionary dictionary];
         NSMutableDictionary *filter = [NSMutableDictionary dictionary];
         [iadbPlist setObject:filter forKey:@"Filter"];
-        [iadbPlist writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek7.plist" atomically:TRUE];
+        [iadbPlist writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist.plist" atomically:TRUE];
     }
     else
     {
         NSLog(@"cleanPlist");
         NSError *error;
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek8.plist" error:&error];
+        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.plist" error:&error];
         
         NSMutableDictionary *iadbPlist = [NSMutableDictionary dictionary];
         NSMutableDictionary *filter = [NSMutableDictionary dictionary];
         [iadbPlist setObject:filter forKey:@"Filter"];
-        [iadbPlist writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek8.plist" atomically:TRUE];
+        [iadbPlist writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.plist" atomically:TRUE];
     }
     setuid(0);
 }
@@ -241,12 +241,11 @@
    float SysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
     if(SysVer < 8.0)
     {
-        NSMutableDictionary *currentPList = [NSMutableDictionary dictionaryWithContentsOfFile:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek7.plist"];
+        NSMutableDictionary *currentPList = [NSMutableDictionary dictionaryWithContentsOfFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist"];
         
         NSError *error;
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek7.plist" error:&error];
-        
+        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist" error:&error];
         NSMutableDictionary *filter = [currentPList objectForKey:@"Filter"];
         
         // if we don't have an existing bundles key in our dictionary
@@ -264,15 +263,15 @@
                 [bundles addObject:bundle];
         }
         NSLog(@"currentPList = %@",currentPList);
-        [currentPList writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek7.plist" atomically:TRUE];
+        [currentPList writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist" atomically:TRUE];
     }
     else
     {
-        NSMutableDictionary *currentPList = [NSMutableDictionary dictionaryWithContentsOfFile:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek8.plist"];
+        NSMutableDictionary *currentPList = [NSMutableDictionary dictionaryWithContentsOfFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.plist"];
         
         NSError *error;
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek8.plist" error:&error];
+        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.plist" error:&error];
         
         NSMutableDictionary *filter = [currentPList objectForKey:@"Filter"];
         
@@ -290,7 +289,7 @@
             if(![bundles containsObject:bundle])
                 [bundles addObject:bundle];
         }
-        BOOL  flag = [currentPList writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/HttPeek8.plist" atomically:TRUE];
+        BOOL  flag = [currentPList writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.plist" atomically:TRUE];
         NSLog(@"write flag = %d",flag);
     }
     //NSLog(@"now currentPList = %@",[currentPList objectForKey:@"Filter"]);
@@ -409,58 +408,6 @@
 }
 
 
-// This method is used to receive the data which we get using post method.
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)data
-{
-    NSLog(@"cuit:~_~");
-    id message = [data toArrayOrNSDictionary];
-    int tmp = [[[message valueForKey:@"errno"] description] intValue];
-    
-    NSString *appName = [[self.dataList objectAtIndex:[self.global_index row]] appName];
-    NSString *path = [NSString stringWithFormat:@"/var/root/tmp/%@.req",appName];
-    NSString *command = [NSString stringWithFormat:@"rm -r %@",path];
-    
-    if (self->global_flag  == 3) {
-        if (tmp == 0) {
-            
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发送成功,发送了 %d 条URL包\n",self->CountOfParams] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
-            
-            setuid(0);
-            if ([command length] !=0) {
-                system([command UTF8String]);
-            }
-            setuid(0);
-            NSLog(@"cuit:~_~2");
-            self->postData = nil;
-        }
-        else
-        {
-            NSString *FilePath = [NSString stringWithFormat:@"/var/root/tmp/%@_error_.txt",appName];
-            NSString *error = [NSString stringWithFormat:@"发送错误,%d,%@\n",tmp,[message valueForKey:@"message"]];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
-            setuid(0);
-            
-            [error writeToFile:FilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
-            NSFileHandle *filehandle = [NSFileHandle fileHandleForUpdatingAtPath:FilePath];
-            [filehandle seekToEndOfFile];
-            [filehandle writeData:self->postData];
-            setuid(0);
-            NSLog(@"cuit:~_~3");
-            self->postData = nil;
-        }
-        self->global_flag = 0;
-    }
-    else
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"SomeThing error self->global_flag: %d",self->global_flag ] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-        [alert show];
-        NSLog(@"cuit:~_~4");
-    }
-    NSLog(@"cuit:~_~5");
-}
-
 #pragma mark -
 #pragma mark Table Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -477,6 +424,7 @@
     
     NSUInteger row = [indexPath row];
     cell.textLabel.text = [[self.dataList objectAtIndex:row] appDisplayName];
+    cell.backgroundColor = [UIColor clearColor];
     //cell.imageView.image = [UIImage imageNamed:@"green.png"];
     //cell.detailTextLabel.text = @"详细信息";
     //cell.accessoryType = UITableViewCellSelectionStyleGray;
@@ -503,7 +451,7 @@
         return;
     }
     if (self->global_flag == 1) {//已经选择了APP，等待点击审计
-        [but setTitle:@"停止审计,结束APP,发送APP流量" forState:UIControlStateNormal];
+        [but setTitle:@"停止文件监控,结束APP" forState:UIControlStateNormal];
         
         NSString *bundle = [[NSString alloc] initWithString:[[self.dataList objectAtIndex:[self.global_index row]] appBundle]];
         [ViewController DelAndAddAppToPlist:bundle];
@@ -526,7 +474,8 @@
     }
     else if(self->global_flag  == 2)        // 正在审计的状态
     {
-        self->global_flag = 3;
+        self->global_flag = 0;
+        
         NSString *appName = [[self.dataList objectAtIndex:[self.global_index row]] appName];
         NSString * command = [NSString stringWithFormat:@"killall %@",appName];
         
@@ -534,53 +483,42 @@
         system([command UTF8String]);
         NSError *error =nil;
         
-        NSString *path = [NSString stringWithFormat:@"/var/root/tmp/%@.req",appName];
-        NSFileManager *filemanager = [NSFileManager defaultManager];
-        NSArray * arrary = [filemanager contentsOfDirectoryAtPath:path error:&error];
-        
-        NSLog(@"arrary = %@",arrary);
-        NSMutableArray * paramSum = [NSMutableArray arrayWithCapacity:10];
-        [filemanager changeCurrentDirectoryPath:path];
-        
-        
-        for (NSString *indexPath in arrary) {
-            NSDictionary * dic = [NSDictionary dictionaryWithContentsOfFile:indexPath];
-            if (dic != nil) {
-                [paramSum addObject:dic];
-            }
-        }
-        
-        //NSLog(@"paramSum = %@",paramSum);
-        self->CountOfParams = [paramSum count];
-        if (self->CountOfParams == 0) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"获取 0 条HTTP包"] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
-            self->global_flag  = 0;
-            return;
-        }
-        //-(void)ConstructPacket:(NSString *)app_name :(NSString *) app_version :(NSString *)app_package_id :(NSString *) device_tag :(NSArray *)paramSum
+//        NSString *path = [NSString stringWithFormat:@"/var/root/tmp/%@.req",appName];
+//        NSFileManager *filemanager = [NSFileManager defaultManager];
+//        NSArray * arrary = [filemanager contentsOfDirectoryAtPath:path error:&error];
+//        
+//        NSLog(@"arrary = %@",arrary);
+//        NSMutableArray * paramSum = [NSMutableArray arrayWithCapacity:10];
+//        [filemanager changeCurrentDirectoryPath:path];
+//        
+//        for (NSString *indexPath in arrary) {
+//            NSDictionary * dic = [NSDictionary dictionaryWithContentsOfFile:indexPath];
+//            if (dic != nil) {
+//                [paramSum addObject:dic];
+//            }
+//        }
+//        
+//        //NSLog(@"paramSum = %@",paramSum);
+//        self->CountOfParams = [paramSum count];
+//        if (self->CountOfParams == 0) {
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"获取 0 条HTTP包"] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//            [alert show];
+//            self->global_flag  = 0;
+//            return;
+//        }
         
         NSString *appname = [[self.dataList objectAtIndex:[self.global_index row]] appName];// stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
         NSString *appversion = [[self.dataList objectAtIndex:[self.global_index row]] appShortVersionString];
         NSString *apppackage_id =[[self.dataList objectAtIndex:[self.global_index row]] appPackageID];
-        
         NSLog(@"appname: %@\nappversion: %@\napppackage_id : %@\n",appname,appversion,apppackage_id);
-        [self ConstructPacket:appname :appversion :apppackage_id :@"i4" :paramSum];
-        
         setuid(0);
         
-        
-        NSString *Title = [NSString stringWithFormat:@"开始审计"];
+        NSString *Title = [NSString stringWithFormat:@"开始文件监控"];
         [but setTitle:Title forState:UIControlStateNormal];
-    }
-    else if(self->global_flag == 3)//将要返回的状态
-    {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请等等，正在收信息" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-        [alert show];
     }
     else if(self->global_flag == 0)//开始选择APP
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请选择APP 进行审计" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请选择APP 进行文件监控" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
         [alert show];
     }
     else
@@ -602,30 +540,22 @@
         if(self->global_flag == 0)//开始选择APP
         {
             self.global_index = indexPath;
-            [but setTitle:@"开始审计" forState:UIControlStateNormal];
+            [but setTitle:@"开始文件监控" forState:UIControlStateNormal];
             
             self->global_flag = 1;
         }
         else if(self->global_flag == 1){//已经选择了APP，等待点击审计
             self.global_index = indexPath;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请点击开始审计" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请点击开始文件监控" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
             [alert show];
         }
         else if(self->global_flag == 2)// 正在审计的状态
         {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请点击停止审计 App 流量" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请点击停止文件监控" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
                 [alert show];
-        }
-        else if(self->global_flag == 3){//已经选择了APP，等待点击审计
-            self.global_index = indexPath;
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请等等，正在收信息" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
         }
     }
 }
-
-
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {

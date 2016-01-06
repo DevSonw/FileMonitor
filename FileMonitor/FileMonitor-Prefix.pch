@@ -1,5 +1,6 @@
 #import <CommonCrypto/CommonDigest.h>
 #import <CommonCrypto/CommonCryptor.h>
+#import <CommonCrypto/CommonHMAC.h>
 
 #define TEST
 #import "Macro.h"
@@ -10,6 +11,38 @@
 #endif
 
 #import "HookUtil.h"
+#import "JSONKit.h"
+
+
+
+#define ____________________________________________________________________________________________________NSArray
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogNSArrayWrite(NSString *funcName,id data,NSString *path, void *returnAddress);
+#define _LogNSArrayWrite(funcName,data,path) LogNSArrayWrite(funcName,data,path, __builtin_return_address(0))
+
+
+
+
+#define ____________________________________________________________________________________________________NSFileHandle
+#if __cplusplus
+extern "C"
+#endif
+void LogNSFileHandle(NSString * funcName,id data, void *returnAddress);
+#define _LogNSFileHandle(funcName, data) LogNSFileHandle(funcName,data, __builtin_return_address(0))
+
+
+
+#define ____________________________________________________________________________________________________json
+#if __cplusplus
+extern "C"
+#endif
+void LogNSJSONSerialization(NSString * funcName,id source,id dest, void *returnAddress);
+#define _LogNSJSONSerialization(funcName, source,dest) LogNSJSONSerialization(funcName,source,dest, __builtin_return_address(0))
+
+
 
 #define ____________________________________________________________________________________________________md5
 
@@ -25,7 +58,7 @@ void LogHash(NSString * funcName,NSString *source,NSString *dest, void *returnAd
 #if __cplusplus
 extern "C"
 #endif
-void LogBase64(NSString * funcName,NSData *data1,id data2, void *returnAddress);
+void LogBase64(NSString * funcName,NSString * data1,id data2, void *returnAddress);
 #define _LogBase64(funcName, data1,data2) LogBase64(funcName,data1,data2, __builtin_return_address(0))
 
 
@@ -34,10 +67,15 @@ void LogBase64(NSString * funcName,NSData *data1,id data2, void *returnAddress);
 #if __cplusplus
 extern "C"
 #endif
-void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptions options, const void *key, const void *dataIn, size_t dataInLength, void *dataOut, size_t dataOutAvailable, size_t *dataOutMoved, void *returnAddress);
-#define _LogCommonCypto(funcName,op,alg,options,key,dataIn,dataInLength,dataOut,dataOutAvailable,dataOutMoved) LogCommonCypto(funcName,op,alg,options,key,dataIn,dataInLength,dataOut,dataOutAvailable,dataOutMoved, __builtin_return_address(0))
+void LogCommonCypto(NSString * funcName,CCOperation op, CCAlgorithm alg, CCOptions options, const void *key,const void * iv, const void *dataIn, size_t dataInLength, void *dataOut, size_t dataOutAvailable, size_t *dataOutMoved, void *returnAddress);
+#define _LogCommonCypto(funcName,op,alg,options,key,iv,dataIn,dataInLength,dataOut,dataOutAvailable,dataOutMoved) LogCommonCypto(funcName,op,alg,options,key,iv,dataIn,dataInLength,dataOut,dataOutAvailable,dataOutMoved, __builtin_return_address(0))
 
-
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogCommonCyptoCCHmac(NSString * funcName,CCHmacAlgorithm algorithm,NSString* NS_key,NSString* NS_data,NSString* NS_result,void *returnAddress);
+#define _LogCommonCyptoCCHmac(funcName,algorithm,NS_key,NS_data,NS_result) LogCommonCyptoCCHmac(funcName,algorithm,NS_key,NS_data,NS_result, __builtin_return_address(0))
 
 
 #define ____________________________________________________________________________________________________NSUserDefaults
@@ -47,6 +85,16 @@ extern "C"
 #endif
 void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress);
 #define _LogNSUserDefaults(funcName,data) LogNSUserDefaults(funcName,data, __builtin_return_address(0))
+
+
+
+#define ____________________________________________________________________________________________________FMDB
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogFMDB(NSString *funcName,NSDictionary*dic,void *returnAddress);
+#define _LogFMDB(funcName,dic) LogFMDB(funcName,dic, __builtin_return_address(0))
 
 
 #define ____________________________________________________________________________________________________sqlite3
@@ -120,9 +168,6 @@ extern "C"
 #endif
 void LogNSFileManagerDelegate(NSString *funcName,id src,id dest, void *returnAddress);
 #define _LogNSFileManagerDelegate(funcName,src,dest) LogNSFileManagerDelegate(funcName,src,dest, __builtin_return_address(0))
-
-
-
 
 
 

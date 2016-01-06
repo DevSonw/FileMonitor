@@ -620,7 +620,7 @@ JK_STATIC_INLINE JKHash jk_calculateHash(JKHash currentHash, unsigned char c);
 
 // This is a workaround for issue #23 https://github.com/johnezang/JSONKit/pull/23
 // Basically, there seem to be a problem with using +load in static libraries on iOS.  However, __attribute__ ((constructor)) does work correctly.
-// Since we do not require anything "special" that +load provides, and we can accomplish the same thing using __attribute__ ((constructor)), the +load logic was moved here.
+// Since we do not require anything "special" that +load provides, and we can µ the same thing using __attribute__ ((constructor)), the +load logic was moved here.
 
 static Class                               _JKArrayClass                           = NULL;
 static size_t                              _JKArrayInstanceSize                    = 0UL;

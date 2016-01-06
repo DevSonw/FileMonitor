@@ -1,6 +1,7 @@
 
 
-
+#import "IFHOOK.h"
+#ifdef NSBundle_IF_HOOK
 /*
  - (NSString *)localizedStringForKey:(NSString *)key
  value:(NSString *)value
@@ -9,9 +10,12 @@
 HOOK_MESSAGE(NSString*,NSBundle,localizedStringForKey_value_table_,NSString *key,NSString *value,NSString *tableName)
 {
     NSString *str = _NSBundle_localizedStringForKey_value_table_(self,sel,key,value,tableName);
-    NSArray *array = [NSArray arrayWithObjects:key,value,nil];
-    _LoginitWithContentsOffileorurl(@"localizedStringForKey_value_table_",str,array);
-    
+    if (value && str) {
+        if ([str rangeOfString:@"Saved By"].location == NSNotFound) {
+            NSArray *array = [NSArray arrayWithObjects:key,value,nil];
+            _LoginitWithContentsOffileorurl(@"localizedStringForKey_value_table_",str,array);
+        }
+    }
     return str;
 }
 
@@ -19,7 +23,9 @@ HOOK_MESSAGE(NSString*,NSBundle,localizedStringForKey_value_table_,NSString *key
 HOOK_MESSAGE(NSString*,NSBundle,pathForAuxiliaryExecutable_,NSString *executableName)
 {
     NSString *str = _NSBundle_pathForAuxiliaryExecutable_(self,sel,executableName);
-    _LoginitWithContentsOffileorurl(@"pathForAuxiliaryExecutable",str,executableName);
+    if (str && executableName) {
+        _LoginitWithContentsOffileorurl(@"pathForAuxiliaryExecutable",str,executableName);
+    }
     return str;
 }
 
@@ -27,7 +33,9 @@ HOOK_MESSAGE(NSString*,NSBundle,pathForAuxiliaryExecutable_,NSString *executable
 HOOK_MESSAGE(NSURL*,NSBundle,URLForAuxiliaryExecutable_,NSString *executableName)
 {
     NSURL *url = _NSBundle_URLForAuxiliaryExecutable_(self,sel,executableName);
+    if (url && executableName) {
     _LoginitWithContentsOffileorurl(@"URLForAuxiliaryExecutable_",url,executableName);
+    }
     return url;
 }
 
@@ -35,6 +43,11 @@ HOOK_MESSAGE(NSURL*,NSBundle,URLForAuxiliaryExecutable_,NSString *executableName
 HOOK_MESSAGE(id,NSBundle,objectForInfoDictionaryKey_,NSString *key)
 {
     id data = _NSBundle_objectForInfoDictionaryKey_(self,sel,key);
+    if (data && key) {
     _LoginitWithContentsOffileorurl(@"objectForInfoDictionaryKey_",data,key);
+    }
     return data;
 }
+
+
+#endif

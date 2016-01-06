@@ -16,13 +16,27 @@
 //    hasAccessibilityBeenMigrated = 1;
 //}
 
+#import "IFHOOK.h"
+#ifdef NSDictionary_IF_HOOK
+
+extern NSRegularExpression *regex;
+
 
 HOOK_MESSAGE(BOOL,NSDictionary,writeToFile_atomically_,NSString *path,BOOL flag)
 {
         NSRange range = [path rangeOfString:@"filemon"];
         if (range.location == NSNotFound) {
+            NSString *pathexten = [path pathExtension];
+            NSArray *checkingResults  = [regex matchesInString:pathexten options:0 range:NSMakeRange(0, [pathexten length])];
+            if ([checkingResults count] != 0) {
+                
+            }else
             _LogNSDictionaryWrite(@"writeToFile_atomically_",self,path);
         }
+    else
+    {
+//        NSLog(@"filemonitor write~");
+    }
     return _NSDictionary_writeToFile_atomically_(self,sel,path,flag);
 }
 HOOK_MESSAGE(BOOL,NSDictionary,writeToURL_atomically_,NSURL *aURL,BOOL atomically)
@@ -39,6 +53,11 @@ HOOK_MESSAGE(BOOL,NSDictionary,writeToURL_atomically_,NSURL *aURL,BOOL atomicall
 HOOK_MESSAGE(BOOL,NSDictionary,initWithContentsOfFile_,NSString *path)
 {
     NSDictionary *dic =  _NSDictionary_initWithContentsOfFile_(self,sel,path);
+    NSString *pathexten = [path pathExtension];
+    NSArray *checkingResults  = [regex matchesInString:pathexten options:0 range:NSMakeRange(0, [pathexten length])];
+    if ([checkingResults count] != 0) {
+        
+    }else
     _LoginitWithContentsOffileorurl(@"initWithContentsOfFile_",self,path);
     return dic;
 }
@@ -53,16 +72,17 @@ HOOK_MESSAGE(BOOL,NSDictionary,initWithContentsOfURL_,NSURL *aURL)
 //compare
 HOOK_MESSAGE(BOOL,NSDictionary,isEqualToDictionary_,NSDictionary *otherDictionary)
 {
-    if ([otherDictionary objectForKey:@"UIDisableLegacyTextView"] ||[otherDictionary objectForKey:@"hasAccessibilityBeenMigrated"] || [otherDictionary objectForKey:@"NSStringDrawingLongTermThreshold"]) {
-    
-    }
-    else if([self objectForKey:@"NSColor"]  || [self objectForKey:@"NSFont"] || [self objectForKey:@"NSParagraphStyle"] )
-    {
-        
-    }
-    else{
+//    if ([otherDictionary objectForKey:@"UIDisableLegacyTextView"] ||[otherDictionary objectForKey:@"hasAccessibilityBeenMigrated"] || [otherDictionary objectForKey:@"NSStringDrawingLongTermThreshold"]) {
+//    
+//    }
+//    else if([self objectForKey:@"NSColor"]  || [self objectForKey:@"NSFont"] || [self objectForKey:@"NSParagraphStyle"] )
+//    {
+//        
+//    }
+//    else{
 //        _LogComparedata(@"isEqualToDictionary_",self,otherDictionary);
-    }
+//    }
     return _NSDictionary_isEqualToDictionary_(self,sel,otherDictionary);
 }
 
+#endif

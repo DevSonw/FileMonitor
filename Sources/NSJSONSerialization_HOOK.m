@@ -1,68 +1,71 @@
-//Jul 31 19:19:38 360de-iPhone UserDefaults[2328] <Warning>: ---FileMonitor---Compare :  : NSDictionary_isEqualToDictionary__{
-//    "objectForKey_" =     {
-//        UIDisableLegacyTextView = 1;
-//    };
-//}_{
-//    UIDisableLegacyTextView = 1;
+/*
+ enum {
+ NSJSONReadingMutableContainers = (1UL << 0),
+ NSJSONReadingMutableLeaves = (1UL << 1),
+ NSJSONReadingAllowFragments = (1UL << 2)
+ };
+ typedef NSUInteger NSJSONReadingOptions;
+ 
+ 
+ + (id)JSONObjectWithData:(NSData *)data
+ options:(NSJSONReadingOptions)opt
+ error:(NSError **)error
+ 
+ + (id)JSONObjectWithStream:(NSInputStream *)stream
+ options:(NSJSONReadingOptions)opt
+ error:(NSError **)error
+ 
+ + (NSData *)dataWithJSONObject:(id)obj
+ options:(NSJSONWritingOptions)opt
+ error:(NSError **)error
+ 
+ + (NSInteger)writeJSONObject:(id)obj
+ toStream:(NSOutputStream *)stream
+ options:(NSJSONWritingOptions)opt
+ error:(NSError **)error
+ */
+
+#import "IFHOOK.h"
+#ifdef NSJSONSerialization_IF_HOOK
+//解析
+HOOK_META(id,NSJSONSerialization,JSONObjectWithData_options_error_,NSData *data,NSJSONWritingOptions opt,NSError ** error)
+{
+    id tmp = _NSJSONSerialization_JSONObjectWithData_options_error_(self,sel,data,opt,error);
+//    NSLog(@"%@",[NSThread callStackSymbols]);
+    if (tmp != nil &&data != nil) {
+        _LogNSJSONSerialization(@"JSONObjectWithData_options_error_",tmp,data);
+    }
+    return tmp;
+}
+
+//HOOK_MESSAGE(id,NSJSONSerialization,JSONObjectWithStream_options_error_,NSInputStream *stream,NSJSONWritingOptions opt,NSError ** error)
+//{
+//    id tmp = _NSJSONSerialization_JSONObjectWithStream_options_error_(nil,sel,stream,opt,error);
+//    if (tmp != nil && stream != nil) {
+//        _LogNSJSONSerialization(@"JSONObjectWithStream_options_error_",tmp,stream);
+//    }
+//    return tmp;
 //}
 
-//    hasAccessibilityBeenMigrated = 1;
+HOOK_META(NSData *,NSJSONSerialization,dataWithJSONObject_options_error_,id obj,NSJSONWritingOptions opt,NSError ** error)
+{
+    NSData * tmp = _NSJSONSerialization_dataWithJSONObject_options_error_(self,sel,obj,opt,error);
+//    NSLog(@"%@",[NSThread callStackSymbols]);
+    if (tmp != nil && obj != nil) {
+//        NSLog(@"opt = %d",opt);
+        _LogNSJSONSerialization(@"dataWithJSONObject_options_error_",obj,tmp);
+    }
+    return tmp;
+}
+
+//HOOK_MESSAGE(NSInteger,NSJSONSerialization,writeJSONObject_toStream_options_error_,id obj,NSOutputStream *stream,NSJSONWritingOptions opt,NSError ** error)
+//{
+//    NSInteger tmp = _NSJSONSerialization_writeJSONObject_toStream_options_error_(nil,sel,obj,stream,opt,error);
+//    
+//       if (tmp != nil && obj != nil) {
+//            _LogNSJSONSerialization(@"writeJSONObject_toStream_options_error_",tmp,obj);
+//        }
+//    return tmp;
 //}
-//Jul 31 19:19:38 360de-iPhone UserDefaults[2328] <Warning>: ---FileMonitor---Compare :  : NSDictionary_isEqualToDictionary__{
-//    "objectForKey_" =     {
-//        hasAccessibilityBeenMigrated = 1;
-//    };
-//}_{
-//    hasAccessibilityBeenMigrated = 1;
-//}
 
-
-HOOK_MESSAGE(BOOL,NSDictionary,writeToFile_atomically_,NSString *path,BOOL flag)
-{
-        NSRange range = [path rangeOfString:@"filemon"];
-        if (range.location == NSNotFound) {
-            _LogNSDictionaryWrite(@"writeToFile_atomically_",self,path);
-        }
-    return _NSDictionary_writeToFile_atomically_(self,sel,path,flag);
-}
-HOOK_MESSAGE(BOOL,NSDictionary,writeToURL_atomically_,NSURL *aURL,BOOL atomically)
-{
-    NSRange range = [[aURL absoluteString] rangeOfString:@"filemon"];
-    if (range.location == NSNotFound) {
-    _LogNSDictionaryWrite(@"writeToURL_atomically_",self,[aURL absoluteString]);
-    }
-    return _NSDictionary_writeToURL_atomically_(self,sel,aURL,atomically);
-}
-
-
-//file
-HOOK_MESSAGE(BOOL,NSDictionary,initWithContentsOfFile_,NSString *path)
-{
-    NSDictionary *dic =  _NSDictionary_initWithContentsOfFile_(self,sel,path);
-    _LoginitWithContentsOffileorurl(@"initWithContentsOfFile_",self,path);
-    return dic;
-}
-
-HOOK_MESSAGE(BOOL,NSDictionary,initWithContentsOfURL_,NSURL *aURL)
-{
-    NSDictionary *dic =  _NSDictionary_initWithContentsOfURL_(self,sel,aURL);
-    _LoginitWithContentsOffileorurl(@"initWithContentsOfURL_",dic,aURL);
-    return dic;
-}
-
-//compare
-HOOK_MESSAGE(BOOL,NSDictionary,isEqualToDictionary_,NSDictionary *otherDictionary)
-{
-    if ([otherDictionary objectForKey:@"UIDisableLegacyTextView"] ||[otherDictionary objectForKey:@"hasAccessibilityBeenMigrated"] || [otherDictionary objectForKey:@"NSStringDrawingLongTermThreshold"]) {
-    
-    }
-    else if([self objectForKey:@"NSColor"]  || [self objectForKey:@"NSFont"] || [self objectForKey:@"NSParagraphStyle"] )
-    {
-        
-    }
-    else{
-//        _LogComparedata(@"isEqualToDictionary_",self,otherDictionary);
-    }
-    return _NSDictionary_isEqualToDictionary_(self,sel,otherDictionary);
-}
-
+#endif

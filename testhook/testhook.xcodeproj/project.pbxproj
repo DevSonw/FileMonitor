@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		BA19B7091C210EFB00FB7690 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA19B7081C210EFB00FB7690 /* Foundation.framework */; };
 		BA19B7141C210EFB00FB7690 /* testhook.mm in Sources */ = {isa = PBXBuildFile; fileRef = BA19B7131C210EFB00FB7690 /* testhook.mm */; };
+		BA19B71F1C210F4600FB7690 /* libsubstrate.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = BA19B71E1C210F4600FB7690 /* libsubstrate.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -18,9 +19,10 @@
 		BA19B70E1C210EFB00FB7690 /* control */ = {isa = PBXFileReference; lastKnownFileType = text; name = control; path = Package/DEBIAN/control; sourceTree = "<group>"; };
 		BA19B7101C210EFB00FB7690 /* PackageVersion.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = PackageVersion.plist; sourceTree = "<group>"; };
 		BA19B7111C210EFB00FB7690 /* testhook-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "testhook-Prefix.pch"; sourceTree = "<group>"; };
-		BA19B7121C210EFB00FB7690 /* testhook.xm */ = {isa = PBXFileReference; lastKnownFileType = text; path = testhook.xm; sourceTree = "<group>"; };
+		BA19B7121C210EFB00FB7690 /* testhook.xm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = testhook.xm; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		BA19B7131C210EFB00FB7690 /* testhook.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = testhook.mm; sourceTree = "<group>"; };
 		BA19B7181C210EFB00FB7690 /* testhook.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = testhook.plist; path = Package/Library/MobileSubstrate/DynamicLibraries/testhook.plist; sourceTree = "<group>"; };
+		BA19B71E1C210F4600FB7690 /* libsubstrate.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsubstrate.dylib; path = ../../../../../opt/iOSOpenDev/lib/libsubstrate.dylib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +30,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA19B71F1C210F4600FB7690 /* libsubstrate.dylib in Frameworks */,
 				BA19B7091C210EFB00FB7690 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -55,6 +58,7 @@
 		BA19B7071C210EFB00FB7690 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				BA19B71E1C210F4600FB7690 /* libsubstrate.dylib */,
 				BA19B7081C210EFB00FB7690 /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -287,6 +291,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "testhook/testhook-Prefix.pch";
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/iOSOpenDev/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
@@ -307,6 +316,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "testhook/testhook-Prefix.pch";
 				INSTALL_PATH = /Library/MobileSubstrate/DynamicLibraries;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/opt/iOSOpenDev/lib,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
@@ -337,6 +351,7 @@
 				BA19B71D1C210EFB00FB7690 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
