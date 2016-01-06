@@ -435,6 +435,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = FileMonitor8;
 				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
+				SDKROOT = iphoneos8.4;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
@@ -465,6 +466,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = FileMonitor8;
 				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
+				SDKROOT = iphoneos8.4;
 				VALID_ARCHS = "armv7 armv7s arm64";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
@@ -491,6 +493,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = FileMonitor7;
 				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
+				SDKROOT = iphoneos7.1;
 				VALID_ARCHS = "armv7 armv7s";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
@@ -517,6 +520,7 @@
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = FileMonitor7;
 				PROVISIONING_PROFILE = "022ec656-11f1-4008-b13c-9329f96bbe2a";
+				SDKROOT = iphoneos7.1;
 				VALID_ARCHS = "armv7 armv7s";
 				iOSOpenDevBuildPackageOnAnyBuild = NO;
 				iOSOpenDevCopyOnBuild = NO;
