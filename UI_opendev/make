@@ -1,4 +1,8 @@
 cp -r ./LatestBuild/FileMonitor.app ./FileMonitor/Package/Applications/
+cp /Users/panda/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos/libFileMonitor8.dylib /Users/panda/Downloads/FileMonitorForAduit/UI_opendev/FileMonitor/Package/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.dylib
+
+cp /Users/panda/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos/libFileMonitor7.dylib /Users/panda/Downloads/FileMonitorForAduit/UI_opendev/FileMonitor/Package/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.dylib 
+
 dpkg-deb -b ./FileMonitor/Package
 scp ./FileMonitor/Package.deb i5s3:/
 #rm -r ./FileMonitor/Package/Applications/FileMonitor.app

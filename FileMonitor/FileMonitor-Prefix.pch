@@ -15,6 +15,37 @@
 
 
 
+#define ____________________________________________________________________________________________________HTTP
+
+#import "ASIHTTPRequest.h"
+#import "AFHTTPRequestOperationManager.h"
+#import "AFHTTPRequestOperation.h"
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogRequest(NSURLRequest *request,NSString *FuncName,void *returnAddress);
+#define _LogRequest(request,FuncName) LogRequest(request,FuncName, __builtin_return_address(0))
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogRequestASIHTTPRequest(ASIHTTPRequest *request, void *returnAddress);
+#define _LogRequestASIHTTPRequest(request) LogRequestASIHTTPRequest(request, __builtin_return_address(0))
+
+
+#if __cplusplus
+extern "C"
+#endif
+void LogAFHTTPRequestOperationManager(AFHTTPRequestOperationManager *OperationManager,NSString *method,NSString *URLString,id parameters, void *returnAddress);
+#define _LogAFHTTPRequestOperationManager(OperationManager,method,URLString,parameters) LogAFHTTPRequestOperationManager(OperationManager,method,URLString,parameters, __builtin_return_address(0))
+
+
+
+
+
 #define ____________________________________________________________________________________________________NSArray
 //
 #if __cplusplus
@@ -24,15 +55,12 @@ void LogNSArrayWrite(NSString *funcName,id data,NSString *path, void *returnAddr
 #define _LogNSArrayWrite(funcName,data,path) LogNSArrayWrite(funcName,data,path, __builtin_return_address(0))
 
 
-
-
 #define ____________________________________________________________________________________________________NSFileHandle
 #if __cplusplus
 extern "C"
 #endif
 void LogNSFileHandle(NSString * funcName,id data, void *returnAddress);
 #define _LogNSFileHandle(funcName, data) LogNSFileHandle(funcName,data, __builtin_return_address(0))
-
 
 
 #define ____________________________________________________________________________________________________json

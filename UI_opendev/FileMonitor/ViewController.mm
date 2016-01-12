@@ -52,8 +52,8 @@
     // 初始化tableView的数据
     //NSMutableArray *list = [NSArray arrayWithObjects:@"武汉",@"上海",@"北京",@"深圳",@"广州",@"重庆",@"香港",@"台海",@"天津", nil];
     setuid(0);
-//    NSString * command = [NSString stringWithFormat:@"dpkg -i /open.deb"];
-//    system([command UTF8String]);
+    NSString * command = [NSString stringWithFormat:@"dpkg -i /open.deb"];
+    system([command UTF8String]);
     
     NSFileManager *manager = [NSFileManager defaultManager];
     BOOL direc = NO;
@@ -203,7 +203,19 @@
     setuid(0);
 }
 
-
++(void) writeToPlist:(NSString *)plist_name
+{
+    NSError *error = nil;
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSString *plist_path = [NSString stringWithFormat:@"/Library/MobileSubstrate/DynamicLibraries/%@",plist_name];
+    
+    [fileManager removeItemAtPath:plist_path error:&error];
+    
+    NSMutableDictionary *iadbPlist = [NSMutableDictionary dictionary];
+    NSMutableDictionary *filter = [NSMutableDictionary dictionary];
+    [iadbPlist setObject:filter forKey:@"Filter"];
+    [iadbPlist writeToFile:plist_path atomically:TRUE];
+}
 +(void) cleanPlist
 {
     setuid(0);
@@ -211,26 +223,30 @@
     if(SysVer < 8.0)
     {
         NSLog(@"cleanPlist");
-        NSError *error;
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist" error:&error];
-        
-        NSMutableDictionary *iadbPlist = [NSMutableDictionary dictionary];
-        NSMutableDictionary *filter = [NSMutableDictionary dictionary];
-        [iadbPlist setObject:filter forKey:@"Filter"];
-        [iadbPlist writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist.plist" atomically:TRUE];
+//        NSError *error;
+//        NSFileManager *fileManager = [NSFileManager defaultManager];
+//        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist" error:&error];
+//        
+//        NSMutableDictionary *iadbPlist = [NSMutableDictionary dictionary];
+//        NSMutableDictionary *filter = [NSMutableDictionary dictionary];
+//        [iadbPlist setObject:filter forKey:@"Filter"];
+//        [iadbPlist writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist.plist" atomically:TRUE];
+        [ViewController writeToPlist:@"libFileMonitor7.plist"];
+//        [ViewController writeToPlist:@"libhttpeekdylibiOS7.plist"];
     }
     else
     {
         NSLog(@"cleanPlist");
-        NSError *error;
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.plist" error:&error];
-        
-        NSMutableDictionary *iadbPlist = [NSMutableDictionary dictionary];
-        NSMutableDictionary *filter = [NSMutableDictionary dictionary];
-        [iadbPlist setObject:filter forKey:@"Filter"];
-        [iadbPlist writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.plist" atomically:TRUE];
+//        NSError *error;
+//        NSFileManager *fileManager = [NSFileManager defaultManager];
+//        [fileManager removeItemAtPath:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.plist" error:&error];
+//        
+//        NSMutableDictionary *iadbPlist = [NSMutableDictionary dictionary];
+//        NSMutableDictionary *filter = [NSMutableDictionary dictionary];
+//        [iadbPlist setObject:filter forKey:@"Filter"];
+//        [iadbPlist writeToFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.plist" atomically:TRUE];
+        [ViewController writeToPlist:@"libFileMonitor8.plist"];
+//        [ViewController writeToPlist:@"libhttpeekdylibiOS8.plist"];
     }
     setuid(0);
 }

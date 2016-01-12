@@ -5,7 +5,28 @@
 
 #ifdef dlopen_IF_HOOK
 
-//#define NSLog(...)
+#define IF_PRINT_PATH //print the log path
+extern int print_once;
+
+#define IFHOOK_PrivateAPIindexdlopen
+#define IFHOOK_PrivateAPIindexdlsym
+#define IFHOOK_PrivateAPIindexobjc_getClass
+#define IFHOOK_PrivateAPIindexobjc_NSClassFromString
+#define IFHOOK_PrivateAPIindexobjc_NSSelectorFromString
+#define IFHOOK_PrivateAPIindexobjc_noninstance_performSelector_
+#define IFHOOK_PrivateAPIindexobjc_noninstance_performSelector_withObject_
+#define IFHOOK_PrivateAPIindexobjc_noninstance_performSelector_withObject_withObject_
+#define IFHOOK_PrivateAPIindexobjc_performSelector_
+#define IFHOOK_PrivateAPIindexobjc_performSelector_withObject_
+#define IFHOOK_PrivateAPIindexobjc_performSelector_withObject_withObject_
+#define IFHOOK_PrivateAPIindexobjc_performSelector_withObject_afterDelay_
+#define IFHOOK_PrivateAPIindexobjc_performSelector_withObject_afterDelay_inModes_
+#define IFHOOK_PrivateAPIindexobjc_performSelectorOnMainThread_withObject_waitUntilDone_
+#define IFHOOK_PrivateAPIindexobjc_performSelectorOnMainThread_withObject_waitUntilDone_modes_
+#define IFHOOK_PrivateAPIindexobjc_performSelector_onThread_withObject_waitUntilDone_
+#define IFHOOK_PrivateAPIindexobjc_performSelector_onThread_withObject_waitUntilDone_modes_
+#define IFHOOK_PrivateAPIindexobjc_performSelectorInBackground_withObject_
+
 
 extern NSString *PrivateAPIPath;
 
@@ -23,7 +44,6 @@ extern NSMutableArray *NSClassFromString_excludeArray;
 
 extern int PrivateAPIindexobjc_NSSelectorFromString;
 extern NSMutableArray *NSSelectorFromString_excludeArray;
-
 
 //noninstance:
 extern int PrivateAPIindexobjc_noninstance_performSelector_;
@@ -111,6 +131,8 @@ BOOL wasCalledByApp()
 //NSObject~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Conforms to None noninstance
 
 #define ____________________________________________________________________________________________________NonInstance_performSelector_meta
+#ifdef IFHOOK_PrivateAPIindexobjc_noninstance_performSelector_
+
 HOOK_MyMETA(id, NSObject,performSelector_,SEL aSelector )
 {
     if (wasCalledByApp() == false) {
@@ -134,7 +156,13 @@ HOOK_MyMETA(id, NSObject,performSelector_,SEL aSelector )
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -151,9 +179,13 @@ HOOK_MyMETA(id, NSObject,performSelector_,SEL aSelector )
     }
     return retdata;
 }
+#endif
 #define ____________________________________________________________________________________________________NonInstance_performSelector_metaover
 
+
 #define ____________________________________________________________________________________________________NonInstance_performSelector_withObject_meta
+#ifdef IFHOOK_PrivateAPIindexobjc_noninstance_performSelector_withObject_
+
 HOOK_MyMETA(id, NSObject, performSelector_withObject_,SEL aSelector,id anObject)
 {
     if (wasCalledByApp() == false) {
@@ -179,7 +211,13 @@ HOOK_MyMETA(id, NSObject, performSelector_withObject_,SEL aSelector,id anObject)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -196,10 +234,13 @@ HOOK_MyMETA(id, NSObject, performSelector_withObject_,SEL aSelector,id anObject)
     }
     return retdata;
 }
+#endif
 #define ____________________________________________________________________________________________________NonInstance_performSelector_withObject_metaover
 
 
 #define ____________________________________________________________________________________________________NonInstance_performSelector_withObject_withObject_meta
+#ifdef IFHOOK_PrivateAPIindexobjc_noninstance_performSelector_withObject_withObject_
+
 HOOK_MyMETA(id, NSObject, performSelector_withObject_withObject_,SEL aSelector,id anObject,id anotherObject)
 {
     if (wasCalledByApp() == false) {
@@ -229,7 +270,13 @@ HOOK_MyMETA(id, NSObject, performSelector_withObject_withObject_,SEL aSelector,i
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -246,11 +293,14 @@ HOOK_MyMETA(id, NSObject, performSelector_withObject_withObject_,SEL aSelector,i
     }
     return retdata;
 }
+#endif
 #define ____________________________________________________________________________________________________NonInstance_performSelector_withObject_withObject_metaover
+
 
 
 //NSObject~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Conforms to None
 #define ____________________________________________________________________________________________________Instance_performSelector_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelector_
 HOOK_MESSAGE(id, NSObject, performSelector_,SEL aSelector)
 {
     if (wasCalledByApp() == false) {
@@ -300,7 +350,13 @@ HOOK_MESSAGE(id, NSObject, performSelector_,SEL aSelector)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -317,10 +373,13 @@ HOOK_MESSAGE(id, NSObject, performSelector_,SEL aSelector)
     }
     return retdata;
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelector_over
 
 
+
 #define ____________________________________________________________________________________________________Instance_performSelector_withObject_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelector_withObject_
 HOOK_MESSAGE(id, NSObject, performSelector_withObject_,SEL aSelector,id anObject)
 {
     if (wasCalledByApp() == false) {
@@ -354,7 +413,13 @@ HOOK_MESSAGE(id, NSObject, performSelector_withObject_,SEL aSelector,id anObject
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -371,9 +436,11 @@ HOOK_MESSAGE(id, NSObject, performSelector_withObject_,SEL aSelector,id anObject
     }
     return retdata;
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelector_withObject_over
 
 #define ____________________________________________________________________________________________________Instance_performSelector_withObject_withObject_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelector_withObject_withObject_
 HOOK_MESSAGE(id, NSObject, performSelector_withObject_withObject_,SEL aSelector,id anObject,id anotherObject)
 {
     if (wasCalledByApp() == false) {
@@ -413,7 +480,13 @@ HOOK_MESSAGE(id, NSObject, performSelector_withObject_withObject_,SEL aSelector,
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -430,12 +503,14 @@ HOOK_MESSAGE(id, NSObject, performSelector_withObject_withObject_,SEL aSelector,
     }
     return retdata;
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelector_withObject_withObject_over
 
 
 
 //NSObject~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Conforms to NSObject
 #define ____________________________________________________________________________________________________Instance_performSelector_withObject_afterDelay_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelector_withObject_afterDelay_
 HOOK_MESSAGE(void, NSObject, performSelector_withObject_afterDelay_,SEL aSelector,id anArgument,NSTimeInterval delay)
 {
     if (wasCalledByApp() == false) {
@@ -470,7 +545,13 @@ HOOK_MESSAGE(void, NSObject, performSelector_withObject_afterDelay_,SEL aSelecto
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -487,10 +568,12 @@ HOOK_MESSAGE(void, NSObject, performSelector_withObject_afterDelay_,SEL aSelecto
     }
     return _NSObject_performSelector_withObject_afterDelay_(self,sel,aSelector,anArgument,delay);;
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelector_withObject_afterDelay_over
 
 
 #define ____________________________________________________________________________________________________Instance_performSelector_withObject_afterDelay_inModes_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelector_withObject_afterDelay_inModes_
 HOOK_MESSAGE(void, NSObject, performSelector_withObject_afterDelay_inModes_,SEL aSelector,id anArgument,NSTimeInterval delay,NSArray *modes)
 {
     if (wasCalledByApp() == false) {
@@ -528,7 +611,13 @@ HOOK_MESSAGE(void, NSObject, performSelector_withObject_afterDelay_inModes_,SEL 
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -545,9 +634,11 @@ HOOK_MESSAGE(void, NSObject, performSelector_withObject_afterDelay_inModes_,SEL 
     }
     return _NSObject_performSelector_withObject_afterDelay_inModes_(self,sel,aSelector,anArgument,delay,modes);
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelector_withObject_afterDelay_inModes_over
 
 #define ____________________________________________________________________________________________________Instance_performSelectorOnMainThread_withObject_waitUntilDone_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelectorOnMainThread_withObject_waitUntilDone_
 HOOK_MESSAGE(void, NSObject, performSelectorOnMainThread_withObject_waitUntilDone_,SEL aSelector,id arg,BOOL wait)
 {
     if (wasCalledByApp() == false) {
@@ -562,8 +653,6 @@ HOOK_MESSAGE(void, NSObject, performSelectorOnMainThread_withObject_waitUntilDon
         }
     }
     [performSelectorOnMainThread_withObject_waitUntilDone_excludeArray addObject:excludeInfo];
-    
-    
     
     NSString *SELFName = [NSString stringWithFormat:@"SELFName:%@",NSStringFromClass([self class])];
     NSString *FuncName = @"Instance_performSelectorOnMainThread_withObject_waitUntilDone_";
@@ -583,7 +672,13 @@ HOOK_MESSAGE(void, NSObject, performSelectorOnMainThread_withObject_waitUntilDon
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -600,11 +695,13 @@ HOOK_MESSAGE(void, NSObject, performSelectorOnMainThread_withObject_waitUntilDon
     }
     return _NSObject_performSelectorOnMainThread_withObject_waitUntilDone_(self,sel,aSelector,arg,wait);
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelectorOnMainThread_withObject_waitUntilDone_over
 
 
 
 #define ____________________________________________________________________________________________________Instance_performSelectorOnMainThread_withObject_waitUntilDone_modes_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelectorOnMainThread_withObject_waitUntilDone_modes_
 HOOK_MESSAGE(void, NSObject, performSelectorOnMainThread_withObject_waitUntilDone_modes_,SEL aSelector,id arg,BOOL wait,NSArray *array0)
 {
     if (wasCalledByApp() == false) {
@@ -639,7 +736,13 @@ HOOK_MESSAGE(void, NSObject, performSelectorOnMainThread_withObject_waitUntilDon
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -656,6 +759,7 @@ HOOK_MESSAGE(void, NSObject, performSelectorOnMainThread_withObject_waitUntilDon
     }
     return _NSObject_performSelectorOnMainThread_withObject_waitUntilDone_modes_(self,sel,aSelector,arg,wait,array0);
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelectorOnMainThread_withObject_waitUntilDone_modes_over
 
 
@@ -663,6 +767,7 @@ HOOK_MESSAGE(void, NSObject, performSelectorOnMainThread_withObject_waitUntilDon
 
 
 #define ____________________________________________________________________________________________________Instance_performSelector_onThread_withObject_waitUntilDone_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelector_onThread_withObject_waitUntilDone_
 HOOK_MESSAGE(void, NSObject, performSelector_onThread_withObject_waitUntilDone_,SEL aSelector,NSThread *thread,id arg,BOOL wait)
 {
     if (wasCalledByApp() == false) {
@@ -697,7 +802,13 @@ HOOK_MESSAGE(void, NSObject, performSelector_onThread_withObject_waitUntilDone_,
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -714,10 +825,12 @@ HOOK_MESSAGE(void, NSObject, performSelector_onThread_withObject_waitUntilDone_,
     }
     return _NSObject_performSelector_onThread_withObject_waitUntilDone_(self,sel,aSelector,thread,arg,wait);
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelector_onThread_withObject_waitUntilDone_over
 
 
 #define ____________________________________________________________________________________________________Instance_performSelector_onThread_withObject_waitUntilDone_modes_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelector_onThread_withObject_waitUntilDone_modes_
 HOOK_MESSAGE(void, NSObject, performSelector_onThread_withObject_waitUntilDone_modes_,SEL aSelector,NSThread *thread,id arg,BOOL wait,NSArray *modes)
 {
     if (wasCalledByApp() == false) {
@@ -754,7 +867,13 @@ HOOK_MESSAGE(void, NSObject, performSelector_onThread_withObject_waitUntilDone_m
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -771,12 +890,14 @@ HOOK_MESSAGE(void, NSObject, performSelector_onThread_withObject_waitUntilDone_m
     }
     return _NSObject_performSelector_onThread_withObject_waitUntilDone_modes_(self,sel,aSelector,thread,arg,wait,modes);
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelector_onThread_withObject_waitUntilDone_modes_over
 
 
 
 
 #define ____________________________________________________________________________________________________Instance_performSelectorInBackground_withObject_
+#ifdef IFHOOK_PrivateAPIindexobjc_performSelectorInBackground_withObject_
 HOOK_MESSAGE(void, NSObject, performSelectorInBackground_withObject_,SEL aSelector,id arg)
 {
     if (wasCalledByApp() == false) {
@@ -808,7 +929,13 @@ HOOK_MESSAGE(void, NSObject, performSelectorInBackground_withObject_,SEL aSelect
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -825,11 +952,13 @@ HOOK_MESSAGE(void, NSObject, performSelectorInBackground_withObject_,SEL aSelect
     }
     return _NSObject_performSelectorInBackground_withObject_(self,sel,aSelector,arg);
 }
+#endif
 #define ____________________________________________________________________________________________________Instance_performSelectorInBackground_withObject_over
 
 
 
 #define ____________________________________________________________________________________________________NSSelectorFromString
+#ifdef IFHOOK_PrivateAPIindexobjc_NSSelectorFromString
 SEL (*original_NSSelectorFromString)(NSString *aSelectorName);
 SEL replaced_NSSelectorFromString(NSString *aSelectorName)
 {
@@ -877,7 +1006,13 @@ SEL replaced_NSSelectorFromString(NSString *aSelectorName)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -894,11 +1029,13 @@ SEL replaced_NSSelectorFromString(NSString *aSelectorName)
     }
     return sel;
 }
+#endif
 #define ____________________________________________________________________________________________________NSSelectorFromStringover
 
 
 
 #define ____________________________________________________________________________________________________NSClassFromString
+#ifdef IFHOOK_PrivateAPIindexobjc_NSClassFromString
 //Class NSClassFromString(NSString *aClassName);
 const Class (*original_NSClassFromString)(NSString *aClassName);
 const Class replaced_NSClassFromString(NSString *aClassName)
@@ -907,7 +1044,6 @@ const Class replaced_NSClassFromString(NSString *aClassName)
         //        NSLog(@"not in the stack");
         return original_NSClassFromString(aClassName);
     }
-    
     
     Class class = original_NSClassFromString(aClassName);
 //    NSString *excludeInfo = [NSString stringWithFormat:@"%@_%@",NSStringFromClass(class),aClassName];
@@ -944,7 +1080,13 @@ const Class replaced_NSClassFromString(NSString *aClassName)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -961,10 +1103,12 @@ const Class replaced_NSClassFromString(NSString *aClassName)
     }
     return class;
 }
+#endif
 #define ____________________________________________________________________________________________________NSClassFromStringover
 
 
 #define ____________________________________________________________________________________________________objc_getClass
+#ifdef IFHOOK_PrivateAPIindexobjc_getClass
 const void * (*original_objc_getClass)(const char *name);
 const void * replaced_objc_getClass(const char *name)
 {
@@ -1001,7 +1145,13 @@ const void * replaced_objc_getClass(const char *name)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         if (!isDirExist) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
@@ -1018,12 +1168,12 @@ const void * replaced_objc_getClass(const char *name)
     }
     return class;
 }
-
+#endif
 #define ____________________________________________________________________________________________________objc_getClassover
 
 
 #define ____________________________________________________________________________________________________dlsym
-
+#ifdef IFHOOK_PrivateAPIindexdlsym
 const void * (*original_dlsym)(void * __handle, const char * __symbol);
 const void * replaced_dlsym(void * __handle, const char * __symbol)
 {
@@ -1061,7 +1211,13 @@ const void * replaced_dlsym(void * __handle, const char * __symbol)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -1079,10 +1235,12 @@ const void * replaced_dlsym(void * __handle, const char * __symbol)
     }
     return addr_func;
 }
+#endif
 #define ____________________________________________________________________________________________________dlsymover
 
 
 #define ____________________________________________________________________________________________________dlopen
+#ifdef IFHOOK_PrivateAPIindexdlopen
 const char * (*original_dlopen)(const char *  __path,int __mode);
 const char * replaced_dlopen(const char *  __path,int __mode)
 {
@@ -1140,13 +1298,8 @@ const char * replaced_dlopen(const char *  __path,int __mode)
     }
     [dlopen_excludeArray addObject:excludeInfo];
     
-    
-    
-    
     NSArray *array = [NSArray arrayWithObjects:path,module,mode,nil];
 //    NSLog(@"array = %@",array);
-    
-    
     
     NSDictionary *dict = [NSDictionary dictionaryWithObject:array forKey:@"dlopen"];
 //    NSLog(@"dict = %@",dict);
@@ -1155,7 +1308,13 @@ const char * replaced_dlopen(const char *  __path,int __mode)
     
     if (_logDir == nil)
     {
-        _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+                _logDir = [[NSString alloc] initWithFormat:PrivateAPIPath];
+#ifdef IF_PRINT_PATH
+        if (print_once) {
+            print_once = 0;
+            NSLog(@"PrivateAPIPath = %@",PrivateAPIPath);
+        }
+#endif
         BOOL isDirExist = [[NSFileManager defaultManager] fileExistsAtPath:_logDir];
         
         if (!isDirExist) {
@@ -1173,9 +1332,8 @@ const char * replaced_dlopen(const char *  __path,int __mode)
     }
     return addr_Module;
 }
+#endif
 #define ____________________________________________________________________________________________________dlsymover
-
-
 
 
  //        - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
@@ -1203,8 +1361,6 @@ static void newapplication_didFinishLaunchingWithOptions_(id self, SEL _cmd,UIAp
                    (void *)&replaced_NSSelectorFromString,
                    (void **)&original_NSSelectorFromString);
     
-    
-    
     oldapplication_didFinishLaunchingWithOptions_(self,_cmd,application,launchOptions);
 }
 
@@ -1230,7 +1386,6 @@ static void newApplicationSetDelegate(id self, SEL _cmd,id delegate) {
     
     MSHookMessageEx(NSStringFromClass([delegate class]), @selector(application:didFinishLaunchingWithOptions:),
                     (IMP)&newapplication_didFinishLaunchingWithOptions_, (IMP *)&oldapplication_didFinishLaunchingWithOptions_);
-
     oldApplicationSetDelegate(self,_cmd,delegate);
 }
 static int (*original_UIApplicationMain)(int argc, char *argv[], NSString * __nullable principalClassName, NSString * __nullable delegateClassName);

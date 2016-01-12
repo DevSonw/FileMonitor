@@ -5,6 +5,8 @@
 #import <CommonCrypto/CommonCryptor.h>
 #import "SQLiteStorage.h"
 
+
+
 //#define NSLog(...)
 
 //目录
@@ -20,7 +22,7 @@ NSString *FileMonitorPath = [NSString stringWithFormat:GLobalFileMonitorPath];
 
 NSString *PrivateAPIPath = [NSString stringWithFormat:GLobalFileMonitorPath];
 
-
+int print_once = 1;//print log path once
 
 
 //排除私有API调用函数的数据用的。
@@ -121,6 +123,122 @@ NSMutableArray *HASHarray =   [[NSMutableArray alloc]init];
 NSMutableArray *logfilesarray=[[NSMutableArray alloc]init];
 
 #define PRINT_DATA(mode,funcname,pathordata) {PRINT_GLOBAL_COUNT++;NSLog(@"%-5d---FileMonitor---%@ : %@ : %@",PRINT_GLOBAL_COUNT,mode,funcname,pathordata);}
+
+
+
+
+
+#define ____________________________________________________________________________________________________HTTP
+
+#import "AFHTTPRequestOperationManager.h"
+#import "ASIHTTPRequest.h"
+
+//目录
+#define GLobalHttpMonitorPath @"%@httplog/%@_%@.httplog",NSTemporaryDirectory(),NSProcessInfo.processInfo.processName,GET_TIME_APPVERSION()
+
+NSString *HttpMonitorPath = [NSString stringWithFormat:GLobalHttpMonitorPath];
+
+#define PRINT_HTTP_DATA(mode,data,pathordata) NSLog(@"---------------------------HTTPMonitor---%@ %@ : %@",mode,data,pathordata);
+
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogRequest(NSURLRequest *request,NSString* FuncName, void *returnAddress)
+{
+    static int s_index = 0;
+    static NSString *_logDir = nil;
+    static std::vector<NSURLRequest *> _requests;
+    
+    if (_logDir == nil)
+    {
+        _logDir = [[NSString alloc] initWithFormat:HttpMonitorPath];
+        NSLog(@"HttpMonitorPath = %@",_logDir);
+        [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    if ([request respondsToSelector:@selector(HTTPMethod)])
+    {
+        if (std::find(_requests.begin(), _requests.end(), request) == _requests.end())
+        {
+            NSString *file = [NSString stringWithFormat:@"%@/%03d=%@.plist", _logDir, s_index++, NSUrlPath([request.URL.host stringByAppendingString:request.URL.path])];
+            
+            NSDictionary *param = [NSDictionary dictionaryWithObject:request.URL.absoluteString forKey:FuncName];
+            NSLog(@"param = %@\nfile = %@",param,file);
+            
+            PRINT_HTTP_DATA(FuncName,param,file);
+            [param writeToFile:file  atomically:YES];
+            
+        }
+    }
+}
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogRequestASIHTTPRequest(ASIHTTPRequest *request, void *returnAddress)
+{
+    static int s_index = 0;
+    static NSString *_logDir = nil;
+    
+    if (_logDir == nil)
+    {
+        _logDir = [[NSString alloc] initWithFormat:HttpMonitorPath];
+        NSLog(@"HttpMonitorPath = %@",_logDir);
+        [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    if ([request respondsToSelector:@selector(requestMethod)])
+    {
+        NSDictionary *param = [NSDictionary dictionaryWithObject:request.url.absoluteString forKey:@"ASIHTTPRequest"];
+        
+        NSString *file = [NSString stringWithFormat:@"%@/%03d=ASI%@.plist", _logDir, s_index++, NSUrlPath([request.url.host stringByAppendingString:request.url.path])];
+        PRINT_HTTP_DATA(@"ASIHTTPRequest",param,file);
+        BOOL flag = [param writeToFile:file  atomically:NO];
+        
+    }
+}
+
+
+//
+#if __cplusplus
+extern "C"
+#endif
+void LogAFHTTPRequestOperationManager(AFHTTPRequestOperationManager* OperationManager,NSString *method,NSString *URLString,id parameters, void *returnAddress)
+{
+    static int s_index = 0;
+    static NSString *_logDir = nil;
+    
+    if (_logDir == nil)
+    {
+        _logDir = [[NSString alloc] initWithFormat:HttpMonitorPath];
+        NSLog(@"HttpMonitorPath = %@",_logDir);
+        [[NSFileManager defaultManager] createDirectoryAtPath:_logDir withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    if (method)
+    {
+        NSDictionary *param = [NSDictionary dictionaryWithObject:URLString forKey:@"AFHTTPRequest"];
+        
+        NSString *file = [NSString stringWithFormat:@"%@/%03d=AFH%@.plist", _logDir, s_index++, NSUrlPath([[[OperationManager baseURL] host] stringByAppendingString:[[OperationManager baseURL] path]])];
+        
+        PRINT_HTTP_DATA(@"AFHTTPRequest",param,file);
+        BOOL flag = [param writeToFile:file  atomically:NO];
+        
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 #define ____________________________________________________________________________________________________NSArray
@@ -278,7 +396,8 @@ void LogNSJSONSerialization(NSString * funcName,id source,id dest, void *returnA
     }
     
 #ifdef PRINT_PATH_MODE
-    PRINT_DATA(funcName,@"read_the_log_file",filepath)
+//    PRINT_DATA(funcName,@"read_the_log_file",filepath)
+        PRINT_DATA(funcName,@"read_the_log_file",dicData)
 #endif
     
     NSDictionary *dic = [NSDictionary dictionaryWithObject:dicData forKey:funcName];
