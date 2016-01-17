@@ -216,7 +216,7 @@
 
  @param urlRequest The request object to be used by the operation connection.
  */
-- (instancetype)initWithRequest:(NSURLRequest *)urlRequest NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithRequest:(NSURLRequest *)urlRequest ;
 
 ///----------------------------------
 /// @name Pausing / Resuming Requests

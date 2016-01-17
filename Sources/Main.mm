@@ -929,7 +929,7 @@ void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress)
 
 #define ____________________________________________________________________________________________________FMDB
 
-void LogFMDB(NSString *funcName,NSDictionary*dic,void *returnAddress)
+void LogFMDB(NSDictionary*dic,NSString *funcName,void *returnAddress)
 {
     @try {
 #ifdef DEBUG_MODE

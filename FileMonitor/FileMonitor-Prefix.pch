@@ -121,8 +121,8 @@ void LogNSUserDefaults(NSString * funcName,id data, void *returnAddress);
 #if __cplusplus
 extern "C"
 #endif
-void LogFMDB(NSString *funcName,NSDictionary*dic,void *returnAddress);
-#define _LogFMDB(funcName,dic) LogFMDB(funcName,dic, __builtin_return_address(0))
+void LogFMDB(NSDictionary*dic,NSString *funcName,void *returnAddress);
+#define _LogFMDB(dic,funcName) LogFMDB(dic,funcName, __builtin_return_address(0))
 
 
 #define ____________________________________________________________________________________________________sqlite3

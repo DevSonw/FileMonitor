@@ -38,7 +38,7 @@
 
 #define Keychainity_IF_HOOK
 
-#define sqlite3_IF_HOOK
+//#define sqlite3_IF_HOOK
 
 #define NSUserDefaults_IF_HOOK
 
