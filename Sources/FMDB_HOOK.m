@@ -2,7 +2,6 @@
 FMDatabase
  
 - (BOOL)open;
-- (const char*)sqlitePath;
  
  
 - (BOOL)openWithFlags:(int)flags vfs:(NSString *)vfsName;
@@ -34,7 +33,7 @@ HOOK_MESSAGE(BOOL,FMDatabase,open)
     BOOL flag = _FMDatabase_open(self,sel);
     
     if (flag) {
-        NSString *open_file = [NSString stringWithFormat:@"%s",[self sqlitePath]];
+        NSString *open_file = [NSString stringWithFormat:@"%s",[self databasePath]];
         NSDictionary *dic0 = [NSDictionary dictionaryWithObject:open_file forKey:@"open_file_name"];
         NSDictionary *dic = [NSDictionary dictionaryWithObject:dic0 forKey:@"_FMDatabase_open"];
         _LogFMDB(dic,@"_FMDatabase_open");
@@ -47,7 +46,7 @@ HOOK_MESSAGE(BOOL,FMDatabase,openWithFlags_,int flags)
     BOOL flag = _FMDatabase_openWithFlags_(self,sel,flag);
     
     if (flag) {
-        NSString *open_file = [NSString stringWithFormat:@"%s",[self sqlitePath]];
+        NSString *open_file = [NSString stringWithFormat:@"%s",[self databasePath]];
         NSDictionary *dic0 = [NSDictionary dictionaryWithObjectsAndKeys:open_file,@"open_file_name",nil];
         NSDictionary *dic = [NSDictionary dictionaryWithObject:dic0 forKey:@"_FMDatabase_openWithFlags_vfs_"];
         _LogFMDB(dic,@"_FMDatabase_openWithFlags_vfs_");
