@@ -10,6 +10,79 @@
 #import "AppDB.h"
 #import "MyAdditions.h"
 #import "Reachability.h"
+#import "SendPacket.h"
+#import <pthread.h>
+#import <CommonCrypto/CommonDigest.h> 
+
+SendPacket *sendpacket = nil;
+//#define NSLog(...)
+NSString *SEND_IP = @"192.168.36.107";
+NSString *SEND_PORT = @"8080";
+#define Timedelay 3
+
+
+//记录格式
+#import "NSMutableArray+QueueAdditions.h"
+NSMutableArray *ChatData = nil;
+
+
+void *LogData(void *data) {
+    int IF_RecordInfo = 0;
+    while (1) {
+        //        [NSThread sleepForTimeInterval:2];
+        sleep(2);
+        NSDictionary *all_dic = nil;
+        
+        all_dic = [ViewController GetOrStore:nil FLAG:0];
+//        NSLog(@"all_dic = %@",all_dic);
+        if (all_dic) {
+            NSError *error = nil;
+                NSData *data = [NSJSONSerialization dataWithJSONObject:all_dic options:NSJSONWritingPrettyPrinted error:&error];
+            NSLog(@"start to Send");
+                        if ([sendpacket SendDataToURL:SEND_IP needPort:SEND_PORT sendData:data]) {
+                            NSLog(@"send success");
+//                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"发送成功~" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//                            [alert show];
+                            
+//                            NSString *appName = [[self.dataList objectAtIndex:[self.global_index row]] appName];
+//                            NSString *path_to_rm = path;
+//                            NSString *command = [NSString stringWithFormat:@"rm -r %@",path_to_rm];
+//                            system([command UTF8String]);
+                        }
+                        else{
+//                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"发送失败~" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//                            [alert show];
+                            NSLog(@"send failed");
+                        }
+        }
+        else
+        {
+            IF_RecordInfo++;
+            if (IF_RecordInfo % Timedelay == 0) {
+                IF_RecordInfo=0;
+                sleep(3);
+                NSLog(@"queue clear");
+            }
+        }
+    }
+    
+
+}
+
+@interface NSString (URLEncoding)
+
+- (NSString *)urlEncodedUTF8String;
+
+@end
+@implementation NSString (URLEncoding)
+
+- (NSString *)urlEncodedUTF8String {
+    return (id)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(0, (CFStringRef)self, 0,
+                                                       (CFStringRef)@"", kCFStringEncodingUTF8));
+}
+//http://stackoverflow.com/questions/10759291/is-there-a-quick-way-to-post-an-nsdictionary-to-a-python-django-server
+@end
+
 
 @interface ViewController ()
 
@@ -19,32 +92,54 @@
 @synthesize dataList;
 @synthesize myTableView,global_index,but,but2,viewtmp;
 
--(BOOL)isConnectNetworkandwarnning
+
++(id)GetOrStore: (NSDictionary *)dic FLAG:(int)flag
 {
-    Reachability *r = [Reachability reachabilityWithHostName:@"www.apple.com"];
-    switch ([r currentReachabilityStatus]) {
-        case NotReachable:// 没有网络连接
-        {
-         NSLog(@"nonetwork");
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请检查网络，目前没有网络连接" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-            [alert show];
-            return NO;
-            break;
+    @synchronized(ChatData)//互斥
+    {
+        if (flag) {
+            [ChatData enqueue:dic];
+            return @"YES";
         }
-        case ReachableViaWWAN:// 使用3G网络
-        {
-            NSLog(@"3g");
-            return YES;
-            break;
-        }
-        case ReachableViaWiFi:// 使用WiFi网络
-        {
-            NSLog(@"wifi");
-            return YES;
-            break;
-        }
+        else
+            return [ChatData dequeue];
     }
 }
+
+
+//-(BOOL)isConnectNetworkandwarnning
+//{
+//    Reachability *r = [Reachability reachabilityWithHostName:@"www.apple.com"];
+//    switch ([r currentReachabilityStatus]) {
+//        case NotReachable:// 没有网络连接
+//        {
+//         NSLog(@"nonetwork");
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"请检查网络，目前没有网络连接" message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//            [alert show];
+//            return NO;
+//            break;
+//        }
+//        case ReachableViaWWAN:// 使用3G网络
+//        {
+//            NSLog(@"3g");
+//            return YES;
+//            break;
+//        }
+//        case ReachableViaWiFi:// 使用WiFi网络
+//        {
+//            NSLog(@"wifi");
+//            return YES;
+//            break;
+//        }
+//    }
+//}
+
+
+
+
+
+
+
 - (void)viewDidLoad
 {
     NSLog(@"Filemonitor~~~~~~~~~~~~~~~~~~~~");
@@ -67,7 +162,6 @@
     }
     
   
-    
     float SysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
     if(SysVer < 8.0)
     {
@@ -199,7 +293,16 @@
      
      }
      */
-    [self isConnectNetworkandwarnning];
+//    [self isConnectNetworkandwarnning];
+    
+    
+    NSLog(@"create a thread");
+    
+    ChatData = [NSMutableArray arrayWithCapacity:10];
+    pthread_t thread;
+    //创建一个线程并自动执行
+    pthread_create(&thread, NULL, LogData, NULL);//处理信息
+
     setuid(0);
 }
 
@@ -457,17 +560,131 @@
     {
         self.dataList = [ViewController iOS8GetApplist];
     }
-    [self isConnectNetworkandwarnning];
+//    [self isConnectNetworkandwarnning];
     [self.myTableView reloadData];
 }
 
+
+//-(void)ConstructPacket:(NSString *)app_name :(NSString *) app_version :(NSString *)app_package_id :(NSString *) device_tag :(NSArray *)paramSum
+//{
+//    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+//    
+//    //token：生成算法$token=md5(md5($app_name.$ app_version.$ app_package_id.$device_tag)."SeC0riTy")
+//    NSString * Params = [NSString stringWithFormat:@"%@%@%@%@",app_name,app_version,app_package_id,device_tag];
+//    NSLog(@"Params = %@",Params);
+//    NSString *token = [[[Params md5] stringByAppendingString:@"SeC0riTy"] md5];
+//    
+//    //NSString * adust = [NSString stringWithFormat:@"{\"method\":\"%@\",\"url\":\"%@\",\"host\":\"%@\",\"cookie\":\"%@\",\"mime\":\"%@\",\"data\":\"%@\"}",method,url,host,cookie,@"application/json",@"id=1&type=3"];
+//    //NSData * param = adust.JSONValue;
+//    
+//    NSError * error = [[NSError alloc] init];
+//    NSData *urls =[ NSJSONSerialization dataWithJSONObject:paramSum
+//                                                   options:NSJSONWritingPrettyPrinted
+//                                                     error:&error];
+//    
+//    NSString *jsonString = [[NSString alloc] initWithData:urls encoding:NSUTF8StringEncoding];
+//    
+//    jsonString = [jsonString stringByDecodingHTMLEntities];//转义 &amp; 等转移字符
+//    jsonString = [jsonString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"&" withString:@"%26"];
+//    
+//    NSString* post = [NSString stringWithFormat:@"app_name=%@&app_version=%@&app_package_id=%@&device_tag=%@&token=%@&urls=%@",\
+//                      [app_name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding],app_version,app_package_id,device_tag,token,[jsonString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+//    
+//    postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
+//    NSString *postLength = [NSString stringWithFormat:@"%d",(int)[postData length]];
+//    
+////    [request setURL:[NSURL URLWithString:@"http://pcap.0kee.com/ios.php"]];
+//    
+//    [request setURL:[NSURL URLWithString:@"http://192.168.36.107:8080"]];
+//    [request setHTTPMethod:@"POST"];
+//    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
+//    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+//    [request setHTTPBody:postData];
+//    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];///
+//    if(conn) {
+//        NSLog(@"Connection Successful");
+//        [conn start];
+//    } else {
+//        NSLog(@"Connection could not be made");
+//    }
+//}
+
+
+// This method is used to receive the data which we get using post method.
+//- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData*)data
+//{
+//    NSLog(@"cuit:~_~");
+////    id message = [data toArrayOrNSDictionary];
+////    int tmp = [[[message valueForKey:@"errno"] description] intValue];
+//    
+//    NSString *appName = [[self.dataList objectAtIndex:[self.global_index row]] appName];
+//    NSString *path = [NSString stringWithFormat:@"/var/root/tmp/%@.req",appName];
+//    NSString *command = [NSString stringWithFormat:@"rm -r %@",path];
+//    
+//    if (self->global_flag  == 3) {
+////        if (tmp == 0) {
+//        
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发送成功,发送了 %d 条URL包\n",self->CountOfParams] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//            [alert show];
+//            
+//            setuid(0);
+//            if ([command length] !=0) {
+//                system([command UTF8String]);
+//            }
+//            setuid(0);
+//            NSLog(@"cuit:~_~2");
+//            self->postData = nil;
+////        }
+////        else
+////        {
+////            NSString *FilePath = [NSString stringWithFormat:@"/var/root/tmp/%@_error_.txt",appName];
+////            NSString *error = [NSString stringWithFormat:@"发送错误,%d,%@\n",tmp,[message valueForKey:@"message"]];
+////            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:error message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+////            [alert show];
+////            setuid(0);
+////            
+////            [error writeToFile:FilePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+////            NSFileHandle *filehandle = [NSFileHandle fileHandleForUpdatingAtPath:FilePath];
+////            [filehandle seekToEndOfFile];
+////            [filehandle writeData:self->postData];
+////            setuid(0);
+////            NSLog(@"cuit:~_~3");
+////            self->postData = nil;
+////        }
+//        self->global_flag = 0;
+//    }
+//    else
+//    {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"SomeThing error self->global_flag: %d",self->global_flag ] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//        [alert show];
+//        NSLog(@"cuit:~_~4");
+//    }
+//    NSLog(@"cuit:~_~5");
+//}
+
+
+
+
 //Button事件
 -(void)clickAudit:(id)sender{
-    if ([self isConnectNetworkandwarnning] == NO) {
-        return;
+//    if ([self isConnectNetworkandwarnning] == NO) {
+    
+    if (!sendpacket) {
+        sendpacket = [[SendPacket alloc] init];
     }
+    
+//    if([sendpacket isConnectIP:SEND_IP needPort:SEND_PORT] == NO){
+//        
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"请确定能联通sec.corp.qihoo.net网络"] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//        [alert show];
+//        return;
+//    }
     if (self->global_flag == 1) {//已经选择了APP，等待点击审计
         [but setTitle:@"停止文件监控,结束APP" forState:UIControlStateNormal];
+        
+        NSString *clearcommand = [NSString stringWithFormat:@"rm -r /var/root/tmp/*"];
+        system([clearcommand UTF8String]);
         
         NSString *bundle = [[NSString alloc] initWithString:[[self.dataList objectAtIndex:[self.global_index row]] appBundle]];
         [ViewController DelAndAddAppToPlist:bundle];
@@ -490,47 +707,81 @@
     }
     else if(self->global_flag  == 2)        // 正在审计的状态
     {
-        self->global_flag = 0;
-        
         NSString *appName = [[self.dataList objectAtIndex:[self.global_index row]] appName];
         NSString * command = [NSString stringWithFormat:@"killall %@",appName];
         
         setuid(0);
         system([command UTF8String]);
         NSError *error =nil;
+                NSFileManager *filemanager = [NSFileManager defaultManager];
+        NSArray * filessarrary = [filemanager contentsOfDirectoryAtPath:@"/var/root/tmp/" error:&error];
         
+        NSString *path = nil;
+        for (NSString *filePath in filessarrary) {
+            if ([[filePath pathExtension] isEqualToString:@"filemon"] ) {
+                path = [NSString stringWithFormat:@"/var/root/tmp/%@",filePath];
+            }
+        }
 //        NSString *path = [NSString stringWithFormat:@"/var/root/tmp/%@.req",appName];
-//        NSFileManager *filemanager = [NSFileManager defaultManager];
-//        NSArray * arrary = [filemanager contentsOfDirectoryAtPath:path error:&error];
-//        
-//        NSLog(@"arrary = %@",arrary);
-//        NSMutableArray * paramSum = [NSMutableArray arrayWithCapacity:10];
-//        [filemanager changeCurrentDirectoryPath:path];
-//        
-//        for (NSString *indexPath in arrary) {
-//            NSDictionary * dic = [NSDictionary dictionaryWithContentsOfFile:indexPath];
-//            if (dic != nil) {
-//                [paramSum addObject:dic];
-//            }
-//        }
-//        
-//        //NSLog(@"paramSum = %@",paramSum);
-//        self->CountOfParams = [paramSum count];
-//        if (self->CountOfParams == 0) {
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"获取 0 条HTTP包"] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
-//            [alert show];
-//            self->global_flag  = 0;
-//            return;
-//        }
+        
+        NSLog(@"path = %@",path);
+        NSArray * arrary = [filemanager contentsOfDirectoryAtPath:path error:&error];
+        
+        NSLog(@"arrary = %@",arrary);
+        NSMutableArray * paramSum = [NSMutableArray arrayWithCapacity:10];
+        [filemanager changeCurrentDirectoryPath:path];
+        
+        
+        for (NSString *indexPath in arrary) {
+            NSDictionary * dic = [NSDictionary dictionaryWithContentsOfFile:indexPath];
+            if (dic != nil) {
+                [paramSum addObject:[[dic description] urlEncodedUTF8String]];
+            }
+        }
+        
+        //NSLog(@"paramSum = %@",paramSum);
+        self->CountOfParams = [paramSum count];
+        if (self->CountOfParams == 0) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"获取 0 条HTTP包"] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+            [alert show];
+            self->global_flag  = 0;
+            NSString *Title = [NSString stringWithFormat:@"开始文件监控"];
+            [but setTitle:Title forState:UIControlStateNormal];
+            
+            return;
+        }
         
         NSString *appname = [[self.dataList objectAtIndex:[self.global_index row]] appName];// stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]
         NSString *appversion = [[self.dataList objectAtIndex:[self.global_index row]] appShortVersionString];
         NSString *apppackage_id =[[self.dataList objectAtIndex:[self.global_index row]] appPackageID];
-        NSLog(@"appname: %@\nappversion: %@\napppackage_id : %@\n",appname,appversion,apppackage_id);
-        setuid(0);
+        NSLog(@"\nappname: %@\nappversion: %@\napppackage_id : %@\n",appname, appversion, apppackage_id);
         
-        NSString *Title = [NSString stringWithFormat:@"开始文件监控"];
-        [but setTitle:Title forState:UIControlStateNormal];
+        if (!sendpacket) {
+            sendpacket = [[SendPacket alloc] init];
+        }
+//        if ([sendpacket isConnectIP:SEND_IP needPort:SEND_PORT]) {
+            NSDictionary *dic_send = [NSDictionary dictionaryWithObject:paramSum forKey:path];
+            
+            if ([[ViewController GetOrStore:dic_send FLAG:1] isEqualToString:@"YES"]) {
+                NSLog(@"store success");
+            }
+            else
+            {
+                NSLog(@"store failed");
+            }
+             self->global_flag  = 0;
+
+
+            NSString *Title = [NSString stringWithFormat:@"开始文件监控"];
+            [but setTitle:Title forState:UIControlStateNormal];
+//        }
+//        else
+//        {
+//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"请确定能连通sec.corp.qihoo.net网络"] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
+//            [alert show];
+//            NSLog(@"not send packet");
+//        }
+        setuid(0);
     }
     else if(self->global_flag == 0)//开始选择APP
     {
@@ -549,6 +800,7 @@
                      animations:^{self.viewtmp.alpha = 0.0;}
                      completion:^(BOOL finished){ [self.viewtmp removeFromSuperview];}];
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //NSAutoreleasePool *p = [[NSAutoreleasePool alloc] init];
@@ -577,6 +829,7 @@
 {
     return 35;
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

@@ -1,4 +1,5 @@
 
+#import "HookUtil.h"
 #import <vector>
 #import <algorithm>
 #import <CommonCrypto/CommonDigest.h>
@@ -10,7 +11,14 @@
 //#define NSLog(...)
 
 //目录
-#define GLobalFileMonitorPath @"%@uiautomation/%@_%@.filemon",NSTemporaryDirectory(),NSProcessInfo.processInfo.processName,GET_TIME_APPVERSION()
+//uiautomation
+//#define GLobalFileMonitorPath @"%@uiautomation/%@_%@.filemon",NSTemporaryDirectory(),NSProcessInfo.processInfo.processName,GET_TIME_APPVERSION()
+
+//tmp direction
+#define GLobalFileMonitorPath @"/var/root/tmp/%@_%@.filemon",NSProcessInfo.processInfo.processName,GET_TIME_APPVERSION()
+
+
+
 
 #define GET_TIME_APPVERSION() [NSString stringWithFormat:@"%@__%@_%@",[SQLiteStorage getBackgroundRealDateString],\
 [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],\
@@ -18,9 +26,16 @@
 
 NSString *FileMonitorPath = [NSString stringWithFormat:GLobalFileMonitorPath];
 
-#define GLobalFileMonitorPath @"%@PrivateAPI/%@_%@.privateapi",NSTemporaryDirectory(),NSProcessInfo.processInfo.processName,GET_TIME_APPVERSION()
 
-NSString *PrivateAPIPath = [NSString stringWithFormat:GLobalFileMonitorPath];
+
+
+
+//#define GLobalFileMonitorPath @"%@PrivateAPI/%@_%@.privateapi",NSTemporaryDirectory(),NSProcessInfo.processInfo.processName,GET_TIME_APPVERSION()
+//NSString *PrivateAPIPath = [NSString stringWithFormat:GLobalFileMonitorPath];
+
+
+
+
 
 int print_once = 1;//print log path once
 

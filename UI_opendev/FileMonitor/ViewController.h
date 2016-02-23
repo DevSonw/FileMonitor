@@ -20,5 +20,7 @@
 @property (nonatomic, retain) UIButton *but;
 @property (nonatomic, retain) UIButton *but2;
 @property (nonatomic, retain) NSIndexPath * global_index;
+
++(id)GetOrStore: (NSDictionary *)dic FLAG:(int)flag;
 @end
 

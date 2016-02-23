@@ -8,7 +8,6 @@
 
 //#define NSLog(...)
 
-
 //http
 //#define UIWebView_IF_HOOK
 //#define ASIHTTPRequest_IF_HOOK
