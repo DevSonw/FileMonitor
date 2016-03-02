@@ -19,11 +19,11 @@
     NSLog(@"try to check network ip=%@ port=%@",ip,port);
     int sock = socket(AF_INET, SOCK_STREAM, 0);
     if(sock == -1)
-        NSLog(@"socket");
+        NSLog(@"socket error~");
     
     struct in_addr server_addr;
     if(!inet_aton([ip UTF8String],&server_addr))
-        NSLog(@"inet_aton");
+        NSLog(@"inet_aton error~");
     
     struct sockaddr_in connection;
     connection.sin_family = AF_INET;
@@ -70,12 +70,17 @@
 //    }
 //}
 
--(BOOL)SendDataToURL:(NSString*)ip needPort:(NSString*)port sendData:(NSData *)SendData
+-(BOOL)SendDataToURL:(NSString*)ip_and_port sendData:(NSData *)SendData
 {
     //创建URL对象
 //    NSString *urlStr = @"http://101.199.126.121:8001";
-    NSString *urlStr = [NSString stringWithFormat:@"http://%@:%@",ip,port];
+//NSString *urlStr = [NSString stringWithFormat:@"http://%@:%@",ip,port];
     
+//    NSString *urlStr = @"http://192.168.36.107:8080";
+//    NSString *urlStr = @"https://sec.corp.qihoo.net/iOS/";
+    NSString *urlStr = ip_and_port;
+    
+    NSLog(@"urlStr = %@",ip_and_port);
     
     NSURL *url = [[NSURL alloc] initWithString:urlStr];
     
@@ -91,8 +96,8 @@
     
     //设置Http头
     NSDictionary *headers = [request allHTTPHeaderFields];
-//    [headers setValue:@"iOS-Client-ABC" forKey:@"User-Agent"];
-    
+    [headers setValue:@"application/json" forKey:@"Content-Type"];
+
     //设置请求方法
 //    [request setHTTPMethod:@"GET"];
     [request setHTTPMethod:@"POST"];
@@ -101,7 +106,7 @@
 //    NSString *content = @"username=stanyung&password=123";
 //    NSData *data = [content dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:SendData];
-    
+    NSLog(@"request = %@",request);
     //同步执行Http请求，获取返回数据
     NSURLResponse *response;
     NSError *error;

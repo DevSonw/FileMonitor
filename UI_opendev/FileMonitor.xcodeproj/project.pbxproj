@@ -12,7 +12,6 @@
 		BA19B6841C1EB68F00FB7690 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = BA19B6831C1EB68F00FB7690 /* AppDelegate.m */; };
 		BA19B6871C1EB69D00FB7690 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BA19B6861C1EB69D00FB7690 /* ViewController.mm */; };
 		BA19B6891C1EB6BF00FB7690 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BA19B6881C1EB6BF00FB7690 /* Images.xcassets */; };
-		BA19B68C1C1EB6D500FB7690 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA19B68A1C1EB6D500FB7690 /* Main.storyboard */; };
 		BA19B6921C1EB6E400FB7690 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BA19B6901C1EB6E400FB7690 /* Info.plist */; };
 		BA19B6931C1EB6E400FB7690 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BA19B6911C1EB6E400FB7690 /* main.m */; };
 		BA19B69C1C1EB71F00FB7690 /* AppDB.m in Sources */ = {isa = PBXBuildFile; fileRef = BA19B6951C1EB71F00FB7690 /* AppDB.m */; };
@@ -23,9 +22,9 @@
 		BA38A5C21AF77EA70032A9C0 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA38A5C11AF77EA70032A9C0 /* Foundation.framework */; };
 		BA38A5C41AF77EB10032A9C0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA38A5C31AF77EB10032A9C0 /* CoreGraphics.framework */; };
 		BA38A5C61AF77EBA0032A9C0 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA38A5C51AF77EBA0032A9C0 /* UIKit.framework */; };
-		BA3FCB1F1C7AFD1B00476DC9 /* SendPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FCB1E1C7AFD1B00476DC9 /* SendPacket.m */; };
-		BA3FCB211C7B255B00476DC9 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BA3FCB201C7B255B00476DC9 /* CoreFoundation.framework */; };
-		BA3FCB271C7C06F300476DC9 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BA3FCB261C7C06F300476DC9 /* NSMutableArray+QueueAdditions.m */; };
+		BA80FC3C1C83DBCA00134FFF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BA80FC3A1C83DBCA00134FFF /* Main.storyboard */; };
+		BA8A1D991C7DDCCB0095FC27 /* SendPacket.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8A1D981C7DDCCA0095FC27 /* SendPacket.m */; };
+		BA8A1D9C1C7DDCE30095FC27 /* NSMutableArray+QueueAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = BA8A1D9B1C7DDCE30095FC27 /* NSMutableArray+QueueAdditions.m */; };
 		BAF4C81B1B0F2443007372A9 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAF4C81A1B0F2443007372A9 /* CFNetwork.framework */; };
 		BAF4C81D1B0F2B71007372A9 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAF4C81C1B0F2B71007372A9 /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
@@ -38,7 +37,6 @@
 		BA19B6851C1EB69D00FB7690 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewController.h; path = FileMonitor/ViewController.h; sourceTree = SOURCE_ROOT; };
 		BA19B6861C1EB69D00FB7690 /* ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ViewController.mm; path = FileMonitor/ViewController.mm; sourceTree = SOURCE_ROOT; };
 		BA19B6881C1EB6BF00FB7690 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = FileMonitor/Images.xcassets; sourceTree = SOURCE_ROOT; };
-		BA19B68B1C1EB6D500FB7690 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = FileMonitor/Base.lproj/Main.storyboard; sourceTree = SOURCE_ROOT; };
 		BA19B6901C1EB6E400FB7690 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = FileMonitor/Info.plist; sourceTree = SOURCE_ROOT; };
 		BA19B6911C1EB6E400FB7690 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = FileMonitor/main.m; sourceTree = SOURCE_ROOT; };
 		BA19B6941C1EB71F00FB7690 /* AppDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDB.h; path = FileMonitor/AppDB.h; sourceTree = SOURCE_ROOT; };
@@ -54,11 +52,11 @@
 		BA38A5C11AF77EA70032A9C0 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		BA38A5C31AF77EB10032A9C0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
 		BA38A5C51AF77EBA0032A9C0 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS8.1.sdk/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
-		BA3FCB1D1C7AFD1B00476DC9 /* SendPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SendPacket.h; path = FileMonitor/SendPacket.h; sourceTree = SOURCE_ROOT; };
-		BA3FCB1E1C7AFD1B00476DC9 /* SendPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SendPacket.m; path = FileMonitor/SendPacket.m; sourceTree = SOURCE_ROOT; };
-		BA3FCB201C7B255B00476DC9 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
-		BA3FCB251C7C06F300476DC9 /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+QueueAdditions.h"; path = "FileMonitor/NSMutableArray+QueueAdditions.h"; sourceTree = SOURCE_ROOT; };
-		BA3FCB261C7C06F300476DC9 /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+QueueAdditions.m"; path = "FileMonitor/NSMutableArray+QueueAdditions.m"; sourceTree = SOURCE_ROOT; };
+		BA80FC3B1C83DBCA00134FFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = FileMonitor/Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		BA8A1D971C7DDCCA0095FC27 /* SendPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SendPacket.h; path = FileMonitor/SendPacket.h; sourceTree = SOURCE_ROOT; };
+		BA8A1D981C7DDCCA0095FC27 /* SendPacket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SendPacket.m; path = FileMonitor/SendPacket.m; sourceTree = SOURCE_ROOT; };
+		BA8A1D9A1C7DDCE30095FC27 /* NSMutableArray+QueueAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableArray+QueueAdditions.h"; path = "FileMonitor/NSMutableArray+QueueAdditions.h"; sourceTree = SOURCE_ROOT; };
+		BA8A1D9B1C7DDCE30095FC27 /* NSMutableArray+QueueAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableArray+QueueAdditions.m"; path = "FileMonitor/NSMutableArray+QueueAdditions.m"; sourceTree = SOURCE_ROOT; };
 		BAF4C81A1B0F2443007372A9 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		BAF4C81C1B0F2B71007372A9 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		F8A052901A07E6730083C28C /* FileMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FileMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,7 +69,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BA3FCB211C7B255B00476DC9 /* CoreFoundation.framework in Frameworks */,
 				BAF4C81D1B0F2B71007372A9 /* SystemConfiguration.framework in Frameworks */,
 				BAF4C81B1B0F2443007372A9 /* CFNetwork.framework in Frameworks */,
 				BA38A5C61AF77EBA0032A9C0 /* UIKit.framework in Frameworks */,
@@ -86,7 +83,7 @@
 		F8A052871A07E6730083C28C = {
 			isa = PBXGroup;
 			children = (
-				BA3FCB201C7B255B00476DC9 /* CoreFoundation.framework */,
+				BA80FC3A1C83DBCA00134FFF /* Main.storyboard */,
 				BAF4C81C1B0F2B71007372A9 /* SystemConfiguration.framework */,
 				BAF4C81A1B0F2443007372A9 /* CFNetwork.framework */,
 				BA38A5C51AF77EBA0032A9C0 /* UIKit.framework */,
@@ -112,14 +109,11 @@
 				BA19B67E1C1EB67500FB7690 /* Icon.png */,
 				BA19B6A41C1EC93C00FB7690 /* nirvanteam.jpg */,
 				BA19B6801C1EB67D00FB7690 /* GTMNSString+HTML.m */,
-				BA3FCB251C7C06F300476DC9 /* NSMutableArray+QueueAdditions.h */,
-				BA3FCB261C7C06F300476DC9 /* NSMutableArray+QueueAdditions.m */,
 				F8A052B91A08F2460083C28C /* Package */,
 				BA19B6821C1EB68F00FB7690 /* AppDelegate.h */,
 				BA19B6831C1EB68F00FB7690 /* AppDelegate.m */,
 				BA19B6851C1EB69D00FB7690 /* ViewController.h */,
 				BA19B6861C1EB69D00FB7690 /* ViewController.mm */,
-				BA19B68A1C1EB6D500FB7690 /* Main.storyboard */,
 				BA19B6881C1EB6BF00FB7690 /* Images.xcassets */,
 				F8A052931A07E6730083C28C /* Supporting Files */,
 			);
@@ -139,12 +133,14 @@
 		F8A052B91A08F2460083C28C /* Package */ = {
 			isa = PBXGroup;
 			children = (
-				BA3FCB1D1C7AFD1B00476DC9 /* SendPacket.h */,
-				BA3FCB1E1C7AFD1B00476DC9 /* SendPacket.m */,
 				BA19B6941C1EB71F00FB7690 /* AppDB.h */,
 				BA19B6951C1EB71F00FB7690 /* AppDB.m */,
 				BA19B6961C1EB71F00FB7690 /* GTMNSString+HTML.h */,
 				BA19B6971C1EB71F00FB7690 /* GTMNSString+HTML.m */,
+				BA8A1D9A1C7DDCE30095FC27 /* NSMutableArray+QueueAdditions.h */,
+				BA8A1D9B1C7DDCE30095FC27 /* NSMutableArray+QueueAdditions.m */,
+				BA8A1D971C7DDCCA0095FC27 /* SendPacket.h */,
+				BA8A1D981C7DDCCA0095FC27 /* SendPacket.m */,
 				BA19B6981C1EB71F00FB7690 /* MyAdditions.h */,
 				BA19B6991C1EB71F00FB7690 /* MyAdditions.m */,
 				BA19B69A1C1EB71F00FB7690 /* Reachability.h */,
@@ -229,10 +225,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA80FC3C1C83DBCA00134FFF /* Main.storyboard in Resources */,
 				BA19B67F1C1EB67500FB7690 /* Icon.png in Resources */,
 				BA19B6891C1EB6BF00FB7690 /* Images.xcassets in Resources */,
 				BA19B6921C1EB6E400FB7690 /* Info.plist in Resources */,
-				BA19B68C1C1EB6D500FB7690 /* Main.storyboard in Resources */,
 				BA19B6A51C1EC93C00FB7690 /* nirvanteam.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,13 +257,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				BA19B69C1C1EB71F00FB7690 /* AppDB.m in Sources */,
-				BA3FCB1F1C7AFD1B00476DC9 /* SendPacket.m in Sources */,
+				BA8A1D9C1C7DDCE30095FC27 /* NSMutableArray+QueueAdditions.m in Sources */,
 				BA19B6871C1EB69D00FB7690 /* ViewController.mm in Sources */,
 				BA19B6811C1EB67D00FB7690 /* GTMNSString+HTML.m in Sources */,
 				BA19B6841C1EB68F00FB7690 /* AppDelegate.m in Sources */,
-				BA3FCB271C7C06F300476DC9 /* NSMutableArray+QueueAdditions.m in Sources */,
 				BA19B69D1C1EB71F00FB7690 /* GTMNSString+HTML.m in Sources */,
 				BA19B69E1C1EB71F00FB7690 /* MyAdditions.m in Sources */,
+				BA8A1D991C7DDCCB0095FC27 /* SendPacket.m in Sources */,
 				BA19B69F1C1EB71F00FB7690 /* Reachability.m in Sources */,
 				BA19B6931C1EB6E400FB7690 /* main.m in Sources */,
 			);
@@ -276,10 +272,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		BA19B68A1C1EB6D500FB7690 /* Main.storyboard */ = {
+		BA80FC3A1C83DBCA00134FFF /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				BA19B68B1C1EB6D500FB7690 /* Base */,
+				BA80FC3B1C83DBCA00134FFF /* Base */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -371,8 +367,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.lproj *.framework *.gch *.xcode* (*) .DS_Store CVS .svn .git .hg *.nib";
-				IBSC_FLATTEN_NIBS = YES;
 				INFOPLIST_FILE = FileMonitor/Info.plist;
 				INSTALL_PATH = /Applications;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -398,8 +392,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: xuefeng Gao (G8QHK93F2C)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				EXCLUDED_RECURSIVE_SEARCH_PATH_SUBDIRECTORIES = "*.lproj *.framework *.gch *.xcode* (*) .DS_Store CVS .svn .git .hg *.nib";
-				IBSC_FLATTEN_NIBS = YES;
 				INFOPLIST_FILE = FileMonitor/Info.plist;
 				INSTALL_PATH = /Applications;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;

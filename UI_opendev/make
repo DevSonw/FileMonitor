@@ -1,11 +1,23 @@
+
+rm -r ./FileMonitor/Package/Applications/FileMonitor.app
+rm -r ./FileMonitor/Package.deb
+echo "rm over"
+
+
 cp -r ./LatestBuild/FileMonitor.app ./FileMonitor/Package/Applications/
+
 cp /Users/panda/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos/libFileMonitor8.dylib /Users/panda/Documents/github/FileMonitor/UI_opendev/FileMonitor/Package/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.dylib
 
 cp /Users/panda/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos/libFileMonitor7.dylib /Users/panda/Documents/github/FileMonitor/UI_opendev/FileMonitor/Package/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.dylib
 
-dpkg-deb -b ./FileMonitor/Package
-scp ./FileMonitor/Package.deb i5s3:/
+echo "123">./LatestBuild/FileMonitor.app/FileMonitor_ 
+echo "FileMonitor_ file over"
 
-#rm -r ./FileMonitor/Package/Applications/FileMonitor.app
-#rm -r ./FileMonitor/Package.deb
+dpkg-deb -b ./FileMonitor/Package
+echo "dpkg-deb over"
+
+scp ./FileMonitor/Package.deb i5s3:/
+echo "scp over"
 #rm -r ./LatestBuild/FileMonitor.app
+
+

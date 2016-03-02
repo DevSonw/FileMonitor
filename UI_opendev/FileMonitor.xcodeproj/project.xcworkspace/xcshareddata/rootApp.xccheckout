@@ -5,16 +5,16 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>61E309E7-467B-475B-9A67-B0DD55C2EF59</string>
+	<string>DA8BDAF3-8A85-4467-9DD4-D4050156F885</string>
 	<key>IDESourceControlProjectName</key>
-	<string>FileMonitor</string>
+	<string>rootApp</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>DF585B6294A4F549C22958557C05CA0BF5344B6C</key>
 		<string>github.com:zcc1414/FileMonitor.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>UI_opendev/FileMonitor.xcodeproj</string>
+	<string>UI_opendev/rootApp.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>DF585B6294A4F549C22958557C05CA0BF5344B6C</key>

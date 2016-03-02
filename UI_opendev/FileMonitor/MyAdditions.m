@@ -11,7 +11,6 @@
 #import <Foundation/NSScanner.h>
 #import "NSString+HTML.m"
 #import "GTMNSString+HTML.h"
-
 @implementation NSString (MyAdditions)
 - (NSString *)md5
 {
