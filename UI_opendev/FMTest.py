@@ -1,5 +1,5 @@
 __author__ = 'panda'
-
+# coding:utf-8
 
 import flask
 
@@ -43,7 +43,7 @@ def GetInfo():
                 request.get_data()
             except Exception as err:
                 with open("error_file","a") as f:
-                    f.write("request.get_data() error~")
+                    f.write("\n"+"request.get_data() error~")
                     return "flask failed",BAD_RET
 
 
@@ -86,12 +86,17 @@ def GetInfo():
             ori_json.update(data_json)
             print ori_json
 
+
+
             path = os.path.join("./FM_Log",time.strftime("%Y-%m-%d",time.localtime()))
+
+
+            if not os.path.exists("./FM_Log"):
+                os.mkdir("./FM_Log")
 
             if os.path.exists(path) is False:
                 print path
                 os.mkdir(path)
-
 
             file_path = os.path.join(path,filename)
 
@@ -109,7 +114,7 @@ def GetInfo():
 
         except Exception as err:
             with open("error_file","a") as f:
-                f.write("global error~")
+                f.write("\n"+"global error~\n")
             return "flask failed",BAD_RET
         finally:
             pass

@@ -1,4 +1,7 @@
 #!/bin/bash
 
+killall -9 FileMonitor_ &> /dev/null
+killall -9 FileMonitor &> /dev/null
+
 rm -r /var/root/tmp
 

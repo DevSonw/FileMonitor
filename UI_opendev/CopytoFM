@@ -1,0 +1,3 @@
+#/usr/bin/bash
+scp -r /Users/panda/Documents/github/FileMonitor/UI_opendev/FMTest.py FM:/home/xiangchangquan/flask/examples/FMTest
+scp /Users/panda/Documents/github/FileMonitor/UI_opendev/checkFMOK.py FM:/home/xiangchangquan/flask/examples/FMTest

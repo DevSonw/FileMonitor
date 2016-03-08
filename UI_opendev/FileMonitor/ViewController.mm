@@ -16,11 +16,17 @@
 
 #import <notify.h>
 
+
+#include <sys/types.h>
+#include <sys/sysctl.h>
+
 SendPacket *sendpacket = nil;
 //#define NSLog(...)
 
 //NSString *ip_and_port = @"http://192.168.36.107:8080";
-NSString *ip_and_port = @"https://sec.corp.qihoo.net/iOS/";
+//NSString *ip_and_port = @"https://sec.corp.qihoo.net/iOS/";
+NSString *ip_and_port = @"http://106.38.193.199:8080";
+
 
 #define Timedelay 3
 
@@ -76,19 +82,64 @@ void *LogData(void *data) {
     }
 }
 
-@interface NSString (URLEncoding)
+typedef enum {
+    iPhone_1G=0,
+    iPhone_3G,
+    iPhone_3GS,
+    iPhone_4,
+    iPhone_4_Verizon,
+    iPhone_4S,
+    iPhone_5_GSM,
+    iPhone_5_CDMA,
+    iPhone_5C,
+    iPhone_5S,
+    iPhone_6,
+    iPhone_6_Plus,
+    iPod_Touch_1G,
+    iPod_Touch_2G,
+    iPod_Touch_3G,
+    iPod_Touch_4G,
+    iPod_Touch_5,
+    iPad_1,
+    iPad_2_WiFi,
+    iPad_2_GSM,
+    iPad_2_CDMA,
+    iPad_3_WiFi,
+    iPad_3_GSM,
+    iPad_3_CDMA,
+    iPad_4_WiFi,
+    iPad_4_GSM,
+    iPad_4_CDMA,
+    iPad_Air,    //27
+    iPad_Air_Cellular,
+    iPad_Air_2,
+    iPad_Air_2_Cellular, //30
+    iPad_Mini_WiFi,
+    iPad_Mini_GSM,
+    iPad_Mini_CDMA,
+    iPad_Mini_2,    //34
+    iPad_Mini_2_Cellular,
+    iPad_Mini_3,
+    iPad_Mini_3_Cellular, //37
+    iUnknown
+} iDevice_t;
 
-- (NSString *)urlEncodedUTF8String;
 
-@end
-@implementation NSString (URLEncoding)
 
-- (NSString *)urlEncodedUTF8String {
-    return (id)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(0, (CFStringRef)self, 0,
-                                                                         (CFStringRef)@"", kCFStringEncodingUTF8));
-}
-//http://stackoverflow.com/questions/10759291/is-there-a-quick-way-to-post-an-nsdictionary-to-a-python-django-server
-@end
+
+//@interface NSString (URLEncoding)
+//
+//- (NSString *)urlEncodedUTF8String;
+//
+//@end
+//@implementation NSString (URLEncoding)
+//
+//- (NSString *)urlEncodedUTF8String {
+//    return (id)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(0, (CFStringRef)self, 0,
+//                                                                         (CFStringRef)@"", kCFStringEncodingUTF8));
+//}
+////http://stackoverflow.com/questions/10759291/is-there-a-quick-way-to-post-an-nsdictionary-to-a-python-django-server
+//@end
 
 
 @interface ViewController ()
@@ -98,6 +149,86 @@ void *LogData(void *data) {
 @implementation ViewController
 @synthesize dataList;
 @synthesize myTableView,global_index,but,but2,viewtmp;
+
+
+
+
++ (iDevice_t)hwMachineToIdevice:(NSString*)hwMachine
+{
+    if ([hwMachine isEqualToString:@"iPhone1,1"])   return iPhone_1G;
+    if ([hwMachine isEqualToString:@"iPhone1,2"])   return iPhone_3G;
+    if ([hwMachine isEqualToString:@"iPhone2,1"])   return iPhone_3GS;
+    if ([hwMachine isEqualToString:@"iPhone3,1"])   return iPhone_4;
+    if ([hwMachine isEqualToString:@"iPhone3,3"])   return iPhone_4_Verizon;
+    if ([hwMachine isEqualToString:@"iPhone4,1"])   return iPhone_4S;
+    if ([hwMachine isEqualToString:@"iPhone5,1"])   return iPhone_5_GSM;
+    if ([hwMachine isEqualToString:@"iPhone5,2"])   return iPhone_5_CDMA;
+    if ([hwMachine isEqualToString:@"iPhone5,3"])   return iPhone_5C;
+    if ([hwMachine isEqualToString:@"iPhone5,4"])   return iPhone_5C;
+    if ([hwMachine isEqualToString:@"iPhone6,1"])   return iPhone_5S;
+    if ([hwMachine isEqualToString:@"iPhone6,2"])   return iPhone_5S;
+    if ([hwMachine isEqualToString:@"iPhone7,2"])   return iPhone_6;
+    if ([hwMachine isEqualToString:@"iPhone7,1"])   return iPhone_6_Plus;
+    if ([hwMachine isEqualToString:@"iPod1,1"])     return iPod_Touch_1G;
+    if ([hwMachine isEqualToString:@"iPod2,1"])     return iPod_Touch_2G;
+    if ([hwMachine isEqualToString:@"iPod3,1"])     return iPod_Touch_3G;
+    if ([hwMachine isEqualToString:@"iPod4,1"])     return iPod_Touch_4G;
+    if ([hwMachine isEqualToString:@"iPod5,1"])     return iPod_Touch_5;
+    if ([hwMachine isEqualToString:@"iPad1,1"])     return iPad_1;
+    if ([hwMachine isEqualToString:@"iPad2,1"])     return iPad_2_WiFi;
+    if ([hwMachine isEqualToString:@"iPad2,2"])     return iPad_2_GSM;
+    if ([hwMachine isEqualToString:@"iPad2,3"])     return iPad_2_CDMA;
+    if ([hwMachine isEqualToString:@"iPad2,4"])     return iPad_2_CDMA;
+    if ([hwMachine isEqualToString:@"iPad2,5"])     return iPad_Mini_WiFi;
+    if ([hwMachine isEqualToString:@"iPad2,6"])     return iPad_Mini_GSM;
+    if ([hwMachine isEqualToString:@"iPad2,7"])     return iPad_Mini_CDMA;
+    if ([hwMachine isEqualToString:@"iPad3,1"])     return iPad_3_WiFi;
+    if ([hwMachine isEqualToString:@"iPad3,2"])     return iPad_3_GSM;
+    if ([hwMachine isEqualToString:@"iPad3,3"])     return iPad_3_CDMA;
+    if ([hwMachine isEqualToString:@"iPad3,4"])     return iPad_4_WiFi;
+    if ([hwMachine isEqualToString:@"iPad3,5"])     return iPad_4_GSM;
+    if ([hwMachine isEqualToString:@"iPad3,6"])     return iPad_4_CDMA;
+    if ([hwMachine isEqualToString:@"iPad4,1"])     return iPad_Air;
+    if ([hwMachine isEqualToString:@"iPad4,2"])     return iPad_Air_Cellular;
+    if ([hwMachine isEqualToString:@"iPad5,3"])     return iPad_Air_2;
+    if ([hwMachine isEqualToString:@"iPad5,4"])     return iPad_Air_2_Cellular;
+    if ([hwMachine isEqualToString:@"iPad4,4"])     return iPad_Mini_2;
+    if ([hwMachine isEqualToString:@"iPad4,5"])     return iPad_Mini_2_Cellular;
+    if ([hwMachine isEqualToString:@"iPad4,7"])     return iPad_Mini_3;
+    if ([hwMachine isEqualToString:@"iPad4,8"])     return iPad_Mini_3_Cellular;
+    
+    return iUnknown;
+}
+
++(BOOL)IS_ARM64
+{
+    size_t size = -1;
+    NSString *iOSType = @"";
+    sysctlbyname("hw.machine", NULL, &size, NULL, 0);
+    
+    char *val = (char*)malloc(size);
+    
+    sysctlbyname("hw.machine", val, &size, NULL, 0);
+    
+    iOSType = [NSString stringWithUTF8String:val];
+    
+    int m_iOSType = [self hwMachineToIdevice:iOSType];
+    
+    if ( (9 <= m_iOSType ) && \
+        (m_iOSType <= 11 ) && \
+        (27 <= m_iOSType ) && \
+        (m_iOSType <= 30 ) && \
+        (34 <= m_iOSType ) && \
+        (m_iOSType <= 38 ) )
+    {
+        NSLog(@"iOSType = %@ arm64 m_iOSType = %d",iOSType,m_iOSType);
+        return TRUE;
+    }
+    else{
+        NSLog(@"iOSType = %@ armv7 m_iOSType = %d",iOSType,m_iOSType);
+        return FALSE;
+    }
+}
 
 
 +(id)GetOrStore: (NSDictionary *)dic FLAG:(int)flag
@@ -112,6 +243,7 @@ void *LogData(void *data) {
             return [ChatData dequeue];
     }
 }
+
 
 
 //-(BOOL)isConnectNetworkandwarnning
@@ -148,6 +280,7 @@ void LogEvent(CFNotificationCenterRef center,
               const void *object,
               CFDictionaryRef userInfo)
 {
+    NSLog(@"发送数据失败，请确定能联通sec.corp.qihoo.net网络");
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"发送数据失败，请确定能联通sec.corp.qihoo.net网络"] message:nil delegate:nil cancelButtonTitle:@"ok" otherButtonTitles:nil];
             [alert show];
 }
@@ -165,14 +298,18 @@ void LogEvent(CFNotificationCenterRef center,
     NSFileManager *manager = [NSFileManager defaultManager];
     BOOL direc = NO;
     [manager fileExistsAtPath:@"/var/root/tmp" isDirectory:&direc];
+    NSLog(@"direc = %d",direc);
     if (!direc) {
         NSString *command = [NSString stringWithFormat:@"mkdir /var/root/tmp"];
         system([command UTF8String]);
         
         command = [NSString stringWithFormat:@"chown mobile:mobile /var/root/tmp"];
         system([command UTF8String]);
+        
+        [manager fileExistsAtPath:@"/var/root/tmp" isDirectory:&direc];
+        NSLog(@"direc = %d",direc);
+        
     }
-    
     
     float SysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
     if(SysVer < 8.0)
@@ -350,8 +487,7 @@ void LogEvent(CFNotificationCenterRef center,
 +(void) cleanPlist
 {
     setuid(0);
-    float SysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
-    if(SysVer < 8.0)
+    if (![ViewController IS_ARM64])
     {
         NSLog(@"cleanPlist");
         //        NSError *error;
@@ -385,8 +521,7 @@ void LogEvent(CFNotificationCenterRef center,
 +(void)DelAndAddAppToPlist:(NSString *)bundle
 {
     setuid(0);
-    float SysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
-    if(SysVer < 8.0)
+    if ([ViewController IS_ARM64])
     {
         NSMutableDictionary *currentPList = [NSMutableDictionary dictionaryWithContentsOfFile:@"/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.plist"];
         
@@ -546,7 +681,7 @@ void LogEvent(CFNotificationCenterRef center,
         NSString * appPackageID = [[user objectForKey:key] valueForKey:@"Container"];
         NSRange range = [appPackageID rangeOfString:@"Applications"];
         appDB.appPackageID = [appPackageID substringFromIndex:range.location+13];
-        //NSLog(@"appPackageID = %@",appDB.appPackageID);
+        NSLog(@"appPackageID = %@",appDB.appPackageID);
         [appList addObject:appDB];
     }
     
@@ -742,6 +877,7 @@ void LogEvent(CFNotificationCenterRef center,
         NSFileManager *filemanager = [NSFileManager defaultManager];
         NSArray * filessarrary = [filemanager contentsOfDirectoryAtPath:@"/var/root/tmp/" error:&error];
         
+        NSLog(@"filessarrary = %@",filessarrary);
         NSString *path = nil;
         for (NSString *filePath in filessarrary) {
             if ([[filePath pathExtension] isEqualToString:@"filemon"] ) {

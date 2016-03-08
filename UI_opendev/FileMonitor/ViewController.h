@@ -22,5 +22,6 @@
 @property (nonatomic, retain) NSIndexPath * global_index;
 
 +(id)GetOrStore: (NSDictionary *)dic FLAG:(int)flag;
++(BOOL)IS_ARM64;
 @end
 

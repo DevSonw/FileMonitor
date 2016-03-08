@@ -1,5 +1,8 @@
 #!/bin/bash
 
+killall -9 FileMonitor_ &> /dev/null
+killall -9 FileMonitor &> /dev/null
+
 chmod 777 "/var/root/tmp"
 chmod 777 "/Library/MobileSubstrate/DynamicLibraries/"
 chown root:wheel "/Library/MobileSubstrate/DynamicLibraries/"
