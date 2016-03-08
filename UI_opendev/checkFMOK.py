@@ -35,7 +35,5 @@ if __name__ == "__main__":
                 print "killall %s over" % str(pid).strip()
 
             print "start service"
-
-
             subprocess.Popen("python FMTest.py > ./FMTest.log",shell=True)
-            time.sleep(3600)
+        time.sleep(3600)

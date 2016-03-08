@@ -4,14 +4,14 @@ rm -r ./FileMonitor/Package.deb
 echo "rm over"
 
 
+echo "FileMonitor_ file over"
+echo "123">./LatestBuild/FileMonitor.app/FileMonitor_ 
 cp -r ./LatestBuild/FileMonitor.app ./FileMonitor/Package/Applications/
 
 cp /Users/panda/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos/libFileMonitor8.dylib /Users/panda/Documents/github/FileMonitor/UI_opendev/FileMonitor/Package/Library/MobileSubstrate/DynamicLibraries/libFileMonitor8.dylib
 
 cp /Users/panda/Library/Developer/Xcode/DerivedData/Build/Products/Debug-iphoneos/libFileMonitor7.dylib /Users/panda/Documents/github/FileMonitor/UI_opendev/FileMonitor/Package/Library/MobileSubstrate/DynamicLibraries/libFileMonitor7.dylib
 
-echo "123">./LatestBuild/FileMonitor.app/FileMonitor_ 
-echo "FileMonitor_ file over"
 
 dpkg-deb -b ./FileMonitor/Package
 echo "dpkg-deb over"
